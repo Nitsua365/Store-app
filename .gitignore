@@ -1,2 +1,4 @@
-/backEnd/node_modules/
-/frontEnd/node_modules/
+./backEnd/node_modules/
+./backEnd/radata/
+./backEnd/.env
+./frontEnd/node_modules/
