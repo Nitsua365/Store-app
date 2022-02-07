@@ -22,8 +22,9 @@ function main() {
     }
   })
 
+  app.use(express.json());
   app.use(bodyParser.json());
-  app.use(GUN.serve)
+  app.use(GUN.serve);
   app.use(express.static(__dirname));
   app.use(endpoints);
 
@@ -31,13 +32,6 @@ function main() {
     console.log(`Listening on http://localhost:${process.env.PORT}`);
   });
 
-  var gun = GUN({ file: 'data', web: server});
-
-  global.GUN = GUN;
-  global.gun = gun;
-
 }
 
 main();
-
-module.exports = { gun }

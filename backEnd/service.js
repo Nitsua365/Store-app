@@ -1,8 +1,16 @@
-// const GUN = require('gun');
-// const gun = GUN();
+const GUN = require('gun');
+const gun = GUN();
 
 function hello() {
-  global.gun.get('test2').put({name : "Blanchman"});
+  gun.get('test2').put({name : "Blanchman"});
 }
 
-module.exports = { hello };
+function insert(path, item) {
+  gun.get(path).put(item);
+}
+
+function getAll() {
+  return gun.get('newPerson').map().get("Austin Blanchard").map(data => { return data.get; });
+}
+
+module.exports = { hello, insert, getAll };
