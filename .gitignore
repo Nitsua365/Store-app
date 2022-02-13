@@ -2,4 +2,5 @@
 /backEnd/radata/
 /backEnd/data/
 /backEnd/.env
+/backEnd/chromedriver
 /front-end/node_modules/

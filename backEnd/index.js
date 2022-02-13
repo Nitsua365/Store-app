@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const GUN = require('gun');
-const endpoints = require('./endpoints');
+const endpoints = require('./endpoints/productEndpoints');
 
 const bodyParser = require('body-parser');
 
@@ -31,6 +31,7 @@ function main() {
   var server = app.listen(process.env.PORT, () => {
     console.log(`Listening on http://localhost:${process.env.PORT}`);
   });
+
 
 }
 
