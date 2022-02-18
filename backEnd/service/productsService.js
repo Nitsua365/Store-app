@@ -1,18 +1,7 @@
 const puppeteer = require("puppeteer");
-const process = require('process');
+const gun = require('gun');
 
-var browser, amazonHomePage;
-
-(async () => {
-  browser = await puppeteer.launch({ path: "./backEnd/chromedriver", headless: true });
-  amazonHomePage = await browser.newPage();
-
-  process.on('SIGINT', () => {
-    browser.close();
-    console.log("exiting browser");
-  })
-})();
-
+const GUN = gun({ peers: "http://localhost:5000" });
 
 module.exports = {
 
@@ -35,16 +24,20 @@ module.exports = {
     // pass json request body of optional params departmentName, countryOfOrigin, subCategory
   },
   getAllProductDepartments : async () => {
-    
 
-    await amazonHomePage.goto("https://amazon.com", { waitUntil: "load" });
+    const browser = await puppeteer.launch({ path: "./backEnd/chromedriver", headless: true });
 
-    const htmlDepartments = await amazonHomePage.evaluate(() => 
+    var page = await browser.newPage();
+    await page.goto("http://amazon.com", { waitUntil : "load" });
+
+    const htmlDepartments = await page.evaluate(() => 
       Array.from(document.querySelectorAll('#searchDropdownBox option')).map(element => element.textContent)
     )
-        
-    // browser.close();
 
+    GUN.put({ htmlDepartments });
+
+    browser.close();
+        
     return htmlDepartments;
   },
 

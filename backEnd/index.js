@@ -6,6 +6,7 @@ const endpoints = require('./endpoints/productEndpoints');
 const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv');
+// const Gun = require('gun');
 dotenv.config();
 
 function main() {
@@ -32,6 +33,7 @@ function main() {
     console.log(`Listening on http://localhost:${process.env.PORT}`);
   });
 
+  GUN({ server : server })
 
 }
 
