@@ -6,8 +6,9 @@ const endpoints = require('./endpoints/productEndpoints');
 const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv');
-// const Gun = require('gun');
 dotenv.config();
+
+// const Gun = require('gun');
 
 function main() {
   app.use((req, res, next) => {
@@ -25,15 +26,15 @@ function main() {
 
   app.use(express.json());
   app.use(bodyParser.json());
-  app.use(GUN.serve);
+  // app.use(GUN.serve);
   app.use(express.static(__dirname));
   app.use(endpoints);
 
-  var server = app.listen(process.env.PORT, () => {
-    console.log(`Listening on http://localhost:${process.env.PORT}`);
-  });
+  // var server = app.listen(process.env.PORT, () => {
+  //   console.log(`Listening on http://localhost:${process.env.PORT}`);
+  // });
 
-  GUN({ server : server })
+  // GUN({ server : server })
 
 }
 

@@ -1,0 +1,11 @@
+{
+  "name": "scraping",
+  "version": "1.0.0",
+  "description": "Scraper to populate database",
+  "main": "ScrapeEngine.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Austin Blanchard",
+  "license": "ISC"
+}

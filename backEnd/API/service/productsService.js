@@ -1,7 +1,8 @@
 const puppeteer = require("puppeteer");
-const gun = require('gun');
+const dbClient = require("../../databaseClient/dbClient").mysqlClient;
+// const gun = require('gun');
 
-const GUN = gun({ peers: "http://localhost:5000" });
+// const GUN = gun({ peers: "http://localhost:5000" });
 
 module.exports = {
 
@@ -33,8 +34,6 @@ module.exports = {
     const htmlDepartments = await page.evaluate(() => 
       Array.from(document.querySelectorAll('#searchDropdownBox option')).map(element => element.textContent)
     )
-
-    GUN.put({ htmlDepartments });
 
     browser.close();
         

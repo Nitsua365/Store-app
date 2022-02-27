@@ -1,7 +1,7 @@
 const { response } = require('express');
 const express = require('express');
 const router = express.Router();
-const service = require('../service/productsService');
+const service = require('../../service/productsService');
 
 const products = "/products";
 
