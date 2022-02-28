@@ -2,22 +2,23 @@ const puppeteer = require('puppeteer');
 
 class ScrapeEngine {
   constructor(url) {
-    this.browser = await puppeteer.launch({ path: "./scraping/chromedriver", headless: true });
-    this.page = await this.browser.newPage();
-
-    await this.page.goto(url, { waitUntil : "load" });
+    this.url = url;
   }
 
-  getPage = () => {
-    return this.page;
-  }
+  init = async () => {
 
-  getBrowser = () => {
-    return this.browser;
-  }
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    // await page.goto(this.url, { waitUntil : "load" });
 
-  closeEngine = () => {
-    this.browser.close();
+    const engine = {
+      browser : browser,
+      page : page
+    }
+
+    await engine.page.goto(this.url, { waitUntil : "load"});
+
+    return engine;
   }
 
 }

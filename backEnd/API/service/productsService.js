@@ -26,18 +26,6 @@ module.exports = {
   },
   getAllProductDepartments : async () => {
 
-    const browser = await puppeteer.launch({ path: "./backEnd/chromedriver", headless: true });
-
-    var page = await browser.newPage();
-    await page.goto("http://amazon.com", { waitUntil : "load" });
-
-    const htmlDepartments = await page.evaluate(() => 
-      Array.from(document.querySelectorAll('#searchDropdownBox option')).map(element => element.textContent)
-    )
-
-    browser.close();
-        
-    return htmlDepartments;
   },
 
 

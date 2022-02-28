@@ -4,8 +4,12 @@
   "description": "Scraper to populate database",
   "main": "ScrapeEngine.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Austin Blanchard",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^13.4.0"
+  }
 }

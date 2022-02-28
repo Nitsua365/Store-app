@@ -1,6 +1,7 @@
 /backEnd/node_modules/
-/backEnd/radata/
 /backEnd/data/
 /backEnd/.env
-/backEnd/chromedriver
 /front-end/node_modules/
+/scraping/node_modules/
+/scraping/chromedriver
+/scraping/.env
