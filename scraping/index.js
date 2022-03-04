@@ -9,8 +9,6 @@ async function main() {
 
   console.log(await functions.getAmazonDepartments(engine));
 
-  // engine.browser.close();
-  // engine.page.close();
 }
 
 main();
