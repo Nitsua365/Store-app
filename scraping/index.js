@@ -1,13 +1,18 @@
 const functions = require('./scrapeFunctions');
 const ScrapeEngine = require('./ScrapeEngine').ScrapeEngine;
+const puppeteer = require('puppeteer');
 
 async function main() {
   
-  const browserEngine = new ScrapeEngine("http://amazon.com");
+  const browser = await puppeteer.launch({ headless: true });
 
-  const engine = await browserEngine.init();
+  const browserEngine = new ScrapeEngine("http://amazon.com", browser, await browser.newPage());
 
-  console.log(await functions.getAmazonDepartments(engine));
+  await browserEngine.init();
+
+  console.log(await functions.getAmazonDepartments(browserEngine));  
+
+  browserEngine.close();
 
 }
 
