@@ -47,7 +47,7 @@ module.exports = {
       await page.select('select#searchDropdownBox', dict[i].htmlValue);
       
       // click on the search button for the search dropdown option
-      await page.waitForSelector('input#nav-search-submit-button');
+      // await page.waitForSelector('input#nav-search-submit-button');
       await page.click('input#nav-search-submit-button');
 
       // wait for the navigation
@@ -55,7 +55,6 @@ module.exports = {
 
       // Set URL
       dict[i]["departmentLink"] = await page.url();
-      console.log(dict[i].departmentLink);
 
       // go back to the first page
       await page.goBack();

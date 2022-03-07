@@ -15,10 +15,12 @@ async function main() {
   await browserEngine.init();
 
   // scrape amazon departments
+  console.log("Scraping Amazon Departments...\n");
   const amazonDepartments = await functions.getAmazonDepartments(browserEngine);
-  console.log(amazonDepartments);
+  // console.log(amazonDepartments);
 
   for (let i = 0; i < amazonDepartments.length; i++) {
+    console.log(amazonDepartments[i]);
     storeAmazonDepartment(amazonDepartments[i].department, amazonDepartments[i].subDepartments, amazonDepartments[i].departmentLink);
   }
   

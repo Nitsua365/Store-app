@@ -11,6 +11,8 @@ const pool = new Pool({
   port: process.env.PSQL_DB_PORT
 });
 
-pool.connect();
+pool.connect().then(() => {
+  console.log('DBRunning...');
+});
 
 module.exports = { pool }
