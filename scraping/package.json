@@ -10,6 +10,8 @@
   "author": "Austin Blanchard",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.0",
+    "pg": "^8.7.3",
     "puppeteer": "^13.4.0"
   }
 }
