@@ -11,8 +11,10 @@ const pool = new Pool({
   port: process.env.PSQL_DB_PORT
 });
 
-pool.connect().then(() => {
-  console.log('DBRunning...');
-});
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack)
+  }
+})
 
 module.exports = { pool }

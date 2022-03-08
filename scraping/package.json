@@ -2,16 +2,19 @@
   "name": "scraping",
   "version": "1.0.0",
   "description": "Scraper to populate database",
-  "main": "ScrapeEngine.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
   "author": "Austin Blanchard",
   "license": "ISC",
+  "type" : "commonjs",
   "dependencies": {
+    "chalk": "^5.0.0",
     "dotenv": "^16.0.0",
     "pg": "^8.7.3",
+    "prompt-sync": "^4.2.0",
     "puppeteer": "^13.4.0"
   }
 }
