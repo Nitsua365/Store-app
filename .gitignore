@@ -1,11 +1,27 @@
+
+# Back end ignore
 /backEnd/node_modules/
 /backEnd/data/
 /backEnd/.env
 
+# frontend ignore
 /front-end/node_modules/
 
+# JS Scraping ignore
 /scraping/puppeteerScrape/node_modules/
 /scraping/puppeteerScrape/chromedriver
 /scraping/puppeteerScrape/.env
 
+# Python Scraping ignore
+
+# Default ignored files
+/scraping/pythonScrape/shelf/
+/scraping/pythonScrape/workspace.xml
+# Editor-based HTTP Client requests
+/scraping/pythonScrape/httpRequests/
+# Datasource local storage ignored files
+/scraping/pythonScrape/dataSources/
+/scraping/pythonScrape/dataSources.local.xml
+
+# root dir ignore
 /.DS_Store
