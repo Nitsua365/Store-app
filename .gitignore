@@ -1,7 +1,9 @@
 /backEnd/node_modules/
 /backEnd/data/
 /backEnd/.env
+
 /front-end/node_modules/
-/scraping/node_modules/
-/scraping/chromedriver
-/scraping/.env
+
+/scraping/puppeteerScrape/node_modules/
+/scraping/puppeteerScrape/chromedriver
+/scraping/puppeteerScrape/.env
