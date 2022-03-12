@@ -22,6 +22,8 @@
 # Datasource local storage ignored files
 /scraping/pythonScrape/dataSources/
 /scraping/pythonScrape/dataSources.local.xml
+/scraping/pythonScrape/.idea
+/scraping/pythonScrape/.DS_Store
 
 # root dir ignore
 /.DS_Store
