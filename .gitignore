@@ -7,3 +7,5 @@
 /scraping/puppeteerScrape/node_modules/
 /scraping/puppeteerScrape/chromedriver
 /scraping/puppeteerScrape/.env
+
+/.DS_Store
