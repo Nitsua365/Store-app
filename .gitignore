@@ -24,6 +24,7 @@
 /scraping/pythonScrape/dataSources.local.xml
 /scraping/pythonScrape/.idea
 /scraping/pythonScrape/.DS_Store
+/scraping/pythonScrape/webdriver/
 
 # root dir ignore
 /.DS_Store
