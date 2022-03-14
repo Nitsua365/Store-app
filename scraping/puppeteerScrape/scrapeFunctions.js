@@ -55,6 +55,7 @@ module.exports = {
 
       // Set URL
       dict[i]["departmentLink"] = await page.url();
+      console.log(`got ${dict[i].departmentLink}`)
 
       // go back to the first page
       await page.goBack();

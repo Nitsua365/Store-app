@@ -1,4 +1,4 @@
-const dbClient = require('./databaseClient/dbClient').pool;
+const dbClient = require('./databaseClient/dbClient');
 
 module.exports = {
   storeAmazonDepartment : (name, subDepartments, URL) => {
@@ -6,7 +6,7 @@ module.exports = {
 
     const insertQuery = `INSERT INTO amazon_department(name, subdepartments, link) VALUES($1,$2,$3);`
     
-    dbClient.query(insertQuery, [name, subDepartmentsStr, URL]).then((err, res) => {
+    dbClient.query(insertQuery, [name, subDepartmentsStr, URL], (err, res) => {
       if (err) {
         console.error(err);
       }

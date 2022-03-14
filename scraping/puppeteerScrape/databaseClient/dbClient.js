@@ -11,10 +11,15 @@ const pool = new Pool({
   port: process.env.PSQL_DB_PORT
 });
 
-pool.connect((err, client, release) => {
-  if (err) {
-    return console.error('Error acquiring client', err.stack)
-  }
+pool.connect();
+
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err)
+  process.exit(-1);
 })
 
-module.exports = { pool }
+module.exports = { 
+  query : (text, params, callback) => {
+    return pool.query(text, params, callback)
+  },
+}
