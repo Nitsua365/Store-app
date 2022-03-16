@@ -1,8 +1,9 @@
 const functions = require('./scrapeFunctions');
 const ScrapeEngine = require('./ScrapeEngine').ScrapeEngine;
 const puppeteer = require('puppeteer');
-const { storeAmazonDepartment } = require('./storeInDB');
+const { storeAmazonDepartment, createAmazonDepartmentTable } = require('./storeInDB');
 const prompt = require("prompt-sync")();
+const dbClient = require('./databaseClient/dbClient').pool;
 
 
 async function main() {
@@ -21,18 +22,21 @@ async function main() {
 
   // check to scrape department response
   if (departmentResponse.toUpperCase() === 'Y') {
+
+    createAmazonDepartmentTable();
+
     // scrape amazon departments
-    console.log("Scraping Amazon Departments...\n");
+    console.log("\nScraping Amazon Departments...\n");
     const amazonDepartments = await functions.getAmazonDepartments(browserEngine);
 
     amazonDepartments.forEach(elem => storeAmazonDepartment(elem.department, elem.subDepartments, elem.departmentLink));
   }
 
   // close the database client
-  // dbClient.end();
+  dbClient.end();
   
   // close browser engine
-  browserEngine.close();
+  await browserEngine.close();
 
 }
 

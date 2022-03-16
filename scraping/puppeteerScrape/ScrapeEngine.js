@@ -29,6 +29,7 @@ class ScrapeEngine {
   }
 
   close = () => {
+    this.page.close();
     this.browser.close();
   }
 
