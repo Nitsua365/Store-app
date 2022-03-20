@@ -1,13 +1,13 @@
 const dbClient = require('./databaseClient/dbClient');
 
 module.exports = {
-  storeAmazonDepartment : (name, subDepartments, URL) => {
+  storeAmazonDepartment : (name, subDepartments, departmentLink, scrapeLink) => {
     const subDepartmentsStr = subDepartments.length === 0 ? 'NULL' : subDepartments.join(';');
 
-    const insertQuery = `INSERT INTO amazon_department(name, subdepartments, departmentLink, scrapeLink) VALUES($1,$2,$3,'NULL');`
+    const insertQuery = `INSERT INTO amazon_department(name, subdepartments, departmentlink, scrapelink) VALUES($1, $2, $3, $4);`
     
     // insert into database
-    dbClient.query(insertQuery, [name, subDepartmentsStr, URL], (err, res) => {
+    dbClient.query(insertQuery, [name, subDepartmentsStr, departmentLink, scrapeLink], (err, res) => {
       if (err) {
         console.error(err);
       }
@@ -18,7 +18,7 @@ module.exports = {
 
   },
   createAmazonDepartmentTable : () => {
-    const checkTable = `CREATE TABLE IF NOT EXISTS amazon_department(name VARCHAR(255) PRIMARY KEY, subdepartments VARCHAR(255), departmentLink VARCHAR (500), scrapeLink VARCHAR(500));`
+    const checkTable = `CREATE TABLE IF NOT EXISTS amazon_department(name VARCHAR(255) PRIMARY KEY, subdepartments VARCHAR(255), departmentlink VARCHAR (500), scrapelink VARCHAR(500));`
 
     dbClient.query(checkTable, [], (err, res) => {
       if (err) {

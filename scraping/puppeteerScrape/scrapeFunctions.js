@@ -25,6 +25,7 @@ module.exports = {
           department: htmlDepartments[i],
           subDepartments : [],
           htmlValue : htmlDepartmentsValues[i],
+          scrapeLink : 'NULL'
         });
 
         prevNonSpaceNdx = i;
@@ -53,13 +54,27 @@ module.exports = {
       // wait for the navigation
       await page.waitForNavigation();
 
-      // Set URL
+      // Set departmentURL
       dict[i]["departmentLink"] = await page.url();
       console.log(`got departmentLink: ${dict[i].departmentLink}`);
 
+      // get href element for scrape link
+      const [elem] = await page.$x("//a[@class='a-link-normal']/span[contains(text(), 'Amazon.com') and @class='a-size-base a-color-base']/parent::a")
+      
+      if (elem != undefined) {
+
+        // get the scrape link from href value
+        const scrapeAttr = await elem.getProperty('href');
+
+        // store scrape Link
+        dict[i]["scrapeLink"] = await scrapeAttr.jsonValue();
+
+        console.log(`Scrape Link: ${dict[i]["scrapeLink"]}`)
+      }
+
+
       // go back to the first page
       await page.goBack();
-
     }
 
 
