@@ -1,13 +1,13 @@
 const dbClient = require('./databaseClient/dbClient');
 
 module.exports = {
-  storeAmazonDepartment : (name, subDepartments, departmentLink, scrapeLink) => {
+  storeAmazonDepartment : async (departmentName, subDepartments, departmentLink, scrapeLink) => {
     const subDepartmentsStr = subDepartments.length === 0 ? 'NULL' : subDepartments.join(';');
 
     const insertQuery = `INSERT INTO amazon_department(name, subdepartments, departmentlink, scrapelink) VALUES($1, $2, $3, $4);`
     
     // insert into database
-    dbClient.query(insertQuery, [name, subDepartmentsStr, departmentLink, scrapeLink], (err, res) => {
+    dbClient.query(insertQuery, [departmentName, subDepartmentsStr, departmentLink, scrapeLink], (err, res) => {
       if (err) {
         console.error(err);
       }

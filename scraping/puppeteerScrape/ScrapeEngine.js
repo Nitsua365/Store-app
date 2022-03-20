@@ -29,6 +29,7 @@ class ScrapeEngine {
   }
 
   close = async () => {
+    await this.page.close();
     await this.browser.close();
   }
 

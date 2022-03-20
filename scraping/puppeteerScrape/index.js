@@ -29,15 +29,11 @@ async function main() {
     console.log("\nScraping Amazon Departments...\n");
     const amazonDepartments = await functions.getAmazonDepartments(browserEngine);
 
-    console.log(amazonDepartments);
-
     // insert scraped departments into database
     console.log("\nInserting into DB...\n");
 
-    console.log(amazonDepartments.length);
-
     for (let i = 0; i < amazonDepartments.length; i++) {
-      storeAmazonDepartment(amazonDepartments[i].department, amazonDepartments[i].subDepartments, amazonDepartments[i].departmentLink, amazonDepartments[i].scrapeLink);
+      await storeAmazonDepartment(amazonDepartments[i].department, amazonDepartments[i].subDepartments, amazonDepartments[i].departmentLink, amazonDepartments[i].scrapeLink);
     }
 
     // amazonDepartments.forEach(elem => storeAmazonDepartment(elem.department, elem.subDepartments, elem.departmentLink, elem.scrapeLink));

@@ -25,6 +25,8 @@
 /scraping/pythonScrape/.idea
 /scraping/pythonScrape/.DS_Store
 /scraping/pythonScrape/webdriver/
+/scraping/pythonScrape/Login.py
+/scraping/pythonScrape/__pycache__/
 
 # root dir ignore
 /.DS_Store
