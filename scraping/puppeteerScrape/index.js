@@ -33,7 +33,7 @@ async function main() {
     console.log("\nInserting into DB...\n");
 
     for (let i = 0; i < amazonDepartments.length; i++) {
-      await storeAmazonDepartment(amazonDepartments[i].department, amazonDepartments[i].subDepartments, amazonDepartments[i].departmentLink, amazonDepartments[i].scrapeLink);
+      storeAmazonDepartment(amazonDepartments[i].department, amazonDepartments[i].subDepartments, amazonDepartments[i].departmentLink, amazonDepartments[i].scrapeLink);
     }
 
     // amazonDepartments.forEach(elem => storeAmazonDepartment(elem.department, elem.subDepartments, elem.departmentLink, elem.scrapeLink));

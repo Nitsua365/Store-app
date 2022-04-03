@@ -25,7 +25,7 @@ module.exports = {
           department: htmlDepartments[i],
           subDepartments : [],
           htmlValue : htmlDepartmentsValues[i],
-          scrapeLink : 'NULL'
+          scrapeLink : null
         });
 
         prevNonSpaceNdx = i;
