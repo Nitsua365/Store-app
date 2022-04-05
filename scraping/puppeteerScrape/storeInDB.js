@@ -1,7 +1,27 @@
 const dbClient = require('./databaseClient/dbClient');
+const sql = require('sql');
+
+sql.setDialect('postgres');
 
 module.exports = {
-  storeAmazonDepartment : (departmentName, subDepartments, departmentLink, scrapeLink) => {
+  storeAmazonDepartmentBulk : (departmentList) => {
+
+    const department = sql.define({
+      name: "amazon_department",
+      columns: ['name', 'subdepartments', 'departmentlink', 'scrapelink']
+    });
+
+    dbClient.query(department.insert(departmentList).toQuery(), (err, res) => {
+      if (err) {
+        console.error(err);
+      }
+      else {
+        console.log(`Successfully inserted ${res}`)
+      }
+    })
+    
+  },
+  storeOneAmazonDepartment : (departmentName, subDepartments, departmentLink, scrapeLink) => {
     const subDepartmentsStr = subDepartments.length === 0 ? null : subDepartments.join(';');
 
     const insertQuery = `INSERT INTO amazon_department(name, subdepartments, departmentlink, scrapelink) VALUES($1, $2, $3, $4);`

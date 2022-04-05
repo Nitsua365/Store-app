@@ -22,16 +22,17 @@ module.exports = {
       // check if the department starts with space
       if (!(/^\s/.test(htmlDepartments[i]))) {
         dict.push({
-          department: htmlDepartments[i],
-          subDepartments : [],
+          name: htmlDepartments[i],
+          subdepartments : [],
           htmlValue : htmlDepartmentsValues[i],
-          scrapeLink : null
+          departmentlink : null,
+          scrapelink : null
         });
 
         prevNonSpaceNdx = i;
       }
       else {
-        dict[prevNonSpaceNdx].subDepartments.push(htmlDepartments[i].trim());
+        dict[prevNonSpaceNdx].subdepartments.push(htmlDepartments[i].trim());
       }
 
     }
@@ -46,6 +47,8 @@ module.exports = {
       // select the current drop down box
       await page.waitForSelector('select#searchDropdownBox');
       await page.select('select#searchDropdownBox', dict[i].htmlValue);
+
+      delete dict[i].htmlValue;
       
       // click on the search button for the search dropdown option
       // await page.waitForSelector('input#nav-search-submit-button');
@@ -55,8 +58,8 @@ module.exports = {
       await page.waitForNavigation();
 
       // Set departmentURL
-      dict[i]["departmentLink"] = await page.url();
-      console.log(`got departmentLink: ${dict[i].departmentLink}`);
+      dict[i]["departmentlink"] = await page.url();
+      console.log(`got departmentLink: ${dict[i].departmentlink}`);
 
       // get href element for scrape link
       const [elem] = await page.$x("//a[@class='a-link-normal']/span[contains(text(), 'Amazon.com') and @class='a-size-base a-color-base']/parent::a")
@@ -67,14 +70,24 @@ module.exports = {
         const scrapeAttr = await elem.getProperty('href');
 
         // store scrape Link
-        dict[i]["scrapeLink"] = await scrapeAttr.jsonValue();
+        dict[i]["scrapelink"] = await scrapeAttr.jsonValue();
 
-        console.log(`Scrape Link: ${dict[i]["scrapeLink"]}`)
+        console.log(`Scrape Link: ${dict[i]["scrapelink"]}`)
       }
 
 
       // go back to the first page
       await page.goBack();
+    }
+
+    // make subdepartments a string field
+    for (let i = 0; i < dict.length; i++) {
+      if (dict[i]['subdepartments'].length > 0) {
+        dict[i]['subdepartments'] = dict[i]['subdepartments'].join(";");
+      }
+      else {
+        dict[i]['subdepartments'] = null;
+      }
     }
 
 

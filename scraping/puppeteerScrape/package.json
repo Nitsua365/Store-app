@@ -9,12 +9,13 @@
   },
   "author": "Austin Blanchard",
   "license": "ISC",
-  "type" : "commonjs",
+  "type": "commonjs",
   "dependencies": {
     "chalk": "^5.0.0",
     "dotenv": "^16.0.0",
     "pg": "^8.7.3",
     "prompt-sync": "^4.2.0",
-    "puppeteer": "^13.4.0"
+    "puppeteer": "^13.4.0",
+    "sql": "^0.78.0"
   }
 }

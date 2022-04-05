@@ -1,10 +1,8 @@
 const functions = require('./scrapeFunctions');
 const ScrapeEngine = require('./ScrapeEngine').ScrapeEngine;
 const puppeteer = require('puppeteer');
-const { storeAmazonDepartment, createAmazonDepartmentTable } = require('./storeInDB');
+const { createAmazonDepartmentTable, storeAmazonDepartmentBulk } = require('./storeInDB');
 const prompt = require("prompt-sync")();
-const dbClient = require('./databaseClient/dbClient').pool;
-
 
 async function main() {
   
@@ -32,15 +30,12 @@ async function main() {
     // insert scraped departments into database
     console.log("\nInserting into DB...\n");
 
-    for (let i = 0; i < amazonDepartments.length; i++) {
-      storeAmazonDepartment(amazonDepartments[i].department, amazonDepartments[i].subDepartments, amazonDepartments[i].departmentLink, amazonDepartments[i].scrapeLink);
-    }
-
-    // amazonDepartments.forEach(elem => storeAmazonDepartment(elem.department, elem.subDepartments, elem.departmentLink, elem.scrapeLink));
+    // insert into DB
+    storeAmazonDepartmentBulk(amazonDepartments);
   }
 
   // close the database client
-  dbClient.end();
+  // dbClient.end();
   
   // close browser engine
   await browserEngine.close();
