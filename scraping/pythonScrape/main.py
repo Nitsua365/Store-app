@@ -9,76 +9,108 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 
-
-from selectorlib import Extractor, Formatter
 from psycopg2 import connect
 
 from Login import amazonLogin
 from Login import chromeData
 
+
 def getScrapeLinkFromDepartment(cursor, department):
     cursor.execute("SELECT scrapelink FROM amazon_department WHERE name = %s", (department,))
     return cursor.fetchone()[0]
+
 
 def getAllScrapeLinks(cursor):
     cursor.execute("SELECT scrapelink FROM amazon_department WHERE scrapelink IS NOT NULL")
     return cursor.fetchall()
 
-def scrapeProductPage(URL, driver):
 
-    wait = WebDriverWait(driver, 10)
+def scrapeProductPage(URL, driver, price):
+    wait = WebDriverWait(driver, 20)
 
-    affiliateLink = ''
+    affiliateLink = None
 
     # navigate to product page
     driver.get(URL)
 
+    time.sleep(1)
+
     # click amazon stripe tab
-    wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-text-link"]/span/strong')))
-    getLinkButton = driver.find_element_by_xpath('//*[@id="amzn-ss-text-link"]/span/strong')
+    getLinkButton = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-text-link"]/span/strong')))
     getLinkButton.click()
 
-    # click full link button
-    wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-full-link-radio-button"]/label/i')))
-    getFullLinkButton = driver.find_element_by_xpath('//*[@id="amzn-ss-full-link-radio-button"]/label/i')
-    getFullLinkButton.click()
+    time.sleep(1)
 
-    # get the affiliate link
-    wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-text-fulllink-textarea"]')))
-    getAffiliateLink = driver.find_element_by_xpath('//*[@id="amzn-ss-text-fulllink-textarea"]')
-    affiliateLink = getAffiliateLink.get_attribute('value')
+    # click full link button
+    try:
+        getFullLinkButton = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-full-link-radio-button"]/label/i')))
+        getFullLinkButton.click()
+
+        # get the affiliate link
+        getAffiliateLink = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-text-fulllink-textarea"]')))
+        affiliateLink = getAffiliateLink.get_attribute('value')
+    except ElementNotInteractableException:
+        print("ERROR: cannot get affiliate link", file=sys.stderr)
 
 
     try:
         # get ASIN
         getASIN = driver.find_element_by_xpath('//*[contains(text(), "ASIN")]//following-sibling::td')
+        ASIN = getASIN.get_attribute('innerHTML').strip()
     except NoSuchElementException:
         try:
             getASIN = driver.find_element_by_xpath('//*[contains(text(), "ASIN")]//following-sibling::span')
+            ASIN = getASIN.get_attribute('innerHTML').strip()
         except NoSuchElementException:
-            print("ERROR: No ASIN found", sys.stderr)
-
-    ASIN = getASIN.get_attribute('innerHTML').strip()
+            ASIN = None
+            print("ERROR: No ASIN found", file=sys.stderr)
 
     # get product name
     getProductName = driver.find_element_by_xpath('//*[@id="productTitle"]')
     productName = getProductName.get_attribute('innerHTML').strip()
 
-    # Get product department
-
     # get Manufacturer
     getManufacturer = driver.find_element_by_xpath('//*[contains(text(), "Manufacturer")]//following-sibling::*')
-    manufacturer = getManufacturer.get_attribute('innerHTML').trim()
+    manufacturer = getManufacturer.get_attribute('innerHTML').strip()
+
+    # get rating
+    getRating = driver.find_element_by_xpath('//*[contains(text(), "out of 5")]')
+    rating = float(getRating.get_attribute('innerHTML').strip()[0:3])
+
+    # get picture ref link
+    pictureRefLink = None
+
+    try:
+        # get country of origin
+        getCountryOfOrigin = driver.find_element_by_xpath(
+            '//*[contains(text(), "Country of Origin") or contains(text(), "Country/Region of origin")]//following-sibling::td')
+        countryOfOrigin = getCountryOfOrigin.get_attribute('innerHTML').strip()
+    except NoSuchElementException:
+        try:
+            getCountryOfOrigin = driver.find_element_by_xpath(
+                '//*[contains(text(), "Country of Origin")]//following-sibling::span')
+            countryOfOrigin = getCountryOfOrigin.get_attribute('innerHTML').strip()
+        except:
+            countryOfOrigin = None
+            print("ERROR: No Country of Origin found", file=sys.stderr)
+
+    # get product page
+    productPage = driver.current_url
 
     return {
+        'affiliateLink': affiliateLink,
         'ASIN': ASIN,
         'ProductName': productName,
+        # 'department': department,
         'Manufacturer': manufacturer,
-        'affiliateLink': affiliateLink
+        'Rating': rating,
+        'PictureRefLink': pictureRefLink,
+        'CountryOfOrigin': countryOfOrigin,
+        'price': price,
+        'ProductPageLink': productPage
     }
-
 
 
 def loginToAmazon(driver):
@@ -105,7 +137,6 @@ def loginToAmazon(driver):
 
 
 def main():
-
     # db client initialize
     conn = connect("dbname=americazon user=austinblanchard")
     cursor = conn.cursor()
@@ -137,13 +168,18 @@ def main():
         time.sleep(1)
 
         # wait for elements
-        wait.until(EC.presence_of_element_located((By.XPATH, '//div[@data-index and @data-asin and @data-component-id and @data-uuid]//h2/a')))
+        wait.until(EC.presence_of_element_located(
+            (By.XPATH, '//div[@data-index and @data-asin and @data-component-id and @data-uuid]//h2/a')))
 
         productLinks = list(map(lambda x: x.get_attribute('href'), driver.find_elements_by_xpath("//div[@data-index and @data-asin and @data-component-id and @data-uuid]//h2/a")))
+        productPrices = list(map(lambda x: float(x.get_attribute('innerHTML')[1:]), driver.find_elements_by_xpath('//span[@class="a-price"]/*[@class="a-offscreen"]')))
 
-        for productURL in productLinks:
-            print("productURL", productURL)
-            scrapeProductPage(productURL, driver)
+        for productURL in range(0, len(productLinks)):
+            print("productURL", productLinks[productURL])
+            scrapeProductPage(URL=productLinks[productURL], driver=driver, price=productPrices[productURL])
+
+
+
 
 
     # close chromium driver
@@ -152,6 +188,7 @@ def main():
     # shutdown database connection
     cursor.close()
     conn.close()
+
 
 if __name__ == "__main__":
     main()

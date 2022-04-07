@@ -1,20 +1,22 @@
 const express = require('express');
 const app = express();
-const endpoints = require('./endpoints/productEndpoints');
+const endpoints = require('./API/endpoints/productEndpoints');
 const cors = require('cors');
 
 const bodyParser = require('body-parser');
 
 const dotenv = require('dotenv');
-dotenv.config();
-
-// const Gun = require('gun');
 
 function main() {
+  dotenv.config();
+
   app.use((req, res, next) => {
     try {
       
+      // TODO: once deployed make it a specific host
       res.header("Access-Control-Allow-Origin", "*");
+
+
       res.header("Access-Control-Allow-Methods", "POST, PUT, GET, PATCH, OPTIONS");
 
       next();
@@ -31,11 +33,9 @@ function main() {
   app.use(express.static(__dirname));
   app.use(endpoints);
 
-  var server = app.listen(process.env.PORT, () => {
+  app.listen(process.env.PORT, () => {
     console.log(`Listening on http://localhost:${process.env.PORT}`);
   });
-
-  // GUN({ server : server })
 
 }
 

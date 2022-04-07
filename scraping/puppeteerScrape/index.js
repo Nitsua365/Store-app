@@ -3,6 +3,7 @@ const ScrapeEngine = require('./ScrapeEngine').ScrapeEngine;
 const puppeteer = require('puppeteer');
 const { createAmazonDepartmentTable, storeAmazonDepartmentBulk } = require('./storeInDB');
 const prompt = require("prompt-sync")();
+const dbClient = require('./databaseClient/dbClient').pool;
 
 async function main() {
   
@@ -35,7 +36,7 @@ async function main() {
   }
 
   // close the database client
-  // dbClient.end();
+  dbClient.end();
   
   // close browser engine
   await browserEngine.close();
