@@ -44,7 +44,7 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
 
         for scrapeLink, name in departmentNameList:
 
-            time.sleep(1)
+            time.sleep(3)
 
             cmd = 'python3 scrapeDepartment.py \"' + name + '\" ' + scrapeLink
 
@@ -55,5 +55,5 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
 
             count += 1
 
-            if count == 2:
+            if count == 4:
                 break

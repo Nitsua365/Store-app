@@ -41,12 +41,12 @@ def insertProducts(cursor, productList, conn, pageNum):
             conn.commit()
 
             # insert session information
-            cursor.execute(sessionQuery, product["Department"], pageNum)
+            cursor.execute(sessionQuery, (product["Department"], pageNum))
             conn.commit()
         except Exception as err:
             print(err, file=sys.stderr)
 
-def scrapeProductPage(URL, driver, price, department):
+def scrapeProductPage(URL, driver, department):
     affiliateWait = WebDriverWait(driver, 10)
     attributeWait = WebDriverWait(driver, 2)
 
@@ -89,15 +89,27 @@ def scrapeProductPage(URL, driver, price, department):
             print("ERROR: No ASIN found", file=sys.stderr)
 
     try:
+        #get product price
+        getProductPrice = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@class="a-offscreen" and contains(text(), "$")]')))
+        productPrice = float(getProductPrice.get_attribute('innerHTML').strip()[1:])
+    except TimeoutException:
+        productPrice = None
+        print("ERROR: No price found", file=sys.stderr)
+    except NoSuchElementException:
+        productPrice = None
+        print("ERROR: no price found", file=sys.stderr)
+
+
+    try:
         # get product name
         qetProductName = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="productTitle"]')))
         productName = qetProductName.get_attribute('innerHTML').strip()
     except NoSuchElementException:
         productName = None
-        print("ERROR: no product name found")
+        print("ERROR: no product name found", file=sys.stderr)
     except TimeoutException:
         productName = None
-        print("ERROR: no product name found")
+        print("ERROR: no product name found", file=sys.stderr)
 
     try:
         # get Manufacturer
@@ -156,7 +168,7 @@ def scrapeProductPage(URL, driver, price, department):
         'Rating': rating,
         'PictureRefLink': pictureRefLink,
         'CountryOfOrigin': countryOfOrigin,
-        'Price': price,
+        'Price': productPrice,
         'ProductPageLink': productPage
     }
 
@@ -210,16 +222,22 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
         # scrapeLinksAndDepartments = getAllScrapeLinks(cursor)
 
         # web driver wait
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 20)
 
         departmentName = sys.argv[1]
-        link = sys.argv[2]
 
-        time.sleep(1)
+        # Navigate to scraping page
+        dropDownDepartments = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="nav-search-dropdown-card"]')))
+        dropDownDepartments.click()
 
-        driver.get(link)
+        department = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="searchDropdownBox"]//option[contains(text(), "' + departmentName + '")]')))
+        department.click()
 
-        time.sleep(5)
+        search = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="nav-search-submit-button"]')))
+        search.click()
+
+        getScrapePage = wait.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="a-link-normal"]//span[contains(text(), "Amazon.com") and @class="a-size-base a-color-base"]')))
+        getScrapePage.click()
 
         # get max page numbers
         getPageNumber = wait.until(EC.presence_of_element_located(
@@ -239,10 +257,6 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
                 map(lambda x: x.get_attribute('href'), wait.until(EC.presence_of_all_elements_located(
                     (By.XPATH,
                      '//div[@data-index and @data-asin and @data-component-id and @data-uuid]//h2/a')))))
-            productPrices = list(map(lambda x: float(x.get_attribute('innerHTML')[1:]), wait.until(
-                EC.presence_of_all_elements_located(
-                    (By.XPATH, '//span[@class="a-price"]/*[@class="a-offscreen"]')))))
-            productPrices = productPrices[0:len(productLinks)]
 
             scrapedProducts = []
 
@@ -253,7 +267,6 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
                 # add products to scraped products list
                 scrapedProducts.append(
                     scrapeProductPage(URL=productLinks[productURL], driver=driver,
-                                      price=productPrices[productURL],
                                       department=departmentName))
 
             # Filter product list
