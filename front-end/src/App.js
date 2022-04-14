@@ -1,11 +1,8 @@
 import React from "react";
-import UserLogin from "./UserLogin";
 
 function App() {
   return (
-    <div className="App">
-      <UserLogin />
-    </div>
+    <h1 className="text-3xl font-bold underline">HI</h1>
   );
 }
 
