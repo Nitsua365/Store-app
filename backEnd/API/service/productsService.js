@@ -1,15 +1,12 @@
-const dbClient = require("../../databaseClient/dbClient")
 const PrismaClient = require('@prisma/client');
 const prisma = new PrismaClient.PrismaClient();
+const stringSimilarity = require('string-similarity');
 
 module.exports = {
-  getAllProductDepartments : async () => {
-    return (await dbClient.query("SELECT name FROM amazon_department")).rows.map(d => d.name);
-  },
   getProducts : async (body) => {
-    const { name, manufacturer } = body;
+    const { name, manufacturer, department } = body;
     
-    return await prisma.amazon_products.findMany({
+    let products = await prisma.amazon_products.findMany({
       where : {
         OR: [
           {
@@ -21,14 +18,20 @@ module.exports = {
             manufacturer: {
               contains: manufacturer
             },
-          }
+          },
+          {
+            department: {
+              contains: department
+            }
+          },
         ]
       },
-      orderBy: { 
-        productname : 'asc'
-      }
     }
     )
+
+    return products.sort((a, b) => {
+      return (stringSimilarity.compareTwoStrings(b.productname, name) - stringSimilarity.compareTwoStrings(a.productname, name) || stringSimilarity.compareTwoStrings(b.manufacturer, manufacturer) - stringSimilarity.compareTwoStrings(a.manufacturer, manufacturer));
+    })
 
   }
 }
