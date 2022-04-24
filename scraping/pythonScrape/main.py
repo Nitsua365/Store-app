@@ -1,12 +1,14 @@
 import subprocess
 import os
 import signal
+import threading
 import time
 
 from psycopg2 import connect
 import Login
 
 pid = []
+
 
 def getScrapeDepartments(cursor):
     cursor.execute("SELECT scrapeLink, name FROM amazon_department WHERE scrapeLink IS NOT NULL")
@@ -26,9 +28,11 @@ def createProductTable(cursor, conn):
     except Exception as err:
         print(err)
 
-def signalKillProc(signum, frame):
+
+def quitThread(signal, frame):
     for i in pid:
-        os.killpg(os.getpgid(i), signal.SIGINT)
+        print("killing process: ", i.pid)
+        i.send_signal(signal.SIGINT)
 
 
 with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['user']) as conn:
@@ -40,20 +44,23 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
 
         count = 0
 
-        signal.signal(signal.SIGINT, signalKillProc)
+        signal.signal(signal.SIGINT, quitThread)
 
         for scrapeLink, name in departmentNameList:
 
-            time.sleep(3)
+            time.sleep(1)
 
-            cmd = 'python3 scrapeDepartment.py \"' + name + '\" ' + scrapeLink
+            cmd = 'python3 scrapeDepartment.py \"' + name + '\" ' + "Profile " + str(count + 1)
 
             if scrapeLink is None:
                 print("No scrape link for:", name, "or department doesn't exist")
             else:
-                pid.append(subprocess.call(cmd, shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid))
+                pid.append(subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid))
 
             count += 1
 
             if count == 4:
                 break
+
+        for i in range(0, count):
+            pid[i].wait()

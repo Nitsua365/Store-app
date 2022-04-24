@@ -1,3 +1,4 @@
+import signal
 import sys
 import time
 
@@ -91,7 +92,7 @@ def scrapeProductPage(URL, driver, department):
     try:
         #get product price
         getProductPrice = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@class="a-offscreen" and contains(text(), "$")]')))
-        productPrice = float(getProductPrice.get_attribute('innerHTML').strip()[1:])
+        productPrice = float(getProductPrice.get_attribute('innerHTML').strip()[1:].replace(',', ''))
     except TimeoutException:
         productPrice = None
         print("ERROR: No price found", file=sys.stderr)
@@ -200,14 +201,23 @@ def loginToAmazon(driver):
     signIn.click()
 
 
+
 with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['user']) as conn:
     with conn.cursor() as cursor:
+
+        def killSig(signal, frame):
+            print("received: ", signal)
+            driver.close()
+            cursor.close()
+            conn.close()
 
         options = webdriver.ChromeOptions()
         options.headless = False
         # options.add_argument("user-data-dir=" + Login.chromeData['data'])
-        # options.add_argument("profile-directory=Selenium")
+        # options.add_argument("profile-directory=" + sys.argv[2])
         driver = webdriver.Chrome(executable_path='./webdriver/chromedriver', options=options)
+
+        signal.signal(signal.SIGINT, killSig)
 
         # Navigate to amazon
         driver.get('https://amazon.com')
@@ -218,7 +228,7 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
         # create product table
         # createProductTable(cursor, conn)
 
-        # get baby products scrape page
+        # get products scrape page
         # scrapeLinksAndDepartments = getAllScrapeLinks(cursor)
 
         # web driver wait
