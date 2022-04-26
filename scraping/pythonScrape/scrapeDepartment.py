@@ -15,6 +15,8 @@ from psycopg2 import connect
 import Login
 from Login import amazonLogin
 
+nullDict = { 'ASIN': None, 'AffiliateLink': None, 'CountryOfOrigin': None }
+
 def getScrapeLinkFromDepartment(cursor, department):
     cursor.execute("SELECT scrapelink FROM amazon_department WHERE name = %s", (department,))
     return cursor.fetchone()[0]
@@ -56,7 +58,7 @@ def scrapeProductPage(URL, driver, department):
     # navigate to product page
     driver.get(URL)
 
-    time.sleep(1)
+    # time.sleep(1)
 
     # click full link button
     try:
@@ -71,23 +73,24 @@ def scrapeProductPage(URL, driver, department):
         getAffiliateLink = affiliateWait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-text-fulllink-textarea"]')))
         affiliateLink = getAffiliateLink.get_attribute('value')
 
-        # time.sleep(1)
     except ElementNotInteractableException:
-        print("ERROR: cannot get affiliate link", file=sys.stderr)
+        print("ERROR: cannot get affiliate link ELEMENT", file=sys.stderr, end='')
+        return nullDict
     except TimeoutException:
-        print("ERROR: cannot get affiliate link", file=sys.stderr)
+        print("ERROR: cannot get affiliate link TIMEOUT", file=sys.stderr, end='')
+        return nullDict
 
     try:
         # get ASIN
         getASIN = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[contains(text(), "ASIN")]//following-sibling::td')))
-        ASIN = getASIN.get_attribute('innerHTML').strip()
+        ASIN = getASIN.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
     except TimeoutException:
         try:
             getASIN = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[contains(text(), "ASIN")]//following-sibling::span')))
-            ASIN = getASIN.get_attribute('innerHTML').strip()
+            ASIN = getASIN.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
         except TimeoutException:
             ASIN = None
-            print("ERROR: No ASIN found", file=sys.stderr)
+            print("ERROR: No ASIN found", file=sys.stderr, end='')
 
     try:
         #get product price
@@ -95,34 +98,34 @@ def scrapeProductPage(URL, driver, department):
         productPrice = float(getProductPrice.get_attribute('innerHTML').strip()[1:].replace(',', ''))
     except TimeoutException:
         productPrice = None
-        print("ERROR: No price found", file=sys.stderr)
+        print("ERROR: No price found", file=sys.stderr, end='')
     except NoSuchElementException:
         productPrice = None
-        print("ERROR: no price found", file=sys.stderr)
+        print("ERROR: no price found", file=sys.stderr, end='')
 
 
     try:
         # get product name
-        qetProductName = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="productTitle"]')))
-        productName = qetProductName.get_attribute('innerHTML').strip()
+        getProductName = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="productTitle"]')))
+        productName = getProductName.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
     except NoSuchElementException:
         productName = None
-        print("ERROR: no product name found", file=sys.stderr)
+        print("ERROR: no product name found", file=sys.stderr, end='')
     except TimeoutException:
         productName = None
-        print("ERROR: no product name found", file=sys.stderr)
+        print("ERROR: no product name found", file=sys.stderr, end='')
 
     try:
         # get Manufacturer
         getManufacturer = attributeWait.until(EC.presence_of_element_located((By.XPATH, "//th[not(contains(text(), 'Recommended')) and not(contains(text(), 'recommended')) and not(contains(text(), 'discontinued')) and not(contains(text(), 'Discontinued')) and contains(text(), 'Manufacturer')]//following-sibling::td")))
-        manufacturer = getManufacturer.get_attribute('innerHTML').strip()
+        manufacturer = getManufacturer.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
     except TimeoutException:
         try:
             getManufacturer = attributeWait.until(EC.presence_of_element_located((By.XPATH, "//span[not(contains(text(), 'Recommended')) and not(contains(text(), 'recommended')) and not(contains(text(), 'discontinued')) and not(contains(text(), 'Discontinued')) and contains(text(), 'Manufacturer')]//following-sibling::span")))
-            manufacturer = getManufacturer.get_attribute('innerHTML').strip()
+            manufacturer = getManufacturer.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
         except TimeoutException:
             manufacturer = None
-            print("ERROR: no manufacturer found", file=sys.stderr)
+            print("ERROR: no manufacturer found", file=sys.stderr, end='')
 
     try:
         # get rating
@@ -130,10 +133,10 @@ def scrapeProductPage(URL, driver, department):
         rating = float(getRating.get_attribute('innerHTML').strip()[0:3])
     except NoSuchElementException:
         rating = None
-        print("ERROR: no rating found")
+        print("ERROR: no rating found", file=sys.stderr, end='')
     except TimeoutException:
         rating = None
-        print("ERROR: no rating found")
+        print("ERROR: no rating found", file=sys.stderr, end='')
 
     # get picture ref link
     try:
@@ -141,24 +144,26 @@ def scrapeProductPage(URL, driver, department):
         pictureRefLink = getPictureRefLink.get_attribute('src')
     except NoSuchElementException:
         pictureRefLink = None
-        print("ERROR: no picture ref found")
+        print("ERROR: no picture ref found", file=sys.stderr, end='')
     except TimeoutException:
         pictureRefLink = None
-        print("ERROR: no picture ref found")
+        print("ERROR: no picture ref found", file=sys.stderr, end='')
 
     try:
         # get country of origin
         getCountryOfOrigin = attributeWait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*")))
-        countryOfOrigin = getCountryOfOrigin.get_attribute('innerHTML').strip()
+        countryOfOrigin = getCountryOfOrigin.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
     except NoSuchElementException:
         countryOfOrigin = None
-        print("ERROR: No Country of Origin found", file=sys.stderr)
+        print("ERROR: No Country of Origin found", file=sys.stderr, end='')
     except TimeoutException:
         countryOfOrigin = None
-        print("ERROR: No Country of Origin found", file=sys.stderr)
+        print("ERROR: No Country of Origin found", file=sys.stderr, end='')
 
     # get product page
     productPage = driver.current_url
+
+    # print(' ' + URL, file=sys.stderr)
 
     return {
         'AffiliateLink': affiliateLink,
@@ -212,7 +217,7 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
             conn.close()
 
         options = webdriver.ChromeOptions()
-        options.headless = False
+        options.headless = True
         # options.add_argument("user-data-dir=" + Login.chromeData['data'])
         # options.add_argument("profile-directory=" + sys.argv[2])
         driver = webdriver.Chrome(executable_path='./webdriver/chromedriver', options=options)

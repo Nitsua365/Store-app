@@ -11,17 +11,17 @@ module.exports = {
         OR: [
           {
             productname: {
-              contains : name
+              contains : name != null ? name : undefined
             },
           },
           {
             manufacturer: {
-              contains: manufacturer
+              contains: manufacturer != null ? manufacturer : undefined
             },
           },
           {
             department: {
-              contains: department
+              contains: department != null ? department : undefined
             }
           },
         ]
@@ -29,9 +29,11 @@ module.exports = {
     }
     )
 
-    return products.sort((a, b) => {
-      return (stringSimilarity.compareTwoStrings(b.productname, name) - stringSimilarity.compareTwoStrings(a.productname, name) || stringSimilarity.compareTwoStrings(b.manufacturer, manufacturer) - stringSimilarity.compareTwoStrings(a.manufacturer, manufacturer));
-    })
+    // return products.sort((a, b) => {
+    //   return (stringSimilarity.compareTwoStrings(b.productname, name) - stringSimilarity.compareTwoStrings(a.productname, name) || stringSimilarity.compareTwoStrings(b.manufacturer, manufacturer) - stringSimilarity.compareTwoStrings(a.manufacturer, manufacturer));
+    // })
+
+    return products;
 
   }
 }

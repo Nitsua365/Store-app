@@ -1,7 +1,6 @@
 import subprocess
 import os
 import signal
-import threading
 import time
 
 from psycopg2 import connect
@@ -55,7 +54,7 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
             if scrapeLink is None:
                 print("No scrape link for:", name, "or department doesn't exist")
             else:
-                pid.append(subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid))
+                pid.append(subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE, preexec_fn=os.setsid))
 
             count += 1
 
