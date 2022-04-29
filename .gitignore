@@ -25,7 +25,7 @@
 /americazon/.pnpm-debug.log*
 
 # local env files
-/americazon/.env*.local
+/americazon/.env
 
 # vercel
 /americazon/.vercel
@@ -37,7 +37,6 @@
 /scraping/puppeteerScrape/.env
 
 # Python Scraping ignore
-
 # Default ignored files
 /scraping/pythonScrape/shelf/
 /scraping/pythonScrape/workspace.xml
