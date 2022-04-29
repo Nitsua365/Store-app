@@ -1,0 +1,62 @@
+
+# Back end ignore
+/backEnd/node_modules/
+/backEnd/data/
+/backEnd/.env
+
+# americazon ignore (Next.js)
+# dependencies
+/americazon/node_modules/
+/americazon/.pnp/
+/americazon/.pnp.js/
+
+# testing
+/americazon/coverage/
+
+# next.js
+/americazon/.next/
+/out/
+
+# production
+/americazon/build/
+
+# misc
+/americazon/.DS_Store
+/americazon/*.pem
+
+# debug
+/americazon/npm-debug.log*
+/americazon/yarn-debug.log*
+/americazon/yarn-error.log*
+/americazon/.pnpm-debug.log*
+
+# local env files
+/americazon/.env*.local
+
+# vercel
+/americazon/.vercel
+
+
+# JS Scraping ignore
+/scraping/puppeteerScrape/node_modules/
+/scraping/puppeteerScrape/chromedriver
+/scraping/puppeteerScrape/.env
+
+# Python Scraping ignore
+
+# Default ignored files
+/scraping/pythonScrape/shelf/
+/scraping/pythonScrape/workspace.xml
+# Editor-based HTTP Client requests
+/scraping/pythonScrape/httpRequests/
+# Datasource local storage ignored files
+/scraping/pythonScrape/dataSources/
+/scraping/pythonScrape/dataSources.local.xml
+/scraping/pythonScrape/.idea
+/scraping/pythonScrape/.DS_Store
+/scraping/pythonScrape/webdriver/
+/scraping/pythonScrape/Login.py
+/scraping/pythonScrape/__pycache__/
+
+# root dir ignore
+/.DS_Store
