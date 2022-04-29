@@ -4,8 +4,38 @@
 /backEnd/data/
 /backEnd/.env
 
-# frontend ignore
-/front-end/node_modules/
+# americazon ignore (Next.js)
+# dependencies
+/americazon/node_modules/
+/americazon/.pnp/
+/americazon/.pnp.js/
+
+# testing
+/americazon/coverage/
+
+# next.js
+/americazon/.next/
+/out/
+
+# production
+/americazon/build/
+
+# misc
+/americazon/.DS_Store
+/americazon/*.pem
+
+# debug
+/americazon/npm-debug.log*
+/americazon/yarn-debug.log*
+/americazon/yarn-error.log*
+/americazon/.pnpm-debug.log*
+
+# local env files
+/americazon/.env*.local
+
+# vercel
+/americazon/.vercel
+
 
 # JS Scraping ignore
 /scraping/puppeteerScrape/node_modules/
