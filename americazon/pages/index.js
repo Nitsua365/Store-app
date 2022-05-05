@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function Home({ departments }) {
   return (
-    <div className="self-center">
+    <div>
       <SearchBar departments={departments} />
     </div>
   )
