@@ -58,7 +58,7 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
 
             count += 1
 
-            if count == 4:
+            if count == 6:
                 break
 
         for i in range(0, count):
