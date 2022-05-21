@@ -49,6 +49,9 @@ def insertProducts(cursor, productList, conn, pageNum):
         except Exception as err:
             print(err, file=sys.stderr)
 
+def cleanAttribute(string):
+    return string.strip().encode("ascii", "ignore").decode().replace(',', ' ').replace('  ', ' ').replace('&amp;', '&').replace('&nbsp;', ' ').strip()
+
 def scrapeProductPage(URL, driver, department):
     affiliateWait = WebDriverWait(driver, 10)
     attributeWait = WebDriverWait(driver, 2)
@@ -71,7 +74,7 @@ def scrapeProductPage(URL, driver, department):
 
         # get the affiliate link
         getAffiliateLink = affiliateWait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="amzn-ss-text-fulllink-textarea"]')))
-        affiliateLink = getAffiliateLink.get_attribute('value')
+        affiliateLink = cleanAttribute(getAffiliateLink.get_attribute('value'))
 
     except ElementNotInteractableException:
         print("ERROR: cannot get affiliate link ELEMENT", file=sys.stderr, end='')
@@ -83,11 +86,11 @@ def scrapeProductPage(URL, driver, department):
     try:
         # get ASIN
         getASIN = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[contains(text(), "ASIN")]//following-sibling::td')))
-        ASIN = getASIN.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
+        ASIN = cleanAttribute(getASIN.get_attribute('innerHTML'))
     except TimeoutException:
         try:
             getASIN = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[contains(text(), "ASIN")]//following-sibling::span')))
-            ASIN = getASIN.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
+            ASIN = cleanAttribute(getASIN.get_attribute('innerHTML'))
         except TimeoutException:
             ASIN = None
             print("ERROR: No ASIN found", file=sys.stderr, end='')
@@ -95,7 +98,7 @@ def scrapeProductPage(URL, driver, department):
     try:
         #get product price
         getProductPrice = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@class="a-offscreen" and contains(text(), "$")]')))
-        productPrice = float(getProductPrice.get_attribute('innerHTML').strip()[1:].replace(',', ''))
+        productPrice = float(cleanAttribute(getProductPrice.get_attribute('innerHTML'))[1:])
     except TimeoutException:
         productPrice = None
         print("ERROR: No price found", file=sys.stderr, end='')
@@ -107,7 +110,7 @@ def scrapeProductPage(URL, driver, department):
     try:
         # get product name
         getProductName = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="productTitle"]')))
-        productName = getProductName.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
+        productName = cleanAttribute(getProductName.get_attribute('innerHTML'))
     except NoSuchElementException:
         productName = None
         print("ERROR: no product name found", file=sys.stderr, end='')
@@ -118,11 +121,11 @@ def scrapeProductPage(URL, driver, department):
     try:
         # get Manufacturer
         getManufacturer = attributeWait.until(EC.presence_of_element_located((By.XPATH, "//th[not(contains(text(), 'Recommended')) and not(contains(text(), 'recommended')) and not(contains(text(), 'discontinued')) and not(contains(text(), 'Discontinued')) and contains(text(), 'Manufacturer')]//following-sibling::td")))
-        manufacturer = getManufacturer.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
+        manufacturer = cleanAttribute(getManufacturer.get_attribute('innerHTML'))
     except TimeoutException:
         try:
             getManufacturer = attributeWait.until(EC.presence_of_element_located((By.XPATH, "//span[not(contains(text(), 'Recommended')) and not(contains(text(), 'recommended')) and not(contains(text(), 'discontinued')) and not(contains(text(), 'Discontinued')) and contains(text(), 'Manufacturer')]//following-sibling::span")))
-            manufacturer = getManufacturer.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
+            manufacturer = cleanAttribute(getManufacturer.get_attribute('innerHTML'))
         except TimeoutException:
             manufacturer = None
             print("ERROR: no manufacturer found", file=sys.stderr, end='')
@@ -130,7 +133,7 @@ def scrapeProductPage(URL, driver, department):
     try:
         # get rating
         getRating = attributeWait.until(EC.presence_of_element_located((By.XPATH, '//*[contains(text(), "out of 5")]')))
-        rating = float(getRating.get_attribute('innerHTML').strip()[0:3])
+        rating = float(cleanAttribute(getRating.get_attribute('innerHTML'))[0:3])
     except NoSuchElementException:
         rating = None
         print("ERROR: no rating found", file=sys.stderr, end='')
@@ -141,7 +144,7 @@ def scrapeProductPage(URL, driver, department):
     # get picture ref link
     try:
         getPictureRefLink = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="landingImage"]')))
-        pictureRefLink = getPictureRefLink.get_attribute('src')
+        pictureRefLink = cleanAttribute(getPictureRefLink.get_attribute('src'))
     except NoSuchElementException:
         pictureRefLink = None
         print("ERROR: no picture ref found", file=sys.stderr, end='')
@@ -152,7 +155,7 @@ def scrapeProductPage(URL, driver, department):
     try:
         # get country of origin
         getCountryOfOrigin = attributeWait.until(EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*")))
-        countryOfOrigin = getCountryOfOrigin.get_attribute('innerHTML').strip().encode("ascii", "ignore").decode()
+        countryOfOrigin = cleanAttribute(getCountryOfOrigin.get_attribute('innerHTML'))
     except NoSuchElementException:
         countryOfOrigin = None
         print("ERROR: No Country of Origin found", file=sys.stderr, end='')
@@ -162,8 +165,6 @@ def scrapeProductPage(URL, driver, department):
 
     # get product page
     productPage = driver.current_url
-
-    # print(' ' + URL, file=sys.stderr)
 
     return {
         'AffiliateLink': affiliateLink,
@@ -204,7 +205,6 @@ def loginToAmazon(driver):
     # click login
     signIn = driver.find_element_by_xpath("//*[@id='signInSubmit']")
     signIn.click()
-
 
 
 with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['user']) as conn:

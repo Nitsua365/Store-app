@@ -36,6 +36,8 @@
 /scraping/puppeteerScrape/chromedriver
 /scraping/puppeteerScrape/.env
 
+/scraping/pythonScrape/csvCleaning/*.csv
+
 # Python Scraping ignore
 # Default ignored files
 /scraping/pythonScrape/shelf/
