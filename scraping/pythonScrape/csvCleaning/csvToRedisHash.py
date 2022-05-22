@@ -4,13 +4,20 @@ from redis import Redis
 import csv
 import sys
 
+import Login
+
+if len(sys.argv) != 2:
+    print('params must be <csv file name>', file=sys.stderr)
+    quit(-1)
+
 if not os.path.exists(sys.argv[1]) or not sys.argv[1].endswith(".csv"):
     print('Invalid file', sys.argv[1], file=sys.stderr)
     quit(-1)
 
-rd = Redis(host='localhost', port=6379, db=0)
+rd = Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'])
 
 productsCSVFile = open(sys.argv[1], 'r')
+hashKeyName = sys.argv[1][:sys.argv[1].rindex('.csv')]
 
 reader = csv.reader(productsCSVFile)
 
@@ -25,9 +32,7 @@ for row in reader:
         print("rows are different", file=sys.stderr)
         quit(-1)
 
-    hashKey = "products:"
-
-    hashKey += row[0] + ' '
+    hashKey = hashKeyName + ':' + row[0]
 
     values = {}
 

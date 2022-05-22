@@ -220,7 +220,7 @@ with connect("dbname=" + Login.postgres['dbname'] + " user=" + Login.postgres['u
         options.headless = True
         # options.add_argument("user-data-dir=" + Login.chromeData['data'])
         # options.add_argument("profile-directory=" + sys.argv[2])
-        driver = webdriver.Chrome(executable_path='./webdriver/chromedriver', options=options)
+        driver = webdriver.Chrome(executable_path='../webdriver/chromedriver', options=options)
 
         signal.signal(signal.SIGINT, killSig)
 
