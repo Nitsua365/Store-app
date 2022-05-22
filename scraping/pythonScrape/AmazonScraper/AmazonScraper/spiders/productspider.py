@@ -11,14 +11,31 @@ class ProductspiderSpider(scrapy.Spider):
     def parse(self, response):
 
         for product in response.xpath('//div[@data-index and @data-asin and @data-uuid]'):
+
             item = ItemLoader(item=AmazonscraperItem(), selector=product)
 
-            item.add_xpath('asin', '//div[@data-index and @data-asin and @data-uuid]/@data-asin')
-            # item.add_xpath('name', '')
+            # get ASIN
+            item.add_xpath('asin', '@data-asin')
 
-            item.add_xpath('imagelink', '//div[@data-index and @data-asin and @data-uuid]//img/@src')
+            # get productname
+            item.add_xpath('name', './/h2//span[@class="a-size-base-plus a-color-base a-text-normal"]')
+
+            # get price
+            item.add_xpath('price', './/span[@class="a-price"]/span[@class="a-offscreen"]')
+
+            # get rating
+            item.add_xpath('rating', './/i[@class="a-icon a-icon-star-small a-star-small-4-5 aok-align-bottom"]/span')
+
+            # get image link
+            item.add_xpath('imagelink', './/img/@src')
+
+            # get product page link
+            item.add_xpath('productlink', './/h2/a/@href')
 
             yield item.load_item()
 
+            next_page = response.xpath('//a[@class="s-pagination-item s-pagination-next s-pagination-button s-pagination-separator"]').attrib['href']
+            if next_page is not None:
+                yield response.follow(next_page, callback=self.parse)
 
         pass

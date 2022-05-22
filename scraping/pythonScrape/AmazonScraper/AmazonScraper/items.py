@@ -4,7 +4,7 @@ from itemloaders.processors import TakeFirst, MapCompose
 from w3lib.html import remove_tags
 
 def initialClean(string):
-    return string.strip().encode("ascii", "ignore").decode().strip()
+    return string.strip().encode("ascii", "ignore").decode().replace('\n', ' ').strip()
 
 def removeHTMLChars(string):
     return string.replace('&amp;', '&').replace('&nbsp;', ' ').strip()
@@ -15,12 +15,18 @@ def removeDollarSigns(string):
 def removeCommas(string):
     return string.replace(',', ' ').replace('  ', ' ').strip()
 
+def ratingClean(string):
+    return string.strip()[:string.find(' ')]
+
+def appendAmazonURL(string):
+    return 'https://www.amazon.com' + string
+
 class AmazonscraperItem(scrapy.Item):
     # define the fields for your item here like:
-    asin = scrapy.Field(input_processor=MapCompose(initialClean, remove_tags), output_processor=TakeFirst())
-    name = scrapy.Field(input_processor=MapCompose(initialClean, removeCommas, removeHTMLChars, remove_tags), output_processor=TakeFirst())
-    price = scrapy.Field(input_processor=MapCompose(initialClean, removeDollarSigns, remove_tags), output_processor=TakeFirst())
-    rating = scrapy.Field(input_processor=MapCompose(initialClean, remove_tags), output_processor=TakeFirst())
-    productlink = scrapy.Field(input_processor=MapCompose(initialClean, removeHTMLChars, remove_tags), output_processor=TakeFirst())
-    imagelink = scrapy.Field(input_processor=MapCompose(initialClean, removeHTMLChars, remove_tags), output_processor=TakeFirst())
+    asin = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean), output_processor=TakeFirst())
+    name = scrapy.Field(input_processor=MapCompose(remove_tags, removeHTMLChars, initialClean, removeCommas), output_processor=TakeFirst())
+    price = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeDollarSigns), output_processor=TakeFirst())
+    rating = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, ratingClean), output_processor=TakeFirst())
+    productlink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars, appendAmazonURL), output_processor=TakeFirst())
+    imagelink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
     pass
