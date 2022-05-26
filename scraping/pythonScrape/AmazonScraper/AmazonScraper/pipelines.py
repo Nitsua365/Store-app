@@ -6,8 +6,8 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-
+from redis import Redis
 
 class AmazonscraperPipeline:
     def process_item(self, item, spider):
-        return item
+

@@ -28,7 +28,8 @@ class AmazonscraperItem(scrapy.Item):
     price = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeDollarSigns), output_processor=TakeFirst())
     department = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars, initialClean), output_processor=TakeFirst())
     rating = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, ratingClean), output_processor=TakeFirst())
-    productlink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars, appendAmazonURL), output_processor=TakeFirst())
-    imagelink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
+    productpagelink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars, appendAmazonURL), output_processor=TakeFirst())
+    picturereflink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
     manufacturer = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
+    countryoforigin = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
     pass
