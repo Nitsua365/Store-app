@@ -10,4 +10,5 @@ from redis import Redis
 
 class AmazonscraperPipeline:
     def process_item(self, item, spider):
-
+        # print('pipeline', item['countryoforigin'])
+        return item
