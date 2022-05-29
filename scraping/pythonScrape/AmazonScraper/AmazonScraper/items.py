@@ -24,7 +24,7 @@ def appendAmazonURL(string):
 class AmazonscraperItem(scrapy.Item):
     # define the fields for your item here like:
     asin = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean), output_processor=TakeFirst())
-    name = scrapy.Field(input_processor=MapCompose(remove_tags, removeHTMLChars, initialClean, removeCommas), output_processor=TakeFirst())
+    productname = scrapy.Field(input_processor=MapCompose(remove_tags, removeHTMLChars, initialClean, removeCommas), output_processor=TakeFirst())
     price = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeDollarSigns), output_processor=TakeFirst())
     department = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars, initialClean), output_processor=TakeFirst())
     rating = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, ratingClean), output_processor=TakeFirst())

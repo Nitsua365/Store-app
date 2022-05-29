@@ -26,7 +26,7 @@ class ProductspiderSpider(scrapy.Spider):
             item.add_xpath('asin', '@data-asin')
 
             # get productname
-            item.add_xpath('name', './/h2//span[@class="a-size-base-plus a-color-base a-text-normal"]')
+            item.add_xpath('productname', './/h2//span[@class="a-size-base-plus a-color-base a-text-normal"]')
 
             # get department
             item.add_xpath('department', '//select[@aria-describedby="searchDropdownDescription"]/option[@selected="selected"]')
