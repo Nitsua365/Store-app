@@ -9,19 +9,21 @@ from datetime import date
 import redis
 import Login
 
-
 class AmazonscraperPipeline:
 
-    def open_spider(self, spider):
+    def __init__(self):
         self.redisCli = redis.Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'])
+        self.items = []
 
     def close_spider(self, spider):
         self.redisCli.close()
 
     def process_item(self, item, spider):
-        if item['countryoforigin'] is not None and item['countryoforigin'].lower() != 'china':
+        if 'countryoforigin' in item and item['countryoforigin'].lower() != 'china':
             key = 'amazon_products:' + item['asin']
-            item['datescrapped'] = date.today()
             del item['asin']
-            print('hello')
+            item['datescrapped'] = date.today().strftime('%Y-%m-%d')
+            # item['key'] = key
             self.redisCli.hset(name=key, mapping=item)
+
+        return item

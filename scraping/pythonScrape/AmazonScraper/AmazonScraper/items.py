@@ -32,4 +32,5 @@ class AmazonscraperItem(scrapy.Item):
     picturereflink = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
     manufacturer = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
     countryoforigin = scrapy.Field(input_processor=MapCompose(remove_tags, initialClean, removeHTMLChars), output_processor=TakeFirst())
+    datescrapped = scrapy.Field()
     pass
