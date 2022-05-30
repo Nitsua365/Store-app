@@ -4,7 +4,7 @@ from redis import Redis
 import csv
 import sys
 
-import Login
+from AmazonScraper import Login
 
 if len(sys.argv) != 2:
     print('params must be <csv file name>', file=sys.stderr)

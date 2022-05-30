@@ -6,9 +6,11 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-import scrapy_fake_useragent
 import random
 
+import redis
+
+import Login
 
 BOT_NAME = 'AmazonScraper'
 

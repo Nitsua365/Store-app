@@ -3,7 +3,6 @@ import sys
 import time
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,8 +11,8 @@ from selenium.common.exceptions import NoSuchElementException, ElementNotInterac
 
 from psycopg2 import connect
 
-import Login
-from Login import amazonLogin
+from AmazonScraper import Login
+from AmazonScraper.Login import amazonLogin
 
 nullDict = { 'ASIN': None, 'AffiliateLink': None, 'CountryOfOrigin': None }
 

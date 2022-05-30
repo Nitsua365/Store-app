@@ -4,7 +4,7 @@ import signal
 import time
 
 from psycopg2 import connect
-import Login
+from AmazonScraper import Login
 
 pid = []
 
