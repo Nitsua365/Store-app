@@ -19,11 +19,10 @@ class AmazonscraperPipeline:
         self.redisCli.close()
 
     def process_item(self, item, spider):
-        if 'countryoforigin' in item and item['countryoforigin'].lower() != 'china':
+        if 'countryoforigin' in item and item['countryoforigin'].lower() != 'china' and 'asin' in item:
             key = 'amazon_products:' + item['asin']
             del item['asin']
             item['datescrapped'] = date.today().strftime('%Y-%m-%d')
-            # item['key'] = key
             self.redisCli.hset(name=key, mapping=item)
 
         return item

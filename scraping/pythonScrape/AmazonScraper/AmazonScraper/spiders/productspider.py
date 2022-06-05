@@ -6,15 +6,23 @@ from scrapy.loader import ItemLoader
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = ['https://www.amazon.com/s?bbn=165793011&rh=n%3A165793011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136598&rnid=275224011&ref=lp_165795011_nr_p_6_0']
+    start_urls = ['http://www.amazon.com/s?bbn=2619533011&rh=n%3A2619533011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136580&rnid=2661622011&ref=lp_2619534011_nr_p_6_0']
 
     def getPageFields(self, response, item):
-
         # scrape country of origin
         COO = response.xpath("//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*").get()
         item.add_value(field_name='countryoforigin', value=COO)
 
+        # if item.get_output_value('asin') is None or item.get_output_value('asin') == '':
+        ASIN = response.xpath("//th[contains(text(), 'ASIN')]//following-sibling::*").get()
+
+        if ASIN is None or len(ASIN) == 0:
+            ASIN = response.xpath("//span[contains(text(), 'ASIN')]//following-sibling::*").get()
+
+        item.add_value(field_name='asin', value=ASIN)
+
         return item.load_item()
+
 
     def parse(self, response):
 
