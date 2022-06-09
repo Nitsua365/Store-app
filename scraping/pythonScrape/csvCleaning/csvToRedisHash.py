@@ -14,7 +14,7 @@ if not os.path.exists(sys.argv[1]) or not sys.argv[1].endswith(".csv"):
     print('Invalid file', sys.argv[1], file=sys.stderr)
     quit(-1)
 
-rd = Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'])
+rd = Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'], username='default', password=Login.redis['password'])
 
 productsCSVFile = open(sys.argv[1], 'r')
 hashKeyName = sys.argv[1][:sys.argv[1].rindex('.csv')]
@@ -39,7 +39,7 @@ for row in reader:
     for ndx in range(1, len(row)):
         values[headerVals[ndx]] = row[ndx]
 
-    rd.hset(name=hashKey, mapping=values)
+    print(rd.hset(name=hashKey, mapping=values))
 
 
 rd.close()

@@ -13,7 +13,8 @@ postgres = {
 }
 
 redis = {
-    'host': 'localhost',
-    'port': 6379,
-    'db': 0
+    'host': 'redis-11267.c275.us-east-1-4.ec2.cloud.redislabs.com',
+    'port': 11267,
+    'db': 0,
+    'password': 'uC01x09XShZbMe5qTjQneegt8sxqxqFP'
 }
