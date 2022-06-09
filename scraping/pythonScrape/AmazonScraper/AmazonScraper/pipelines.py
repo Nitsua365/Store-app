@@ -12,7 +12,7 @@ import Login
 class AmazonscraperPipeline:
 
     def __init__(self):
-        self.redisCli = redis.Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'])
+        self.redisCli = redis.Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'], username='default', password=Login.redis['password'])
         self.items = []
 
     def close_spider(self, spider):
