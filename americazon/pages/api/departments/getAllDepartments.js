@@ -1,4 +1,4 @@
-import prisma from "../../../lib/prismaClient"
+import redis from "redis-om"
 
 export default async function handler(req, res) {
 
