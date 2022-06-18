@@ -1,4 +1,4 @@
-import { searchProducts } from '../../../dbClient/utils/amazon_products'
+import redis from '../../../lib/redisClient'
 
 export default async function handler(req, res) {
 
@@ -6,8 +6,12 @@ export default async function handler(req, res) {
 
     switch (method) {
         case 'GET':
-            const result = await searchProducts(body);
-            res.status(200).json(result);
+            if (typeof body !== 'string') {
+                res.status(400).send(`Body must be type \'string\'`)
+            }
+
+            const resp = await redis.call('FT.SEARCH', 'index:amazon_products', body)
+            res.status(200).json(resp);
             break;
         default:
             res.status(404).send(`Bad Request ${method}`)
