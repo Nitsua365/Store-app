@@ -6,9 +6,12 @@ export default async function handler(req, res) {
 
     switch (method) {
         case 'GET':
+            // get all department names 
             let departments = await redis.keys('amazon_department:*')
 
+            // clean and sort results
             departments = departments.map(n => n.substring(n.indexOf(':') + 1))
+            departments.sort((a, b) => a.localeCompare(b));
 
             res.json(departments);
             break;

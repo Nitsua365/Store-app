@@ -4,22 +4,22 @@ export default async function handler(req, res) {
 
     const { method, query } = req;
 
-
+    
     switch (method) {
         case 'GET':
             const resp = await redis.call('FT.SEARCH', 'index:amazon_products', query.searchString, 'LIMIT', '0', '200')
 
-            // get the asins
-            let filter = resp.filter(m => { if (!Array.isArray(m)) return m; })
+            // get the ASIN's
+            let filter = resp.filter(m => (!Array.isArray(m)))
             filter.splice(0, 1);
 
             // get the arrays of data and squash them into a list of JSON objects
-            let arrays = resp.filter(m => { if (Array.isArray(m)) return m; }).map(obj => {
-                const keys = obj.filter((obj, filIdx) => { if (filIdx % 2 == 0 ) { return obj; } })
-                const values = obj.filter((obj, valIdx) => { if (valIdx % 2 == 1) { return obj; } })
-                
+            let arrays = resp.filter(m => Array.isArray(m)).map(obj => {
+                const keys = obj.filter((obj, filIdx) => (filIdx % 2 == 0) )
+                const values = obj.filter((obj, valIdx) => (valIdx % 2 == 1 || !obj))
+
                 let zipped = {}
-                keys.forEach((key, idx) => zipped[key] = values[idx] ? values[idx] : '' )
+                keys.forEach((key, idx) => zipped[key] = values[idx])
 
                 return zipped;
             })

@@ -52,6 +52,7 @@ function SearchBar({ departments }) {
             return (
               <div key={item.productname} className="pb-4 pt-4">
                 <h1 className='font-bold text-lg'>{item.productname}</h1>
+                <p className='text-lg'>{`Country of Origin: ${item.countryoforigin}`}</p>
               </div>
             )
           }
