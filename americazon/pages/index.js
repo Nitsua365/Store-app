@@ -2,6 +2,7 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 
 export default function Home({ departments }) {
+
   return (
     <div>
       <SearchBar departments={departments} />
@@ -10,12 +11,12 @@ export default function Home({ departments }) {
 }
 
 export async function getStaticProps() {
-  const res = await axios.get("http://localhost:3000/api/departments/getAllDepartments");
-  const departments = res.data.map(e => e.name);
+  const res = await axios.get("http://localhost:3000/api/departments");
+  let data = res.data;
 
   return {
     props : {
-      departments,
+      departments : data,
     },
   }
 }
