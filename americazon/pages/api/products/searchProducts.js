@@ -1,17 +1,17 @@
-import redis from '../../../lib/redisClient'
+import redis from 'lib/redisClient'
 
 export default async function handler(req, res) {
 
     const { method, query } = req;
 
-    
+
     switch (method) {
         case 'GET':
             const resp = await redis.call('FT.SEARCH', 'index:amazon_products', query.searchString, 'LIMIT', '0', '200')
 
             // get the ASIN's
             let filter = resp.filter(m => (!Array.isArray(m)))
-            filter.splice(0, 1);
+            const results = filter.splice(0, 1);
 
             // get the arrays of data and squash them into a list of JSON objects
             let arrays = resp.filter(m => Array.isArray(m)).map(obj => {
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
             // zip the asins and the data together
             const zipped = filter.map((obj, idx) => ({ asin: obj.substring(obj.indexOf(':') + 1), ...arrays[idx] }))
 
-            res.status(200).json({ results: zipped.length, data: zipped });
+            res.status(200).json({ results, data: zipped });
             break;
         default:
             res.status(404).send(`Bad Request ${method}`)

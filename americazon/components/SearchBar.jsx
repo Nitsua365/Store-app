@@ -51,8 +51,10 @@ function SearchBar({ departments }) {
         {items.map(item => {
             return (
               <div key={item.productname} className="pb-4 pt-4">
+                <img className='object-cover h-48' src={item.picturereflink} ></img>
                 <h1 className='font-bold text-lg'>{item.productname}</h1>
                 <p className='text-lg'>{`Country of Origin: ${item.countryoforigin}`}</p>
+                <a className='border-4 rounded-lg' href={item.affiliatelink}>Product Page</a>
               </div>
             )
           }
