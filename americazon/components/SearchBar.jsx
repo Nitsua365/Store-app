@@ -25,19 +25,19 @@ function SearchBar({ departments }) {
 
   return (
     <>
-      <div className="grid grid-cols-5 justify-center gap-4 p-6 mb-12 border-4 rounded-lg">
+      <div className="grid grid-cols-5 justify-center gap-4 p-6 mb-12 border-4 rounded-lg h-24">
         
         <div className="col-start-2 col-auto">
-          <DropDown items={departments} />
+          <DropDown className="h-full" items={departments} />
         </div>
 
         <div className="col-start-3 col-auto">
-          <input type="search" onInput={(e) => setSearchString(e.target.value)} className="rounded-md border-2 w-full flex-auto transition-color duration-300" />
+          <input type="search" onInput={(e) => setSearchString(e.target.value)} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
         </div>
 
         <div className="col-start-4 col-auto">
           <button type="submit" onClick={handleSubmit} className="text-center rounded-md border-2 hover:text-red-600 hover:border-blue-300 
-                                            transition-color duration-300 cursor-pointer w-full flex-auto">Search</button>
+                                            transition-color duration-300 cursor-pointer w-full h-full flex-auto text-2xl">Search</button>
         </div>
       </div>
 
