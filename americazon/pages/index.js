@@ -1,12 +1,21 @@
+import { QueryClient, QueryClientProvider } from "react-query";
+
 import SearchBar from "components/SearchBar";
+
 import axios from "axios";
+
+const queryClient = new QueryClient();
 
 export default function Home({ departments }) {
 
   return (
-    <div>
-      <SearchBar departments={departments} />
-    </div>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <SearchBar departments={departments} />
+        </div>
+      </QueryClientProvider>
+    </>
   )
 }
 

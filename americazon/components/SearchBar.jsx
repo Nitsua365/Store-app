@@ -1,63 +1,59 @@
-import DropDown from './DropDown';
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import { useState, useCallback } from 'react';
+import { useMutation } from 'react-query';
+
+import DropDown from 'components/DropDown';
+
+import fetchSearch from 'utils/fetchSearch';
 
 function SearchBar({ departments }) {
 
-  const [searched, setSearched] = useState(false);
-  const [items, setItems] = useState([]);
-  const [searchString, setSearchString] = useState('');
-  const [numResults, setNumResults] = useState(0);
+  const [searchString, setSearchString] = useState('')
 
-  const handleSubmit = (e) => {
+  const handlePageRedirect = useCallback((url) => {
+    window.open(url);
+  }, [])
+
+  const { mutateAsync, data : searchItems } = useMutation(fetchSearch, { 
+    mutationKey: "search",
+    enabled: false
+  })
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSearched(true);
+    await mutateAsync({ searchString })
   }
-
-  useEffect(() => {
-    (async () => {
-      if (searched) {
-        const result = await axios.get('http://localhost:3000/api/products/searchProducts', { params : { searchString } })
-        setItems(result.data.data);
-        setNumResults(result.data.results);
-        setSearched(false);
-      }
-    })();
-  }, [searched])
 
   return (
     <>
-      <div className="grid grid-cols-5 h-12">
+      <div className="grid grid-cols-5 justify-center gap-4 p-6 mb-12 border-4 rounded-lg">
         
-        <div className="col-start-2 w-64 h-8">
+        <div className="col-start-2 col-auto">
           <DropDown items={departments} />
         </div>
 
-        <div className="col-start-3 h-8">
-          <input type="search" onInput={(e) => setSearchString(e.target.value)} className="rounded-md border-2 w-full flex-auto" />
+        <div className="col-start-3 col-auto">
+          <input type="search" onInput={(e) => setSearchString(e.target.value)} className="rounded-md border-2 w-full flex-auto transition-color duration-300" />
         </div>
 
-        <div className="col-start-4 h-8">
+        <div className="col-start-4 col-auto">
           <button type="submit" onClick={handleSubmit} className="text-center rounded-md border-2 hover:text-red-600 hover:border-blue-300 
                                             transition-color duration-300 cursor-pointer w-full flex-auto">Search</button>
         </div>
       </div>
 
       <h1 className='font-bold text-lg col-span-3'>
-        { (numResults) ? `Number of Results: ${numResults}` : '' }
+        { (searchItems?.data?.results) ? `Number of Results: ${ [ searchItems.data.results ]}` : '' }
       </h1>
 
       <div>
-        {items.map(item => {
-            return (
-              <div key={item.productname} className="pb-4 pt-4">
-                <img className='object-cover h-48' src={item.picturereflink} ></img>
-                <h1 className='font-bold text-lg'>{item.productname}</h1>
-                <p className='text-lg'>{`Country of Origin: ${item.countryoforigin}`}</p>
-                <a className='border-4 rounded-lg' href={item.affiliatelink}>Product Page</a>
-              </div>
-            )
-          }
+        {searchItems?.data?.data?.map(item => (
+            <div key={item.productname} className="pb-4 pt-4">
+              <img className='object-cover h-48' src={item.picturereflink} ></img>
+              <h1 className='font-bold text-lg'>{item.productname}</h1>
+              <p className='text-lg'>{`Country of Origin: ${item.countryoforigin}`}</p>
+              <button onClick={(e) => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} className='border-4 rounded-lg duration-150 hover:border-slate-800' >Product Page</button>
+            </div>
+          )
         )}
       </div>
 
