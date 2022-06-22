@@ -32,7 +32,7 @@ function SearchBar({ departments }) {
         </div>
 
         <div className="col-start-3 col-auto">
-          <input type="search" onInput={(e) => setSearchString(e.target.value)} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
+          <input type="search" placeholder='Search' onInput={(e) => setSearchString(e.target.value)} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
         </div>
 
         <div className="col-start-4 col-auto">
@@ -51,7 +51,7 @@ function SearchBar({ departments }) {
               <img className='object-cover h-48' src={item.picturereflink} ></img>
               <h1 className='font-bold text-lg'>{item.productname}</h1>
               <p className='text-lg'>{`Country of Origin: ${item.countryoforigin}`}</p>
-              <button onClick={(e) => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} className='border-4 rounded-lg duration-150 hover:border-slate-800' >Product Page</button>
+              <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} className='border-4 rounded-lg duration-150 hover:border-slate-800' >Product Page</button>
             </div>
           )
         )}
