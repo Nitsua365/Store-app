@@ -1,3 +1,4 @@
+import random
 import signal
 import sys
 import time
@@ -22,6 +23,7 @@ loginToAmazon(driver)
 rd = Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'], username='default', password=Login.redis['password'])
 
 R_KEYS = list(map(lambda x: x.decode('utf-8'), list(rd.keys('amazon_products:*'))))
+random.shuffle(R_KEYS)
 
 for key in R_KEYS:
 
@@ -35,11 +37,11 @@ for key in R_KEYS:
         db_affil = None
         continue
 
-    if len(db_affil) == 0 or db_affil is None:
+    if db_affil is None or db_affil == 'None' or len(db_affil) == 0:
 
-        affil = scrapeFunctions.scrapeAffiliate(URL=db_page, driver=driver)
+        affil = str(scrapeFunctions.scrapeAffiliate(URL=db_page, driver=driver))
 
-        if len(affil) != 0 or not affil is None:
+        if affil is not None and len(affil) != 0:
             print('inserting', key, affil)
             rd.hset(name=key, key='affiliatelink', value=affil)
 
