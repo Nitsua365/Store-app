@@ -6,7 +6,7 @@ from scrapy.loader import ItemLoader
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = ['https://www.amazon.com/s?bbn=165793011&rh=n%3A165793011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136598&rnid=275224011&ref=lp_165795011_nr_p_6_0']
+    start_urls = ['https://www.amazon.com/s?bbn=2407755011&rh=n%3A2407755011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1655996364&rnid=2491153011&ref=lp_2407755011_nr_p_6_1']
 
     def getPageFields(self, response, item):
         # scrape country of origin

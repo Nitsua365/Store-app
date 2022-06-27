@@ -27,7 +27,7 @@ function SearchBar({ departments }) {
 
   return (
     <>
-      <div className="grid grid-cols-5 justify-center gap-4 p-6 mb-12 border-4 rounded-lg h-24">
+      <div className="grid grid-cols-5 justify-center gap-4 p-6 mb-12 border-4 rounded-lg h-24 border-blue-100">
         
         <div className="col-start-1 col-auto">
           <DropDown className="h-full" items={departments} />
@@ -57,17 +57,16 @@ function SearchBar({ departments }) {
 
             <div className='grid grid-cols-4 col-span-5 gap-4 col-auto'>
               {searchItems?.data?.data?.map(item => (
-                  <div key={item.productname} className="pb-4 pt-4 col-auto">
-                    <img className='object-cover h-48' src={item.picturereflink} ></img>
-                    <h1 className='font-bold text-lg'>{item.productname}</h1>
+                <div key={item.asin} className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg">
+                  <img className='object-cover h-48' src={item.picturereflink} ></img>
+                  <h1 className='font-bold text-lg'>{item.productname}</h1>
 
-                    <p className='text-lg col-start-1 col-auto'>{`Country of Origin: ${item.countryoforigin}`}</p>
-                    <p className='text-lg col-start-1 col-auto'>{`$${item.price}`}</p>
-                    
-                    <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} className='border-4 rounded-lg duration-150 hover:border-slate-800' >Product Page</button>
-                  </div>
-                )
-              )}
+                  <p className='text-lg col-start-1 col-auto'>{`Country of Origin: ${item.countryoforigin}`}</p>
+                  <p className='text-lg col-start-1 col-auto'>{`$${item.price}`}</p>
+                  
+                  <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} className='border-4 rounded-lg duration-150 hover:text-red-400 hover:border-blue-400' >Product Page</button>
+                </div>
+              ))}
             </div>
           </div>
         </>

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 function DropDown({ items }) {
 
-  const [isDropped, setisDropped] = useState(false);
   const [value, setValue] = useState('');
 
   const selectDropdownHandler = (e) => {
