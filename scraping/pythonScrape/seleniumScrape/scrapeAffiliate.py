@@ -39,7 +39,7 @@ for key in R_KEYS:
 
     if db_affil is None or db_affil == 'None' or len(db_affil) == 0:
 
-        affil = str(scrapeFunctions.scrapeAffiliate(URL=db_page, driver=driver))
+        affil = scrapeFunctions.scrapeAffiliate(URL=db_page, driver=driver)
 
         if affil is not None and len(affil) != 0:
             print('inserting', key, affil)
