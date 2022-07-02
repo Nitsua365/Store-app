@@ -10,7 +10,7 @@ from utils import scrapeFunctions
 from selenium import webdriver
 
 options = webdriver.ChromeOptions()
-options.headless = False
+options.headless = True
 # options.add_argument("user-data-dir=" + Login.chromeData['data'])
 # options.add_argument("profile-directory=" + sys.argv[2])
 driver = webdriver.Chrome(executable_path='../webdriver/chromedriver', options=options)
