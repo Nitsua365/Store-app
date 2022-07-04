@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useMutation } from 'react-query';
 
 import Image from 'next/image';
