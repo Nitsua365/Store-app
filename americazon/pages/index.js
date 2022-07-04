@@ -4,12 +4,10 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import SearchBar from "components/SearchBar";
 
-import axios from "axios";
-
 const queryClient = new QueryClient();
 
 
-export default function Home({ props, departments }) {
+export default function Home({ departments }) {
 
   return (
     <>
@@ -23,12 +21,12 @@ export default function Home({ props, departments }) {
 }
 
 export async function getStaticProps() {
-  // const res = await axios.get("http://localhost:3000/api/departments");
+  // const res = await fetch("/api/departments");
 
   return {
     props : {
-      // departments : res.data,
-      departments: []
+      // departments : res.json(),
+      departments : []
     },
   }
 }

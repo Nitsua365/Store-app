@@ -48,7 +48,7 @@ function SearchBar({ departments }) {
       {searched && (
         <>
           <h1 className='font-bold text-lg col-span-3'>
-            { (searchItems?.data?.results) ? `Number of Results: ${ [ searchItems.data.results ]}` : '' }
+            { (searchItems?.results) ? `Number of Results: ${ [ searchItems?.results ]}` : '' }
           </h1>
 
           <div className='grid grid-cols-6 gap-2'>
@@ -58,9 +58,9 @@ function SearchBar({ departments }) {
             </div>
 
             <div className='grid grid-cols-4 col-span-5 gap-4 col-auto'>
-              {searchItems?.data?.data?.map(item => (
+              {searchItems?.data?.map(item => (
                 <div key={item.asin} className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg">
-                  <Image width={200} height={200} src={item.picturereflink} alt="Not Found" />
+                  <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
                   <h1 className='font-bold text-lg'>{item.productname}</h1>
 
                   <p className='text-lg col-start-1 col-auto'>{`Country of Origin: ${item.countryoforigin}`}</p>

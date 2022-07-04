@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
             // get the ASIN's
             let filter = resp.filter(m => (!Array.isArray(m)))
-            const results = filter.splice(0, 1);
+            const [ results ] = filter.splice(0, 1);
 
             // get the arrays of data and squash them into a list of JSON objects
             let arrays = resp.filter(m => Array.isArray(m)).map(obj => {

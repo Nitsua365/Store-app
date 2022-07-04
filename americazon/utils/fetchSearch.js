@@ -1,6 +1,7 @@
-import axios from "axios";
+import withQuery from "with-query";
 
-export default async function fetchSearch( data ) {
-    const res = await axios.get(`${process.env.LOCAL_API}/products/searchProducts`, { params: { ...data }});
-    return res;
+
+export default async function fetchSearch( query ) {
+    const res = await fetch(withQuery(`/api/products/searchProducts`, { searchString : query.searchString }));
+    return res.json();
 }
