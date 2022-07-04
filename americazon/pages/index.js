@@ -4,7 +4,6 @@ import redis from 'lib/redisClient'
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import SearchBar from "components/SearchBar";
-import useSWR from 'swr';
 
 const queryClient = new QueryClient();
 

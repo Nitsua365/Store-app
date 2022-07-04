@@ -1,9 +1,16 @@
 import redis from 'lib/redisClient'
+import NextCors from 'nextjs-cors';
 
 export default async function handler(req, res) {
 
-    const { method, query } = req;
+    await NextCors(req, res, {
+        // Options
+        methods: ['GET'],
+        origin: 'http://localhost:3000',
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+     });
 
+    const { method, query } = req;
 
     switch (method) {
         case 'GET':
