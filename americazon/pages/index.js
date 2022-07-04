@@ -21,7 +21,6 @@ export default function Home({ departments }) {
 }
 
 export async function getStaticProps() {
-  // const res = await fetch("/api/departments");
 
   return {
     props : {
