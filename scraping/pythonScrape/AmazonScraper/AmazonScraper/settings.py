@@ -23,8 +23,7 @@ USER_AGENTS = [
     'Chrome/42.0.2311.135 Safari/537.36 Edge/12.246',
     'Windows 7/ Chrome browser: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/47.0.2526.111 Safari/537.36',
-    'Mac OS X10/Safari browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, '
-    'like Gecko) Version/9.0.2 Safari/601.3.9',
+    'Mac OS X10/Safari browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9',
     'Linux PC/Firefox browser: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1',
     'Chrome OS/Chrome browser: Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) '
     'Chrome/51.0.2704.64 Safari/537.36',
@@ -37,7 +36,7 @@ USER_AGENTS = [
 #
 # # Crawl responsibly by identifying yourself (and your website) on the user-agent
 
-# random.seed(time.time())
+random.seed(time.time())
 USER_AGENT = random.choice(USER_AGENTS)
 
 # Retry many times since proxies often fail
@@ -76,14 +75,14 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = random.uniform(0.5, 2.0)
+DOWNLOAD_DELAY = random.uniform(0.5, 3.0)
 
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
