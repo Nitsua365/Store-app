@@ -25,7 +25,6 @@ export async function getStaticProps() {
 
   return {
     props : {
-      // departments : res.json(),
       departments : []
     },
   }
