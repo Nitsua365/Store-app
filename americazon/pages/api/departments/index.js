@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             departments = departments.map(n => n.substring(n.indexOf(':') + 1))
             departments.sort((a, b) => a.localeCompare(b));
 
-            res.json(departments);
+            res.status(200).json(departments);
             break;
         default:
             res.send("invalid method: " + method);

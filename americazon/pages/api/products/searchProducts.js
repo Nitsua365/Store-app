@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
             // get the ASIN's
             let filter = resp.filter(m => (!Array.isArray(m)))
-            const [ results ] = filter.splice(0, 1);
+            const [ totalResults ] = filter.splice(0, 1)
 
             // get the arrays of data and squash them into a list of JSON objects
             let arrays = resp.filter(m => Array.isArray(m)).map(obj => {
@@ -25,18 +25,16 @@ export default async function handler(req, res) {
             })
             
             // zip the asins and the data together
-            const zipped = filter.map((obj, idx) => ({ asin: obj.substring(obj.indexOf(':') + 1), ...arrays[idx] }))
+            const zipped = filter
+                            .map((obj, idx) => ({ asin: obj.substring(obj.indexOf(':') + 1), ...arrays[idx] }))
+                            .filter(item => item.countryoforigin.toUpperCase().includes('USA') || 
+                                            item.countryoforigin.toLowerCase().includes('united states') || 
+                                            item.countryoforigin.toLowerCase().includes('states'))
 
-            res.status(200).json({ results, data: zipped });
+            res.status(200).json({ results: zipped.length, data: zipped });
             break;
         default:
             res.status(404).send(`Bad Request ${method}`)
     }
 
-}
-
-export const config = {
-    api: {
-        responseLimit: '10mb',
-    },
 }
