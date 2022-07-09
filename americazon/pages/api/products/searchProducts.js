@@ -1,27 +1,32 @@
 import redis from 'lib/redisClient'
-import NextCors from 'nextjs-cors';
 
 export default async function handler(req, res) {
-
-    await NextCors(req, res, {
-        // Options
-        methods: ['GET'],
-        origin: 'http://localhost:3000',
-        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-     });
 
     const { method, query } = req;
 
     switch (method) {
         case 'GET':
-            const resp = await redis.call('FT.SEARCH', 'index:amazon_products', query.searchString, 'LIMIT', '0', '200')
+            const resp = await redis.call('FT.SEARCH', 'index:amazon_products', query.searchString)
+            resp.splice(0, 1)
+
+            const searchArray = query.searchString.split(' ')
+
+            // levenstein 
+            let leven = await Promise
+                                .all(searchArray
+                                .map(item => redis.call('FT.SEARCH', 'index:amazon_products', `%${item}%`)))
+            
+            leven = leven
+                        .flat()
+                        .filter(item => typeof item !== 'number')
+
+            const results = [...resp, ...leven]
 
             // get the ASIN's
-            let filter = resp.filter(m => (!Array.isArray(m)))
-            const [ totalResults ] = filter.splice(0, 1)
-
+            let filter = results.filter(m => (!Array.isArray(m)))
+            
             // get the arrays of data and squash them into a list of JSON objects
-            let arrays = resp.filter(m => Array.isArray(m)).map(obj => {
+            let arrays = results.filter(m => Array.isArray(m)).map(obj => {
                 const keys = obj.filter((obj, filIdx) => (filIdx % 2 == 0) )
                 const values = obj.filter((obj, valIdx) => (valIdx % 2 == 1 || !obj))
 
