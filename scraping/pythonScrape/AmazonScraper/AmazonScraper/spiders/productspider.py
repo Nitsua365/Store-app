@@ -14,6 +14,8 @@ class ProductspiderSpider(scrapy.Spider):
         COO = response.xpath("//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*").get()
         item.add_value(field_name='countryoforigin', value=COO)
 
+
+
         # if item.get_output_value('asin') is None or item.get_output_value('asin') == '':
         # ASIN = response.xpath("//th[contains(text(), 'ASIN')]//following-sibling::*").get()
         #

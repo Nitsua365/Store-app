@@ -1,4 +1,5 @@
 import redis from 'lib/redisClient'
+import redisHashToJSON from 'utils/redisHashToJSON';
 
 export default async function handler(req, res) {
 
@@ -6,44 +7,22 @@ export default async function handler(req, res) {
 
     switch (method) {
         case 'GET':
-            const resp = await redis.call('FT.SEARCH', 'index:amazon_products', query.searchString)
-            resp.splice(0, 1)
 
-            const searchArray = query.searchString.split(' ')
-
-            // levenstein 
+            // redis full text search and levenstein distance
             let leven = await Promise
-                                .all(searchArray
-                                .map(item => redis.call('FT.SEARCH', 'index:amazon_products', `%${item}%`)))
-            
-            leven = leven
-                        .flat()
-                        .filter(item => typeof item !== 'number')
+                                .all( [ redis.call('FT.SEARCH', 'index:amazon_products', query.searchString), 
+                                        (await Promise
+                                                .all(query.searchString.split(' ')
+                                                .map(item => redis.call('FT.SEARCH', 'index:amazon_products', `%${item}%`))))
+                                                .flat() ] )
 
-            const results = [...resp, ...leven]
+            const results = redisHashToJSON(Array.from(new Set(leven.flat())), 'asin').filter(item => 
+                                                    item.countryoforigin.toUpperCase().includes('USA') || 
+                                                    item.countryoforigin.toLowerCase().includes('united states') || 
+                                                    item.countryoforigin.toLowerCase().includes('states'))
 
-            // get the ASIN's
-            let filter = results.filter(m => (!Array.isArray(m)))
-            
-            // get the arrays of data and squash them into a list of JSON objects
-            let arrays = results.filter(m => Array.isArray(m)).map(obj => {
-                const keys = obj.filter((obj, filIdx) => (filIdx % 2 == 0) )
-                const values = obj.filter((obj, valIdx) => (valIdx % 2 == 1 || !obj))
 
-                let zipped = {}
-                keys.forEach((key, idx) => zipped[key] = values[idx])
-
-                return zipped;
-            })
-            
-            // zip the asins and the data together
-            const zipped = filter
-                            .map((obj, idx) => ({ asin: obj.substring(obj.indexOf(':') + 1), ...arrays[idx] }))
-                            .filter(item => item.countryoforigin.toUpperCase().includes('USA') || 
-                                            item.countryoforigin.toLowerCase().includes('united states') || 
-                                            item.countryoforigin.toLowerCase().includes('states'))
-
-            res.status(200).json({ results: zipped.length, data: zipped });
+            res.status(200).json({ results: results.length, data: results });
             break;
         default:
             res.status(404).send(`Bad Request ${method}`)
