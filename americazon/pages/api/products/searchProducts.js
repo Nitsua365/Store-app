@@ -8,6 +8,10 @@ export default async function handler(req, res) {
     switch (method) {
         case 'GET':
 
+            if (!query.searchString || !query.searchString.length)
+                res.status(404).json({ message: 'Invalid Search String' })
+            
+
             // redis full text search and levenstein distance
             let leven = await Promise
                                 .all( [ redis.call('FT.SEARCH', 'index:amazon_products', query.searchString), 
