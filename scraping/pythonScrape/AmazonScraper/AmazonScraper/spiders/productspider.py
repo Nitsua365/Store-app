@@ -7,13 +7,23 @@ import logging
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = ['https://www.amazon.com/s?bbn=2619533011&rh=n%3A2619533011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136580&rnid=2661622011&ref=lp_2619534011_nr_p_6_0']
+    start_urls = ['https://www.amazon.com/s?bbn=16310091&rh=n%3A16310091%2Cp_85%3A2470955011&dc&qid=1657489410&rnid=2470954011&ref=lp_16310161_nr_p_85_1',
+                  'https://www.amazon.com/s?bbn=165793011&rh=n%3A165793011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136598&rnid=275224011&ref=lp_165795011_nr_p_6_0',
+                  'https://www.amazon.com/s?bbn=165796011&rh=n%3A165796011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136523&rnid=275225011&ref=lp_165797011_nr_p_6_0',
+                  'https://www.amazon.com/s?bbn=3760911&rh=n%3A3760911%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136525&rnid=331588011&ref=lp_11055981_nr_p_6_0',
+                  'https://www.amazon.com/s?bbn=2619533011&rh=n%3A2619533011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136580&rnid=2661622011&ref=lp_2619534011_nr_p_6_0']
 
 
     def getPageFields(self, response, item):
         # scrape country of origin
         COO = response.xpath("//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*").get()
         item.add_value(field_name='countryoforigin', value=COO)
+
+        # scrape manufacturer
+        manufacturer = response.xpath("//*[not(contains(text(), 'Recommended')) and not(contains(text(), 'recommended')) and not(contains(text(), 'discontinued')) and not(contains(text(), 'Discontinued')) and contains(text(), 'Manufacturer')]//following-sibling::*").get()
+
+        if len(manufacturer) < 100:
+            item.add_value(field_name='manufacturer', value=manufacturer)
 
         return item.load_item()
 
