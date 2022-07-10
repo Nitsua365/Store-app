@@ -2,11 +2,12 @@ import scrapy
 from AmazonScraper.items import AmazonscraperItem
 from scrapy.loader import ItemLoader
 
+import logging
 
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = ['https://www.amazon.com/s?bbn=162302011&rh=n%3A162302011%2Cp_85%3A2470955011&dc&qid=1657431373&rnid=2470954011&ref=lp_162302011_nr_p_85_1']
+    start_urls = ['https://www.amazon.com/s?bbn=2619533011&rh=n%3A2619533011%2Cp_6%3AATVPDKIKX0DER&dc&qid=1649136580&rnid=2661622011&ref=lp_2619534011_nr_p_6_0']
 
 
     def getPageFields(self, response, item):
@@ -41,15 +42,19 @@ class ProductspiderSpider(scrapy.Spider):
             # get image link
             item.add_xpath('picturereflink', './/img/@src')
 
+            # get the unfiltered URL for navigation
+            unfiltered_URL = response.xpath('.//h2/a/@href').get()
+
             # get product page link
-            item.add_xpath('productpagelink', './/h2/a/@href')
+            item.add_value('productpagelink', unfiltered_URL)
 
             # build affiliate link
             item.add_value('affiliatelink', item.get_output_value('productpagelink'))
 
-            yield response.follow(item.get_output_value('productpagelink'), callback=self.getPageFields, cb_kwargs={'item': item}, dont_filter=True)
+            yield response.follow(unfiltered_URL, callback=self.getPageFields, cb_kwargs={'item': item}, dont_filter=True)
 
         next_page = response.xpath('//a[@class="s-pagination-item s-pagination-next s-pagination-button s-pagination-separator"]').attrib['href']
+
         if next_page is not None:
             yield response.follow(next_page, callback=self.parse)
 

@@ -2,12 +2,25 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import logging
 
 from scrapy import signals
+from scrapy.conf import settings
+from scrapy import log
+import random
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
+# class RandomUserAgentMiddleware(object):
+#
+#     @classmethod
+#     def process_request(self, request, spider):
+#         ua = random.choice(settings.get('USER_AGENTS'))
+#         if ua:
+#             request.headers.setdefault('User-Agent', ua)
+#             #this is just to check which user agent is being used for request
+#             logging.info(u'User-Agent: {} {}'.format(request.headers.get('User-Agent'), request))
 
 class AmazonscraperSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -24,6 +37,7 @@ class AmazonscraperSpiderMiddleware:
     def process_spider_input(self, response, spider):
         # Called for each response that goes through the spider
         # middleware and into the spider.
+
 
         # Should return None or raise an exception.
         return None
@@ -71,6 +85,12 @@ class AmazonscraperDownloaderMiddleware:
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
+
+        # ua = random.choice(settings.get('USER_AGENTS'))
+        # if ua:
+        #     request.headers.set('User-Agent', ua)
+        #     #this is just to check which user agent is being used for request
+        #     spider.log(u'User-Agent: {} {}'.format(request.headers.get('User-Agent'), request), level=log.DEBUG)
 
         # Must either:
         # - return None: continue processing this request

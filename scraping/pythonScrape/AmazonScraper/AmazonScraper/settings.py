@@ -15,6 +15,8 @@ import Login
 
 BOT_NAME = 'AmazonScraper'
 
+LOG_LEVEL = 'DEBUG'
+
 SPIDER_MODULES = ['AmazonScraper.spiders']
 NEWSPIDER_MODULE = 'AmazonScraper.spiders'
 
@@ -48,6 +50,8 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
     'scrapy_proxies.RandomProxy': 100,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
 }
 
 # Proxy list containing entries like
@@ -75,11 +79,13 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = random.uniform(0.5, 3.0)
+# DOWNLOAD_DELAY = random.uniform(0.5, 3.0)
 
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
+
+RANDOMIZE_DOWNLOAD_DELAY = True
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False

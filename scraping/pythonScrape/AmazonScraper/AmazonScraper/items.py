@@ -26,19 +26,17 @@ def appendAmazonURL(string):
     return 'https://www.amazon.com' + string
 
 def cleanQueryParams(URL):
-    url_path = urlparse(URL).path
-    url_prot = urlparse(URL).scheme
-    url_web = urlparse(URL).netloc
+    URL_obj = urlparse(URL)
 
     def cleanPath(path_URL):
-        split_url = urlparse(path_URL).path.split('/')
+        split_url = path_URL.split('/')
         split_url.pop(len(split_url) - 1)
         split_url.pop(0)
         return '/'.join(split_url)
 
-    url_path = cleanPath(URL) if 'ref=' in URL else url_path
+    url_path = cleanPath(URL_obj.path) if 'ref=' in URL else URL_obj.path
 
-    return url_prot + '://' + url_web + '/' + url_path
+    return URL_obj.scheme + '://' + URL_obj.netloc + '/' + url_path
 
 def addAffiliateParams(URL):
     req = PreparedRequest()
