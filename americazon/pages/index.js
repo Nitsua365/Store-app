@@ -16,6 +16,9 @@ export default function Home({ departments }) {
         <div>
           <SearchBar departments={departments} />
         </div>
+        <div>
+          
+        </div>
       </QueryClientProvider>
     </>
   )
