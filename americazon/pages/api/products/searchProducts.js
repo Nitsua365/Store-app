@@ -20,7 +20,8 @@ export default async function handler(req, res) {
                                                 .map(item => redis.call('FT.SEARCH', 'index:amazon_products', `%${item}%`))))
                                                 .flat() ] )
 
-            const results = redisHashToJSON(Array.from(new Set(leven.flat())), 'asin').filter(item => 
+            const results = redisHashToJSON(Array.from(new Set(leven.flat())), 'asin')
+                                                .filter(item => 
                                                     item.countryoforigin.toUpperCase().includes('USA') || 
                                                     item.countryoforigin.toLowerCase().includes('united states') || 
                                                     item.countryoforigin.toLowerCase().includes('states'))
