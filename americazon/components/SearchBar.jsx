@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
@@ -14,7 +14,7 @@ function SearchBar({ departments, fetch, fetchQuery }) {
   }
 
   useEffect(() => {
-    if (currentPage && pageSize)
+    if (currentPage > -1 && pageSize)
       fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
   }, [currentPage, pageSize])
 

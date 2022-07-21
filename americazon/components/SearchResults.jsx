@@ -39,11 +39,9 @@ export default function SearchResults({ data, isLoading }) {
         </div>
 
         {data && (
-          <div key={`paginate_${data.queryResults.page}_${data?.results}`}>
+          <div key={`paginate_${data?.queryResults?.page}_${data?.results}`}>
             <Pagination 
               totalResults={data?.results} 
-              page={data.queryResults.page}
-              pageSize={data.queryResults.hitsPerPage}
             />
           </div>
         )}
