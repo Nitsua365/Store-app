@@ -1,14 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 import DropDown from 'components/DropDown';
+import { useHomeContext } from 'context/HomeContext';
 
 
 function SearchBar({ departments, fetch, fetchQuery }) {
 
-  const handleSubmit = async (e) => {
+  const { currentPage, pageSize } = useHomeContext();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await fetch({ searchString: fetchQuery.current })
+    fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
   }
+
+  useEffect(() => {
+    if (currentPage && pageSize)
+      fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
+  }, [currentPage, pageSize])
 
   return (
     <>

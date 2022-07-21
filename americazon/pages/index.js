@@ -1,18 +1,15 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-
 import redis from 'lib/redisClient'
 
 import HomePage from "components/HomePage";
 
+import { HomeContext } from 'context/HomeContext';
+
 export default function Home({ departments }) {
-
-  const queryClient = new QueryClient();
-
   return (
     <>
-      <QueryClientProvider client={queryClient}>
+      <HomeContext>
         <HomePage departments={departments} />
-      </QueryClientProvider>
+      </HomeContext>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useMutation } from 'react-query';
 
@@ -7,12 +7,12 @@ import fetchSearch from 'utils/fetchSearch';
 import SearchBar from "components/SearchBar";
 import LoadingIcon from 'components/loadingIcon';
 import SearchResults from 'components/SearchResults';
+import { useHomeContext } from 'context/HomeContext';
 
 export default function HomePage({ departments }) {
-
   const queryRef = useRef();
-
-  const { mutateAsync, data : searchItems, isLoading } = useMutation(fetchSearch, { 
+ 
+  const { mutate, data : searchItems, isLoading } = useMutation(fetchSearch, { 
     mutationKey: "search",
     enabled: false
   })
@@ -22,7 +22,7 @@ export default function HomePage({ departments }) {
       <div>
         <SearchBar 
           departments={departments} 
-          fetch={mutateAsync}
+          fetch={mutate}
           fetchQuery={queryRef}
         />
       </div>
@@ -31,7 +31,7 @@ export default function HomePage({ departments }) {
       />
       <SearchResults 
         isLoading={isLoading} 
-        data={searchItems} 
+        data={searchItems}
       />
     </>
   )

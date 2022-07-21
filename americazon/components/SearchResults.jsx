@@ -1,24 +1,23 @@
 import { useCallback } from 'react';
 
 import Image from 'next/image';
-
+import Pagination from './Pagination';
 
 export default function SearchResults({ data, isLoading }) {
 
   const handlePageRedirect = useCallback((url) => {
     window.open(url);
-  }, [])
+  })
   
   return (
     !isLoading && (
       <>
-        {data && (
-          <h1 className='font-bold text-lg col-span-3'>
-            { (data?.results && data?.results !== 0) ? `Number of Results: ${ [ data?.results ]}` : 'Sorry no products found' }
-          </h1>
-        )}
-
         <div className='grid grid-cols-6 gap-2'>
+          {data && (
+            <h1 className='font-bold text-lg col-span-3'>
+              { (data?.results && data?.results !== 0) ? `Number of Results: ${ [ data?.results ]}` : 'Sorry no products found' }
+            </h1>
+          )}
           
           <div className='grid'>
             
@@ -38,6 +37,16 @@ export default function SearchResults({ data, isLoading }) {
             ))}
           </div>
         </div>
+
+        {data && (
+          <div key={`paginate_${data.queryResults.page}_${data?.results}`}>
+            <Pagination 
+              totalResults={data?.results} 
+              page={data.queryResults.page}
+              pageSize={data.queryResults.hitsPerPage}
+            />
+          </div>
+        )}
       </>
     ) 
   )
