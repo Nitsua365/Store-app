@@ -11,7 +11,7 @@ index = alg_client.init_index("amazon_products")
 rd = Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'], username='default',
            password=Login.redis['password'])
 
-products = list(map(lambda x: x.decode('ascii'), rd.keys(pattern='amazon_products:*')))[3533:]
+products = list(map(lambda x: x.decode('ascii'), rd.keys(pattern='amazon_products:*')))
 
 
 
