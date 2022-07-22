@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { useMutation } from 'react-query';
 
 import fetchSearch from 'utils/fetchSearch';
 
 import SearchBar from "components/SearchBar";
-import LoadingIcon from 'components/loadingIcon';
+import LoadingIcon from 'components/LoadingIcon';
 import SearchResults from 'components/SearchResults';
 
 export default function HomePage({ departments }) {
