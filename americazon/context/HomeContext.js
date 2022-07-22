@@ -6,7 +6,8 @@ export function HomeContext({ children }) {
 
   let HomeStateInit = {
     currentPage: 0,
-    pageSize: 24
+    pageSize: 24,
+    totalPages: 1
   }
 
   const [HomeState, setHomeState] = useState(HomeStateInit)

@@ -7,7 +7,6 @@ import fetchSearch from 'utils/fetchSearch';
 import SearchBar from "components/SearchBar";
 import LoadingIcon from 'components/loadingIcon';
 import SearchResults from 'components/SearchResults';
-import { useHomeContext } from 'context/HomeContext';
 
 export default function HomePage({ departments }) {
   const queryRef = useRef();

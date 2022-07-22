@@ -1,13 +1,27 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import Image from 'next/image';
 import Pagination from './Pagination';
+import { useHomeContext } from 'context/HomeContext';
 
 export default function SearchResults({ data, isLoading }) {
+  
+  const { setStateVar } = useHomeContext()
 
-  const handlePageRedirect = useCallback((url) => {
+  const handlePageRedirect = (url) => {
+    const newURL = (new URL(url))
+    
+    newURL.searchParams.set('tag', process.env.AMAZON_AFFILIATE_TAG)
+    newURL.searchParams.set('linkCode', process.env.AMAZON_LINK_CODE)
+    
     window.open(url);
-  })
+  }
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setStateVar('totalPages', data.queryResults?.nbPages)
+    }
+  }, [data, isLoading])
   
   return (
     !isLoading && (
@@ -19,13 +33,13 @@ export default function SearchResults({ data, isLoading }) {
             </h1>
           )}
           
-          <div className='grid'>
+          {/* <div className='grid'>
             
-          </div>
+          </div> */}
 
           <div className='grid grid-cols-4 col-span-5 gap-4'>
             {data?.queryResults?.hits?.map(item => (
-              <div key={item.asin} className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg">
+              <div key={`${item.productname}_${item.asin}`} className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg">
                 <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
                 <h1 className='font-bold text-lg'>{item.productname}</h1>
 
@@ -38,7 +52,7 @@ export default function SearchResults({ data, isLoading }) {
           </div>
         </div>
 
-        {data && (
+        {data?.results && data?.results !== 0 && (
           <div key={`paginate_${data?.queryResults?.page}_${data?.results}`}>
             <Pagination 
               totalResults={data?.results} 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 
 import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
@@ -6,17 +6,22 @@ import { useHomeContext } from 'context/HomeContext';
 
 function SearchBar({ departments, fetch, fetchQuery }) {
 
-  const { currentPage, pageSize } = useHomeContext();
+  const { currentPage, pageSize, setStateVar } = useHomeContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
+
+    if (fetchQuery.current) {
+      setStateVar('currentPage', 0)
+      fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: 0 })
+    }
+    
   }
 
   useEffect(() => {
-    if (currentPage > -1 && pageSize)
+    if (currentPage > -1 && pageSize && fetchQuery.current)
       fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
-  }, [currentPage, pageSize])
+  }, [currentPage, pageSize, fetchQuery.current])
 
   return (
     <>
