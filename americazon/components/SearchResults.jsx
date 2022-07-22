@@ -11,10 +11,12 @@ export default function SearchResults({ data, isLoading }) {
   const handlePageRedirect = (url) => {
     const newURL = (new URL(url))
     
-    newURL.searchParams.set('tag', process.env.AMAZON_AFFILIATE_TAG)
-    newURL.searchParams.set('linkCode', process.env.AMAZON_LINK_CODE)
+    newURL.searchParams.set('tag', 'amerizon02-20')
+    newURL.searchParams.set('linkCode', 'll1')
+
+    console.log(newURL.toString())
     
-    window.open(url);
+    window.open(newURL.toString());
   }
 
   useEffect(() => {
