@@ -34,10 +34,6 @@ export default function SearchResults({ data, isLoading }) {
               { (data?.results && data?.results !== 0) ? `Number of Results: ${ [ data?.results ]}` : 'Sorry no products found' }
             </h1>
           )}
-          
-          {/* <div className='grid'>
-            
-          </div> */}
 
           <div className='grid grid-cols-4 col-span-5 gap-4'>
             {data?.queryResults?.hits?.map(item => (
