@@ -7,6 +7,7 @@ import fetchSearch from 'utils/fetchSearch';
 import SearchBar from "components/SearchBar";
 import LoadingIcon from 'components/LoadingIcon';
 import SearchResults from 'components/SearchResults';
+import Header from 'components/Header';
 
 export default function HomePage({ departments }) {
   const queryRef = useRef();
@@ -18,6 +19,9 @@ export default function HomePage({ departments }) {
 
   return (
     <>
+      <div>
+        <Header />
+      </div>
       <div>
         <SearchBar 
           departments={departments} 
