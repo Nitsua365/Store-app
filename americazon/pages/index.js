@@ -24,7 +24,8 @@ export async function getStaticProps() {
 
   departments = departments.filter(item => !item.toLowerCase().includes('amazon') && 
                                             !item.toLowerCase().includes('alexa') && 
-                                            !item.toLowerCase().includes('prime'))
+                                            !item.toLowerCase().includes('prime') &&
+                                            !item.includes('AWS'))
 
   return {
     props : {
