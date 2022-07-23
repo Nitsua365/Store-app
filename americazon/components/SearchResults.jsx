@@ -37,12 +37,15 @@ export default function SearchResults({ data, isLoading }) {
 
           <div className='grid grid-cols-4 col-span-5 gap-4'>
             {data?.queryResults?.hits?.map(item => (
-              <div key={`${item.productname}_${item.asin}`} className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg">
+              <div onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')}
+                   key={`${item.productname}_${item.asin}`} 
+                   className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
+
                 <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
                 <h1 className='font-bold text-lg'>{item.productname}</h1>
 
-                <p className='text-lg col-start-1 col-auto'>{`Country of Origin: ${item.countryoforigin}`}</p>
-                <p className='text-lg col-start-1 col-auto'>{`$${parseFloat(item.price).toFixed(2)}`}</p>
+                <p className='text-lg col-start-1 col-auto pt-2 pb-2'>{`Country of Origin: ${item.countryoforigin}`}</p>
+                {/* <p className='text-lg col-start-1 col-auto'>{`$${parseFloat(item.price).toFixed(2)}`}</p> */}
                 
                 <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} className='border-4 rounded-lg duration-150 hover:text-red-400 hover:border-blue-400' >Product Page</button>
               </div>
