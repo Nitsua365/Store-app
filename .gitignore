@@ -56,5 +56,5 @@
 
 # root dir ignore
 /.DS_Store
-scraping/pythonScrape/AmazonScraper/proxies.txt
-scraping/pythonScrape/AmazonScraper/Login.py
+/scraping/pythonScrape/AmazonScraper/proxies.txt
+/scraping/pythonScrape/AmazonScraper/Login.py
