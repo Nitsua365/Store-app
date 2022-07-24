@@ -4,8 +4,8 @@ from redis import Redis
 from AmazonScraper import Login
 
 # algolia init
-alg_client = SearchClient.create('NNQKCWQ55R', 'b34829cc44639b18b05179e13050d5e5')
-index = alg_client.init_index("amazon_products")
+alg_client = SearchClient.create(Login.algolia['APP_ID'], Login.algolia['API_KEY'])
+index = alg_client.init_index(Login.algolia['SEARCH_INDEX'])
 
 
 rd = Redis(host=Login.redis['host'], port=Login.redis['port'], db=Login.redis['db'], username='default',
