@@ -43,7 +43,7 @@ export default function SearchResults({ data, isLoading }) {
                    className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
 
                 <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
-                <h1 className='font-bold text-lg'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
+                <h1 className='font-bold text-lg'>{item.productname.length < 60 ? item.productname : `${item.productname.substring(0, 60)}...`}</h1>
 
                 <p className='text-lg col-start-1 col-auto pt-2 pb-2'>{`Country of Origin: ${item.countryoforigin}`}</p>
                 {/* <p className='text-lg col-start-1 col-auto'>{`$${parseFloat(item.price).toFixed(2)}`}</p> */}
