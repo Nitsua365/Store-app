@@ -37,9 +37,10 @@ export default function SearchResults({ data, isLoading }) {
 
           <div className='grid grid-cols-4 col-span-5 gap-4'>
             {data?.queryResults?.hits?.map(item => (
+
               <div onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')}
                    key={`${item.productname}_${item.asin}`} 
-                   className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
+                   className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl hover:cursor-pointer">
 
                 <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
                 <h1 className='font-bold text-lg'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
