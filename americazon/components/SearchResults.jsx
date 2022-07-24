@@ -30,7 +30,7 @@ export default function SearchResults({ data, isLoading }) {
       <>
         <div>
           {data && (
-            <h1 className='font-bold text-lg'>
+            <h1 className='font-bold text-lg mb-4'>
               { (data?.results && data?.results !== 0) ? `Number of Results: ${ [ data?.results ]}` : 'Sorry no products found' }
             </h1>
           )}
@@ -40,18 +40,24 @@ export default function SearchResults({ data, isLoading }) {
 
               <div /* onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} */
                    key={`${item.productname}_${item.asin}`} 
-                   className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
+                   className="container pb-4 pt-4 border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
 
-                <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
-                <h1 className='font-bold text-lg'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
+                <div className='ml-28 mr-28 justify-center'>
+                  <Image width={200} height={200} className="justify-center w-full" src={item.picturereflink} alt="Not Found" />
+                </div>
 
-                <p className='text-lg col-start-1 col-auto pt-2 pb-2'>{`Country of Origin: ${item.countryoforigin}`}</p>
+                <h1 className='font-bold text-lg mt-2'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
+
+                <p className='text-lg mt-2 mb-2'>{`Country of Origin: ${item.countryoforigin}`}</p>
                 {/* <p className='text-lg col-start-1 col-auto'>{`$${parseFloat(item.price).toFixed(2)}`}</p> */}
                 
-                <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} 
-                        className='border-4 rounded-lg text-center pt-4 pb-4 w-full duration-150 hover:text-red-400 hover:border-blue-400' >
-                        Product Page
-                </button>
+                <span className='align-bottom'>
+                  <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} 
+                          className='border-4 rounded-lg align-bottom text-center pt-4 pb-4 w-full duration-150 hover:text-red-400 hover:border-blue-400' >
+                          Product Page
+                  </button>
+                </span>
+                
               </div>
             ))}
           </div>
