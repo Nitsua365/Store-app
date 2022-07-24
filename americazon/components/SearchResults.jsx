@@ -28,19 +28,19 @@ export default function SearchResults({ data, isLoading }) {
   return (
     !isLoading && (
       <>
-        <div className='grid grid-cols-6 gap-2'>
+        <div>
           {data && (
-            <h1 className='font-bold text-lg col-span-3'>
+            <h1 className='font-bold text-lg'>
               { (data?.results && data?.results !== 0) ? `Number of Results: ${ [ data?.results ]}` : 'Sorry no products found' }
             </h1>
           )}
 
-          <div className='grid grid-cols-4 col-span-5 gap-4'>
+          <div className='grid grid-cols-4 gap-4'>
             {data?.queryResults?.hits?.map(item => (
 
-              <div onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')}
+              <div /* onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} */
                    key={`${item.productname}_${item.asin}`} 
-                   className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl hover:cursor-pointer">
+                   className="pb-4 pt-4 col-auto border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
 
                 <Image width={200} height={200} className="w-48 h-48" src={item.picturereflink} alt="Not Found" />
                 <h1 className='font-bold text-lg'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
@@ -49,7 +49,7 @@ export default function SearchResults({ data, isLoading }) {
                 {/* <p className='text-lg col-start-1 col-auto'>{`$${parseFloat(item.price).toFixed(2)}`}</p> */}
                 
                 <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} 
-                        className='border-4 rounded-lg duration-150 hover:text-red-400 hover:border-blue-400' >
+                        className='border-4 rounded-lg text-center pt-4 pb-4 w-full duration-150 hover:text-red-400 hover:border-blue-400' >
                         Product Page
                 </button>
               </div>
