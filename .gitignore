@@ -53,6 +53,8 @@
 /scraping/pythonScrape/Login.py
 /scraping/pythonScrape/__pycache__/
 
+
 # root dir ignore
 /.DS_Store
 scraping/pythonScrape/AmazonScraper/proxies.txt
+scraping/pythonScrape/AmazonScraper/Login.py
