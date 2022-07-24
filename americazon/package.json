@@ -1,0 +1,32 @@
+{
+  "name": "americazon",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "algoliasearch": "^4.14.0",
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "ioredis": "^5.1.0",
+    "next": "12.1.5",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-query": "^3.39.1",
+    "string-similarity": "^4.0.4",
+    "swr": "^1.3.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "eslint": "8.14.0",
+    "eslint-config-next": "12.1.5",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.5"
+  }
+}
