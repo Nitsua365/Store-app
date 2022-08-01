@@ -24,6 +24,9 @@ productIndex.updateSortableAttributes([
   'datescrapped'
 ])
 
+// max out results
+productIndex.updateSettings({ pagination: { maxTotalHits: 250 }})
+
 module.exports = {
   meiliClient, 
   productIndex  
