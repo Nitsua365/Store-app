@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import Image from 'next/image';
 import Pagination from './Pagination';
@@ -16,12 +16,12 @@ export default function SearchResults({ data, isLoading }) {
 
     console.log(newURL.toString())
     
-    window.open(newURL.toString());
+    window.open(newURL.toString())
   }
 
   useEffect(() => {
     if (data && !isLoading) {
-      setStateVar('totalPages', data.queryResults?.nbPages)
+      setStateVar('totalPages', Math.ceil(data?.results / data.queryResults.limit))
     }
   }, [data, isLoading])
   
