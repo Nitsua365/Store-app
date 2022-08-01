@@ -14,11 +14,11 @@ export default async function handler(req, res) {
             if (!query.searchString || !query.searchString.length)
                 res.status(404).json({ message: 'Invalid Search String' })
 
-            const queryResults = await productIndex.search(query.searchString 
-            // {
-            //     filter: ['countryoforigin = USA']
-            // }
-            )
+            const queryResults = await productIndex.search(query.searchString, {
+                filter: ['countryoforigin = USA'],
+                offset: parseInt(query.pageMax) * parseInt(query.page),
+                limit: parseInt(query.pageMax)
+            })
 
             res.status(200).json({ queryResults, results: queryResults.estimatedTotalHits });
 

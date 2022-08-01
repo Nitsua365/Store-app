@@ -5,7 +5,26 @@ const meiliClient = new MeiliSearch({
   apiKey: process.env.MEILI_KEY
 });
 
+const productIndex = meiliClient.index("amazon_products")
+
+// update searchable attributes
+productIndex.updateSearchableAttributes([
+  'productname',
+  'department',
+  'manufacturer'
+])
+
+// update filters
+productIndex.updateFilterableAttributes([
+  "countryoforigin"
+])
+
+// update sortable attributes
+productIndex.updateSortableAttributes([
+  'datescrapped'
+])
+
 module.exports = {
   meiliClient, 
-  productIndex: meiliClient.index("amazon_products") 
+  productIndex  
 }
