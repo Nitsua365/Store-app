@@ -55,16 +55,13 @@ class ProductspiderSpider(scrapy.Spider):
             # get image link
             item.add_xpath('picturereflink', './/img/@src')
 
-            # get the unfiltered URL for navigation
-            unfiltered_URL = response.xpath('.//h2/a/@href').get()
-
             # get product page link
-            item.add_value('productpagelink', unfiltered_URL)
+            item.add_xpath('productpagelink', './/h2/a/@href')
 
             # build affiliate link
-            item.add_value('affiliatelink', item.get_output_value('productpagelink'))
+            item.add_xpath('affiliatelink', './/h2/a/@href')
 
-            yield response.follow(unfiltered_URL, callback=self.getPageFields, cb_kwargs={'item': item}, dont_filter=True)
+            yield response.follow(item.get_output_value('productpagelink'), callback=self.getPageFields, cb_kwargs={'item': item}, dont_filter=True)
 
         next_page = response.xpath('//a[@class="s-pagination-item s-pagination-next s-pagination-button s-pagination-separator"]').attrib['href']
 
