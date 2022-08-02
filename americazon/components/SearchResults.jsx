@@ -13,8 +13,6 @@ export default function SearchResults({ data, isLoading }) {
     
     newURL.searchParams.set('tag', 'amerizon02-20')
     newURL.searchParams.set('linkCode', 'll1')
-
-    console.log(newURL.toString())
     
     window.open(newURL.toString())
   }

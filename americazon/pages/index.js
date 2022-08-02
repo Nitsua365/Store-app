@@ -33,3 +33,7 @@ export async function getStaticProps() {
     },
   }
 }
+
+// export const config = {
+//   runtime: 'experimental-edge',
+// }

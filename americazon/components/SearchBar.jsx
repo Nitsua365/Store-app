@@ -36,7 +36,7 @@ function SearchBar({ departments, fetch, fetchQuery }) {
         </div>
 
         <div className="col-start-5 col-auto">
-          <button type="submit" onClick={handleSubmit} className="text-center rounded-md border-2 hover:text-red-600 hover:border-blue-300 
+          <button type="submit" onKeyDown={e => e.key === "Enter" && handleSubmit(e)} onClick={handleSubmit} className="text-center rounded-md border-2 hover:text-red-600 hover:border-blue-300 
                                             transition-color duration-300 cursor-pointer w-full h-full flex-auto text-2xl">Search</button>
         </div>
       </div>
