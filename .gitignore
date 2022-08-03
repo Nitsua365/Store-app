@@ -37,6 +37,7 @@
 /scraping/puppeteerScrape/.env
 
 /scraping/pythonScrape/csvCleaning/*.csv
+/scraping/pythonScrape/csvCleaning/*.json
 
 # Python Scraping ignore
 # Default ignored files
