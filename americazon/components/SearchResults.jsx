@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import Image from 'next/image';
 import Pagination from './Pagination';
 import { useHomeContext } from 'context/HomeContext';
 import InfoIconTooltip from './InfoIconTooltip';
@@ -41,8 +40,8 @@ export default function SearchResults({ data, isLoading }) {
                    key={`${item.productname}_${item.asin}`} 
                    className="container pb-4 pt-4 border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
 
-                <div className='ml-28 mr-28 justify-center'>
-                  <Image width={200} height={200} className="justify-center w-full" src={item.picturereflink} alt="Not Found" />
+                <div className='ml-28 mr-28 max-w-100 max-h-100 justify-center'>
+                  <img className="justify-center max-w-200 max-h-auto" src={item.picturereflink} alt="Not Found" width="200" height="200" />
                 </div>
 
                 <h1 className='font-bold text-lg mt-2'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
