@@ -4,7 +4,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-function InfoIconTooltip({ children }) {
+function InfoIconTooltip({ children, iconSize="medium" }) {
 
   const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -15,6 +15,7 @@ function InfoIconTooltip({ children }) {
       maxWidth: 265,
       fontSize: theme.typography.pxToRem(12),
       border: '1px solid #006EFF',
+      'box-shadow': '10px 10px 5px lightblue'
     },
   }));
 
@@ -28,11 +29,12 @@ function InfoIconTooltip({ children }) {
         </React.Fragment>
       }
       placement='bottom-start'
-      enterDelay={100}
-      leaveDelay={100}
+      enterDelay={25}
+      leaveDelay={75}
+      fontSize={iconSize}
       arrow
     >
-      <InfoIcon className='center' />
+      <InfoIcon className='center'/>
     </HtmlTooltip>
   )
 }

@@ -6,7 +6,7 @@ function Header() {
     <>
       <div className='flex flex-row items-center justify-center'>
         <h1 className='text-4xl text-center font-bold font-sans size mt-2'>americazon.shop</h1>
-        <InfoIconTooltip>
+        <InfoIconTooltip iconSize="large">
           As an Amazon Associate I earn from qualifying purchases
         </InfoIconTooltip>
       </div>

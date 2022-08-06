@@ -52,12 +52,12 @@ export default function SearchResults({ data, isLoading }) {
                 
                 <span className='align-bottom'>
                   <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} 
-                          className='border-4 rounded-lg align-bottom text-center pt-4 pb-4 w-full duration-150 hover:text-red-400 hover:border-blue-400' >
+                          className='border-4 rounded-lg align-bottom text-center pt-4 pb-4 w-full duration-150 hover:text-red-600 hover:border-blue-400' >
                     <div className='flex flex-row text-center'>
-                      <div className='flex-auto justify-center'>
+                      <div className='flex-auto justify-center ml-8'>
                         Product Page
                       </div>
-                      <div className='flex justify-end'>
+                      <div className='flex justify-end mr-1'>
                         <InfoIconTooltip>
                           We earn a small commission off of qualifying Amazon.com affiliate sales
                         </InfoIconTooltip>
@@ -71,7 +71,7 @@ export default function SearchResults({ data, isLoading }) {
           </div>
         </div>
 
-        <div>
+        <div className='mt-2'>
           {data?.results && data?.results !== 0 && (
             <>
               <div key={`paginate_${data?.queryResults?.page}_${data?.results}`}>
