@@ -41,7 +41,7 @@ export default function SearchResults({ data, isLoading }) {
                    className="container pb-4 pt-4 border-2 border-slate-500 rounded-lg transition-all duration-150 hover:border-blue-400 hover:shadow-2xl">
 
                 <div className='ml-28 mr-28 justify-center'>
-                  <img className="justify-center max-w-64 max-h-64" src={item.picturereflink} alt="Not Found"  />
+                  <img className="justify-center max-w-48 max-h-48 h-auto" src={item.picturereflink} alt="Not Found" width="200" height="200" />
                 </div>
 
                 <h1 className='font-bold text-lg mt-2'>{item.productname.length < 75 ? item.productname : `${item.productname.substring(0, 75)}...`}</h1>
