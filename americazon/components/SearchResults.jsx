@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import Pagination from './Pagination';
 import { useHomeContext } from 'context/HomeContext';
+import InfoIconTooltip from './InfoIconTooltip';
 
 export default function SearchResults({ data, isLoading }) {
   
@@ -52,7 +53,16 @@ export default function SearchResults({ data, isLoading }) {
                 <span className='align-bottom'>
                   <button onClick={() => handlePageRedirect(item.affiliatelink || item.productpagelink || '')} 
                           className='border-4 rounded-lg align-bottom text-center pt-4 pb-4 w-full duration-150 hover:text-red-400 hover:border-blue-400' >
-                          Product Page
+                    <div className='flex flex-row text-center'>
+                      <div className='flex-auto justify-center'>
+                        Product Page
+                      </div>
+                      <div className='flex justify-end'>
+                        <InfoIconTooltip>
+                          We earn a small commission off of qualifying Amazon.com sales
+                        </InfoIconTooltip>
+                      </div>
+                    </div>
                   </button>
                 </span>
                 
