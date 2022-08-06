@@ -77,15 +77,15 @@ export default function SearchResults({ data, isLoading }) {
               <div key={`paginate_${data?.queryResults?.page}_${data?.results}`}>
                 <Pagination totalResults={data?.results} />
               </div>
-              <div className='mt-6 mb-3 text-center border-t-2 border-slate-400'>
-                <div className='mt-2 mb-1'>
-                  We are a participant in the Amazon Services LLC Associates Program,<br />
-                  an affiliate advertising program designed to provide a means for us<br />
-                  to earn fees by linking to Amazon.com and affiliated sites
-                </div>
-              </div>
             </>
           )}
+          {data?.results && (<div className='mt-6 mb-3 text-center border-t-2 border-slate-400'>
+            <div className='mt-2 mb-1'>
+              We are a participant in the <strong>Amazon Services LLC Associates Program</strong>,<br />
+              an affiliate advertising program designed to provide a means for us<br />
+              to earn fees by linking to Amazon.com and affiliated sites
+            </div>
+          </div>)}
         </div>
 
         
