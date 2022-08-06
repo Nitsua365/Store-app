@@ -59,7 +59,7 @@ export default function SearchResults({ data, isLoading }) {
                       </div>
                       <div className='flex justify-end'>
                         <InfoIconTooltip>
-                          We earn a small commission off of qualifying Amazon.com sales
+                          We earn a small commission off of qualifying Amazon.com affiliate sales
                         </InfoIconTooltip>
                       </div>
                     </div>
@@ -71,13 +71,24 @@ export default function SearchResults({ data, isLoading }) {
           </div>
         </div>
 
-        {data?.results && data?.results !== 0 && (
-          <div key={`paginate_${data?.queryResults?.page}_${data?.results}`}>
-            <Pagination 
-              totalResults={data?.results} 
-            />
-          </div>
-        )}
+        <div>
+          {data?.results && data?.results !== 0 && (
+            <>
+              <div key={`paginate_${data?.queryResults?.page}_${data?.results}`}>
+                <Pagination totalResults={data?.results} />
+              </div>
+              <div className='mt-6 mb-3 text-center border-t-2 border-slate-400'>
+                <div className='mt-2 mb-1'>
+                  We are a participant in the Amazon Services LLC Associates Program,<br />
+                  an affiliate advertising program designed to provide a means for us<br />
+                  to earn fees by linking to Amazon.com and affiliated sites
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        
       </>
     ) 
   )
