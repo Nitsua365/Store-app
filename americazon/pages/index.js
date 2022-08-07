@@ -1,24 +1,13 @@
 import redis from 'lib/redisClient'
 import React, { useRef } from 'react';
 
-import { useMutation } from 'react-query';
-
-import fetchSearch from 'utils/fetchSearch';
-
 import SearchBar from "components/SearchBar";
-import LoadingIcon from 'components/LoadingIcon';
-import SearchResults from 'components/SearchResults';
 import Header from 'components/Header';
 
 import { HomeContext } from 'context/HomeContext';
 
 export default function Home({ departments }) {
   const queryRef = useRef();
- 
-  const { mutate, data : searchItems, isLoading } = useMutation(fetchSearch, { 
-    mutationKey: "search",
-    enabled: false
-  })
 
   return (
     <>
@@ -29,17 +18,13 @@ export default function Home({ departments }) {
         <div>
           <SearchBar 
             departments={departments} 
-            fetch={mutate}
+            // fetch={mutate}
             fetchQuery={queryRef}
           />
         </div>
-        <LoadingIcon 
+        {/* <LoadingIcon 
           isLoading={isLoading} 
-        />
-        <SearchResults 
-          isLoading={isLoading} 
-          data={searchItems}
-        />
+        /> */}
       </HomeContext>
     </>
   )

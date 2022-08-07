@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { useRouter } from 'next/router'
+
 import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
 
@@ -7,21 +9,17 @@ import { useHomeContext } from 'context/HomeContext';
 function SearchBar({ departments, fetch, fetchQuery }) {
 
   const { currentPage, pageSize, setStateVar } = useHomeContext();
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (fetchQuery.current) {
       setStateVar('currentPage', 0)
-      fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: 0 })
+      router.push({ pathname: '/search', query: { s: fetchQuery.current, pg: currentPage, ps: pageSize } })
     }
     
   }
-
-  useEffect(() => {
-    if (currentPage > -1 && pageSize && fetchQuery.current)
-      fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
-  }, [currentPage, pageSize, fetchQuery.current])
 
   return (
     <>

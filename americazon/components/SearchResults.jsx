@@ -6,7 +6,7 @@ import InfoIconTooltip from './InfoIconTooltip';
 
 export default function SearchResults({ data, isLoading }) {
 
-  const { setStateVar } = useHomeContext()
+  const { setStateVar } = useHomeContext();
 
   const handlePageRedirect = (url) => {
     const newURL = (new URL(url))
