@@ -9,8 +9,6 @@ import { HomeContext } from 'context/HomeContext';
 
 export default function Search({ data }) {
 
-  console.log(data)
-
   return (
     <>
       <HomeContext>

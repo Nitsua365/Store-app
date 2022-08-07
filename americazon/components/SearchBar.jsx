@@ -15,10 +15,9 @@ function SearchBar({ departments, setIsLoading, fetchQuery }) {
     e.preventDefault();
 
     if (fetchQuery.current) {
-      setIsLoading(true)
       setStateVar('currentPage', 0)
+      setStateVar('searchQuery', fetchQuery.current)
       router.push({ pathname: '/search', query: { s: fetchQuery.current, pg: currentPage, ps: pageSize } })
-      setIsLoading(false)
     }
     
   }
