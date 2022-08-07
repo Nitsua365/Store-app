@@ -6,7 +6,7 @@ import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
 
 
-function SearchBar({ departments, fetch, fetchQuery }) {
+function SearchBar({ departments, setIsLoading, fetchQuery }) {
 
   const { currentPage, pageSize, setStateVar } = useHomeContext();
   const router = useRouter();
@@ -15,8 +15,10 @@ function SearchBar({ departments, fetch, fetchQuery }) {
     e.preventDefault();
 
     if (fetchQuery.current) {
+      setIsLoading(true)
       setStateVar('currentPage', 0)
       router.push({ pathname: '/search', query: { s: fetchQuery.current, pg: currentPage, ps: pageSize } })
+      setIsLoading(false)
     }
     
   }
