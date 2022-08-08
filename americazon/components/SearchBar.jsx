@@ -1,27 +1,26 @@
 import React, { useEffect } from 'react';
 
+import { useRouter } from 'next/router'
+
 import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
 
 
-function SearchBar({ departments, fetch, fetchQuery }) {
+function SearchBar({ departments, fetchQuery, isLoading }) {
 
   const { currentPage, pageSize, setStateVar } = useHomeContext();
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (fetchQuery.current) {
       setStateVar('currentPage', 0)
-      fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: 0 })
+      setStateVar('searchQuery', fetchQuery.current)
+      router.push({ pathname: '/search', query: { s: fetchQuery.current, pg: currentPage, ps: pageSize } })
     }
     
   }
-
-  useEffect(() => {
-    if (currentPage > -1 && pageSize && fetchQuery.current)
-      fetch({ searchString: fetchQuery.current, pageMax: pageSize, page: currentPage })
-  }, [currentPage, pageSize, fetchQuery.current])
 
   return (
     <>
@@ -32,7 +31,10 @@ function SearchBar({ departments, fetch, fetchQuery }) {
         </div>
 
         <div className="col-start-2 col-end-5 col-auto">
-          <input type="search" placeholder='Search' onInput={(e) => fetchQuery.current = e.target.value} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
+          <input type="search" placeholder='Search' onInput={(e) => { 
+            fetchQuery.current = e.target.value;
+            setStateVar('searchQuery', e.target.value)
+           }} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
         </div>
 
         <div className="col-start-5 col-auto">

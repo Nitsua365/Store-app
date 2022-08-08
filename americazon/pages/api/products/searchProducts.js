@@ -1,6 +1,3 @@
-// import redis from 'lib/redisClient'
-// import redisHashToJSON from 'utils/redisHashToJSON';
-
 import { productIndex } from "lib/meiliClient";
 
 export default async function handler(req, res) {

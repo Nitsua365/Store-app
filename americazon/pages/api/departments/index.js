@@ -12,6 +12,11 @@ export default async function handler(req, res) {
             // clean and sort results
             departments = departments.map(n => n.substring(n.indexOf(':') + 1))
             departments.sort((a, b) => a.localeCompare(b));
+          
+            departments = departments.filter(item => !item.toLowerCase().includes('amazon') && 
+                                                      !item.toLowerCase().includes('alexa') && 
+                                                      !item.toLowerCase().includes('prime') &&
+                                                      !item.includes('AWS'))
 
             res.status(200).json(departments);
             break;

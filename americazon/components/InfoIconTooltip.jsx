@@ -15,7 +15,7 @@ function InfoIconTooltip({ children, iconSize="medium" }) {
       maxWidth: 265,
       fontSize: theme.typography.pxToRem(12),
       border: '1px solid #006EFF',
-      'box-shadow': '10px 10px 5px lightblue'
+      'boxShadow': '10px 10px 5px lightblue'
     },
   }));
 
