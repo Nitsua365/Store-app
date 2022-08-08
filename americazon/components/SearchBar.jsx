@@ -6,7 +6,7 @@ import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
 
 
-function SearchBar({ departments, setIsLoading, fetchQuery }) {
+function SearchBar({ departments, fetchQuery, isLoading }) {
 
   const { currentPage, pageSize, setStateVar } = useHomeContext();
   const router = useRouter();
@@ -31,7 +31,10 @@ function SearchBar({ departments, setIsLoading, fetchQuery }) {
         </div>
 
         <div className="col-start-2 col-end-5 col-auto">
-          <input type="search" placeholder='Search' onInput={(e) => fetchQuery.current = e.target.value} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
+          <input type="search" placeholder='Search' onInput={(e) => { 
+            fetchQuery.current = e.target.value;
+            setStateVar('searchQuery', e.target.value)
+           }} className="rounded-md border-2 w-full flex-auto transition-color duration-300 h-full text-2xl" />
         </div>
 
         <div className="col-start-5 col-auto">

@@ -4,17 +4,22 @@ import '../styles/globals.css'
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import NextNProgress from "nextjs-progressbar";
+import { HomeContext } from 'context/HomeContext';
 
-function MyApp({ Component, pageProps }) {
+import Layout from 'components/layouts';
+
+export default function MyApp({ Component, pageProps }) {
 
   const queryClient = new QueryClient()
 
   return (
     <QueryClientProvider client={queryClient}>
       <NextNProgress />
-      <Component {...pageProps} />
+      <HomeContext> 
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </HomeContext>
     </QueryClientProvider>
   )
 }
-
-export default MyApp;
