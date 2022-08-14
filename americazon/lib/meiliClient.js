@@ -8,24 +8,24 @@ const meiliClient = new MeiliSearch({
 const productIndex = meiliClient.index("amazon_products")
 
 // update searchable attributes
-productIndex.updateSearchableAttributes([
-  'productname',
-  'department',
-  'manufacturer'
-])
+// productIndex.updateSearchableAttributes([
+//   'productname',
+//   'department',
+//   'manufacturer'
+// ])
 
-// update filters
-productIndex.updateFilterableAttributes([
-  "countryoforigin"
-])
+// // update filters
+// productIndex.updateFilterableAttributes([
+//   "countryoforigin"
+// ])
 
-// update sortable attributes
-productIndex.updateSortableAttributes([
-  'datescrapped'
-])
+// // update sortable attributes
+// productIndex.updateSortableAttributes([
+//   'datescrapped'
+// ])
 
-// max out results
-productIndex.updateSettings({ pagination: { maxTotalHits: 250 }})
+// // max out results
+// productIndex.updateSettings({ pagination: { maxTotalHits: 250 }})
 
 module.exports = {
   meiliClient, 
