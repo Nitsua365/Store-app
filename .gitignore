@@ -53,7 +53,8 @@
 /scraping/pythonScrape/webdriver/
 /scraping/pythonScrape/Login.py
 /scraping/pythonScrape/__pycache__/
-
+/scraping/.idea/
+/scraping/.DS_Store/
 
 # root dir ignore
 /.DS_Store
