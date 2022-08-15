@@ -8,6 +8,8 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import random
 import time
+from scrapy import settings
+
 
 import Login
 
@@ -46,10 +48,13 @@ RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
 
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
-    'scrapy_proxies.RandomProxy': 100,
-    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    # 'scrapy_proxies.RandomProxy': 100,
+    # 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
+    'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 100,
+    'AmazonScraper.middlewares.ProxiesMiddleware': 200,
+    'AmazonScraper.middlewares.ShowHeadersMiddleware': 300,
+    'AmazonScraper.middlewares.AmazonscraperDownloaderMiddleware': 543
 }
 
 # Proxy list containing entries like
@@ -63,21 +68,21 @@ PROXY_LIST = './proxies.txt'
 # 0 = Every requests have different proxy
 # 1 = Take only one proxy from the list and assign it to every requests
 # 2 = Put a custom proxy to use in the settings
-PROXY_MODE = 1
+PROXY_MODE = 0
 
 # If proxy mode is 2 uncomment this sentence :
 #CUSTOM_PROXY = "http://host1:port"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 8
+# CONCURRENT_REQUESTS = 8
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = random.uniform(0.5, 3.0)
+# DOWNLOAD_DELAY = random.uniform(1.75, 5.0)
 
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -92,16 +97,16 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
+# DEFAULT_REQUEST_HEADERS = {
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
-#}
+# }
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'AmazonScraper.middlewares.AmazonscraperSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+   'AmazonScraper.middlewares.AmazonscraperSpiderMiddleware': 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -130,6 +135,11 @@ AUTOTHROTTLE_MAX_DELAY = 60
 AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
 # Enable showing throttling stats for every response received:
 # AUTOTHROTTLE_DEBUG = False
+
+# LOG_ENABLED=True
+# LOG_FILE='file.log'
+# LOG_LEVEL='DEBUG'
+# LOG_FILE_APPEND=False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings

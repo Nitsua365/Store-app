@@ -9,7 +9,12 @@ import logging
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = ['https://www.amazon.com/s?bbn=16310091&rh=n%3A16310091%2Cp_85%3A2470955011&dc&qid=1657489410&rnid=2470954011&ref=lp_16310161_nr_p_85_1']
+    start_urls = [
+                'http://www.amazon.com/s?i=garden&bbn=23987782011&rh=n%3A23987782011%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3A%2Bt1SuEH1vbvhrc2tDbE3fwWLyKKEuh4QXtQfxq7jWO8&qid=1660454003&rnid=2470954011&ref=sr_st_review-rank'
+                'http://www.amazon.com/s?i=garden&bbn=23987757011&rh=n%3A23987757011%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3A88ehHEf1CLWnT0M9ZUG8mR4QyJ8AClFy1jd2WXmLXTo&qid=1660454044&rnid=2470954011&ref=sr_st_review-rank',
+                'http://www.amazon.com/s?i=garden&bbn=23551244011&rh=n%3A23551244011%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3AZLJqKCAwMdvaJV1v4slEpqaXwmBR62BSf7h2QyYpwPM&qid=1660454093&rnid=2470954011&ref=sr_st_review-rank',
+                'http://www.amazon.com/s?i=lawngarden&bbn=553824&rh=n%3A553824%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3A4HOfGz4nilES4%2FGIgbAj9fNZjDrb9QDxAlgUFwk3zxo&qid=1660454139&rnid=2470954011&ref=sr_st_review-rank'
+                ]
 
     def getPageFields(self, response, item):
         # scrape country of origin
@@ -36,7 +41,7 @@ class ProductspiderSpider(scrapy.Spider):
             item = ItemLoader(item=AmazonscraperItem(), selector=product, response=response)
 
             # get ASIN
-            item.add_xpath('asin', '@data-asin')
+            item.add_xpath('ASIN', '@data-asin')
 
             # get productname
             item.add_xpath('productname', './/h2//span[@class="a-size-base-plus a-color-base a-text-normal"]')

@@ -23,19 +23,20 @@ class AmazonscraperPipeline:
         self.redisCli.close()
 
     def process_item(self, item, spider):
-        if 'countryoforigin' in item and item['countryoforigin'].lower() != 'china' and 'asin' in item and 'affiliatelink' in item:
+        if 'countryoforigin' in item and item['countryoforigin'].lower() != 'china' and 'ASIN' in item and 'affiliatelink' in item:
             item['datescrapped'] = date.today().strftime('%Y-%m-%d')
 
             self.items.append(dict(item))
 
             # if items is greater than 20 add documents
-            if len(self.items) > 20:
-                self.meiliIndx.add_documents(documents=self.items, primary_key='ASIN')
+            if len(self.items) >= 5:
+                res = self.meiliIndx.update_documents(documents=self.items, primary_key='ASIN')
                 self.items.clear()
+                print('inserting meili task:', res)
 
             # insert item into redis
-            key = 'amazon_products:' + item['asin']
-            del item['asin']
+            key = 'amazon_products:' + item['ASIN']
+            del item['ASIN']
             self.redisCli.hset(name=key, mapping=item)
             self.redisCli.expire(name=key, time=43200)
 
