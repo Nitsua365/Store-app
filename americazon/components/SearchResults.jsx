@@ -11,8 +11,7 @@ export default function SearchResults({ data, isLoading }) {
   const handlePageRedirect = (url) => {
     const newURL = (new URL(url))
 
-    newURL.searchParams.set('tag', 'amerizon02-20')
-    newURL.searchParams.set('linkCode', 'll1')
+    newURL.searchParams.set('tag', 'americazon-20')
 
     window.open(newURL.toString())
   }
