@@ -40,7 +40,7 @@ def cleanQueryParams(URL):
 
 def addAffiliateParams(URL):
     req = PreparedRequest()
-    req.prepare_url(url=URL, params={ 'tag': 'amerizon02-20', 'language': 'en_US', 'linkCode': 'll1' })
+    req.prepare_url(url=URL, params={ 'tag': 'americazon-20', 'language': 'en_US', 'linkCode': 'll1' })
     return req.url
 
 class AmazonscraperItem(scrapy.Item):

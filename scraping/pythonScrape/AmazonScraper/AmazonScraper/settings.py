@@ -55,6 +55,7 @@ DOWNLOADER_MIDDLEWARES = {
     'AmazonScraper.middlewares.ProxiesMiddleware': 200,
     'AmazonScraper.middlewares.ShowHeadersMiddleware': 300,
     'AmazonScraper.middlewares.AmazonscraperDownloaderMiddleware': 543
+    # 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': 543
 }
 
 # Proxy list containing entries like
@@ -62,13 +63,13 @@ DOWNLOADER_MIDDLEWARES = {
 # http://username:password@host2:port
 # http://host3:port
 # ...
-PROXY_LIST = './proxies.txt'
+# PROXY_LIST = './proxies.txt'
 
 # Proxy mode
 # 0 = Every requests have different proxy
 # 1 = Take only one proxy from the list and assign it to every requests
 # 2 = Put a custom proxy to use in the settings
-PROXY_MODE = 0
+# PROXY_MODE = 0
 
 # If proxy mode is 2 uncomment this sentence :
 #CUSTOM_PROXY = "http://host1:port"
@@ -136,6 +137,10 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
 # Enable showing throttling stats for every response received:
 # AUTOTHROTTLE_DEBUG = False
 
+
+# COOKIES_ENABLED = True
+
+# Logging
 # LOG_ENABLED=True
 # LOG_FILE='file.log'
 # LOG_LEVEL='DEBUG'

@@ -9,12 +9,8 @@ import logging
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = [
-                'http://www.amazon.com/s?i=garden&bbn=23987782011&rh=n%3A23987782011%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3A%2Bt1SuEH1vbvhrc2tDbE3fwWLyKKEuh4QXtQfxq7jWO8&qid=1660454003&rnid=2470954011&ref=sr_st_review-rank'
-                'http://www.amazon.com/s?i=garden&bbn=23987757011&rh=n%3A23987757011%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3A88ehHEf1CLWnT0M9ZUG8mR4QyJ8AClFy1jd2WXmLXTo&qid=1660454044&rnid=2470954011&ref=sr_st_review-rank',
-                'http://www.amazon.com/s?i=garden&bbn=23551244011&rh=n%3A23551244011%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3AZLJqKCAwMdvaJV1v4slEpqaXwmBR62BSf7h2QyYpwPM&qid=1660454093&rnid=2470954011&ref=sr_st_review-rank',
-                'http://www.amazon.com/s?i=lawngarden&bbn=553824&rh=n%3A553824%2Cp_85%3A2470955011&s=review-rank&dc&ds=v1%3A4HOfGz4nilES4%2FGIgbAj9fNZjDrb9QDxAlgUFwk3zxo&qid=1660454139&rnid=2470954011&ref=sr_st_review-rank'
-                ]
+    start_urls = ['https://www.amazon.com/s?k=Guitar+Effects&i=mi&rh=n%3A486411011%2Cp_85%3A2470955011&s=review-rank&dc&c=ts&qid=1660877364&rnid=2470954011&ts_id=486411011&ref=sr_st_review-rank&ds=v1%3AThD3pPY7Uki%2BoWbbce3pfx8LWt3JV%2FJFOSnrgkiq9%2B4',
+                  'https://www.amazon.com/s?k=Guitar+%26+Bass+Amplifiers+%26+Preamps&i=mi&rh=n%3A486410011&s=review-rank&c=ts&qid=1660877465&ts_id=486410011&ref=sr_st_review-rank&ds=v1%3AWGwExypE%2F8Nfjm15Teslp3iboU9s%2FuzS7uVXRMrkvbM']
 
     def getPageFields(self, response, item):
         # scrape country of origin
