@@ -6,7 +6,7 @@ import DropDown from 'components/DropDown';
 import { useHomeContext } from 'context/HomeContext';
 
 
-function SearchBar({ departments, fetchQuery, isLoading }) {
+function SearchBar({ departments, fetchQuery, dropDownLoading }) {
 
   const { currentPage, pageSize, setStateVar } = useHomeContext();
   const router = useRouter();
@@ -27,7 +27,7 @@ function SearchBar({ departments, fetchQuery, isLoading }) {
       <div className="grid grid-cols-5 justify-center gap-4 p-6 mb-12 border-4 rounded-lg h-24 border-blue-100">
         
         <div className="col-start-1 col-auto">
-          <DropDown className="h-full" items={departments} />
+          <DropDown className="h-full" items={departments} isLoading={dropDownLoading} />
         </div>
 
         <div className="col-start-2 col-end-5 col-auto">

@@ -9,7 +9,7 @@ import fetchDepartment from 'utils/fetchDepartment';
 export default function Layout({ children }) {
   const queryRef = useRef();
 
-  const { data : departments } = useQuery("departments", fetchDepartment, { cacheTime: Infinity })
+  const { data : departments, isLoading } = useQuery("departments", fetchDepartment, { cacheTime: Infinity })
 
   return (
     <>
@@ -18,6 +18,7 @@ export default function Layout({ children }) {
       </div>
       <div>
         <SearchBar 
+          dropDownLoading={isLoading}
           departments={departments} 
           fetchQuery={queryRef}
         />
