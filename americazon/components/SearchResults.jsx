@@ -12,6 +12,7 @@ export default function SearchResults({ data, isLoading }) {
     const newURL = (new URL(url))
 
     newURL.searchParams.set('tag', 'americazon-20')
+    newURL.searchParams.set('linkCode', 'll1')
 
     window.open(newURL.toString())
   }
