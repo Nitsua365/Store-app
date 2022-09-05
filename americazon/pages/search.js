@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      data: { queryResults, results: queryResults.estimatedTotalHits }
+      data: { queryResults, results: (queryResults.estimatedTotalHits < 100) ? queryResults.estimatedTotalHits : 100 }
     }
   }
 }

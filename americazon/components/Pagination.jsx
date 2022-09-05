@@ -1,6 +1,7 @@
 import { useHomeContext } from 'context/HomeContext';
 
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Pagination({ totalResults }) {
 
@@ -20,9 +21,10 @@ export default function Pagination({ totalResults }) {
         </span>
         <div className="inline-flex mt-2 xs:mt-0">
           <button onClick={() => { 
-                if ((currentPage > 0)) {
-                  setStateVar('currentPage', ((currentPage > 0) ? currentPage - 1 : 0))
-                  router.replace({ pathname: '/search', query: { s : router.query.s, pg : (currentPage > 0) ? currentPage - 1 : 0, ps: pageSize }})
+                if (currentPage > 0) {
+                  const currPage = ((currentPage > 0) ? currentPage - 1 : 0)
+                  setStateVar('currentPage', currPage)
+                  router.replace({ pathname: '/search', query: { s : router.query.s, pg : currPage, ps: pageSize }})
                 }
               }} className="inline-flex items-center py-2 px-4 text-sm font-medium text-red rounded transition-color duration-300 border-2 border-gray-400 dark:hover:border-blue-400 dark:hover:text-red-500">
               <svg aria-hidden="true" className="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd"></path></svg>
@@ -30,8 +32,9 @@ export default function Pagination({ totalResults }) {
           </button>
           <button onClick={() => { 
                 if (currentPage < (totalPages - 1)) {
-                  setStateVar('currentPage', ((currentPage < (totalPages - 1)) ? currentPage + 1 : currentPage))
-                  router.replace({ pathname: '/search', query: { s : router.query.s, pg : ((currentPage < (totalPages - 1)) ? currentPage + 1 : currentPage), ps: pageSize }})
+                  const currPage = ((currentPage < (totalPages - 1)) ? currentPage + 1 : currentPage)
+                  setStateVar('currentPage', currPage)
+                  router.replace({ pathname: '/search', query: { s : router.query.s, pg : currPage, ps: pageSize }})
                 }
               }} className="inline-flex items-center py-2 px-4 text-sm font-medium text-red rounded transition-color duration-300 border-2 border-gray-400 dark:hover:border-blue-400 dark:hover:text-red-500">
               Next

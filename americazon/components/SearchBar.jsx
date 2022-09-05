@@ -8,7 +8,7 @@ import { useHomeContext } from 'context/HomeContext';
 
 function SearchBar({ departments, fetchQuery, dropDownLoading }) {
 
-  const { currentPage, pageSize, setStateVar } = useHomeContext();
+  const { pageSize, setStateVar } = useHomeContext();
   const router = useRouter();
 
   const handleSubmit = (e) => {
@@ -17,7 +17,7 @@ function SearchBar({ departments, fetchQuery, dropDownLoading }) {
     if (fetchQuery.current) {
       setStateVar('currentPage', 0)
       setStateVar('searchQuery', fetchQuery.current)
-      router.push({ pathname: '/search', query: { s: fetchQuery.current, pg: currentPage, ps: pageSize } })
+      router.push({ pathname: '/search', query: { s: fetchQuery.current, pg: 0, ps: pageSize } })
     }
     
   }
