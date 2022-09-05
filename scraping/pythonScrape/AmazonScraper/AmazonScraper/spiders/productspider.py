@@ -9,8 +9,9 @@ import logging
 class ProductspiderSpider(scrapy.Spider):
     name = 'productspider'
     allowed_domains = ['amazon.com']
-    start_urls = ['https://www.amazon.com/s?k=Guitar+Effects&i=mi&rh=n%3A486411011%2Cp_85%3A2470955011&s=review-rank&dc&c=ts&qid=1660877364&rnid=2470954011&ts_id=486411011&ref=sr_st_review-rank&ds=v1%3AThD3pPY7Uki%2BoWbbce3pfx8LWt3JV%2FJFOSnrgkiq9%2B4',
-                  'https://www.amazon.com/s?k=Guitar+%26+Bass+Amplifiers+%26+Preamps&i=mi&rh=n%3A486410011&s=review-rank&c=ts&qid=1660877465&ts_id=486410011&ref=sr_st_review-rank&ds=v1%3AWGwExypE%2F8Nfjm15Teslp3iboU9s%2FuzS7uVXRMrkvbM']
+    start_urls = ['https://www.amazon.com/s?keywords=Outdoor+Lighting+Products&i=tools&rh=n%3A495236%2Cp_85%3A2470955011%2Cp_6%3AATVPDKIKX0DER&dc&c=ts&qid=1661663488&rnid=339807011&ts_id=495236&ref=sr_nr_p_6_2&ds=v1%3A8aXjtrdGRF%2FJE6nYyv3etBTBxPYPDk%2F%2BrELVEkPnSLY',
+                    'https://www.amazon.com/s?i=appliances&bbn=2619525011&rh=p_85%3A2470955011%2Cp_6%3AATVPDKIKX0DER&dc&ds=v1%3AVnKBUr0JeWu6dY7fVHQmY11u8yT9UTTjfU5uymETD9Q&crid=XVGWM75XPEF9&qid=1661664126&rnid=2661622011&sprefix=%2Cappliances%2C171&ref=sr_nr_p_6_2',
+                    'https://www.amazon.com/s?i=office-products&bbn=1064954&rh=p_85%3A2470955011%2Cp_6%3AATVPDKIKX0DER&dc&ds=v1%3Abex62%2B%2FZGDZNQowek5TbTbKLwgbeyVje8Qz1Gazz2SE&crid=X29UGURKS7SI&qid=1661664298&rnid=331539011&sprefix=%2Coffice-products%2C103&ref=sr_nr_p_6_1']
 
     def getPageFields(self, response, item):
         # scrape country of origin
