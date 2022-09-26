@@ -55,6 +55,7 @@
 /scraping/pythonScrape/__pycache__/
 /scraping/.idea/
 /scraping/.DS_Store/
+/scraping/pythonScrape/AmazonScraper/nohup.out
 
 # root dir ignore
 /.DS_Store
