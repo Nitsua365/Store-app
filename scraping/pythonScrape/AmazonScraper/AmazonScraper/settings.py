@@ -91,6 +91,8 @@ CONCURRENT_REQUESTS_PER_IP = 16
 
 RANDOMIZE_DOWNLOAD_DELAY = True
 
+DOWNLOAD_TIMEOUT = 15
+
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED = False
 

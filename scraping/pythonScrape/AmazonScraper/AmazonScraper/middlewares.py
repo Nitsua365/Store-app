@@ -123,7 +123,7 @@ class ProxiesMiddleware:
         file = open('proxies.txt', 'r')
         self.proxies = list(map(lambda x: x.strip('\n'), file.readlines()))
         random.seed(time.time())
-        self.proxy = random.choice(self.proxies)
+        # self.proxy = random.choice(self.proxies)
         pass
 
     @classmethod
@@ -131,7 +131,7 @@ class ProxiesMiddleware:
         return cls(crawler.settings)
 
     def process_request(self, request, spider):
-        request.meta['proxy'] = self.proxy
+        request.meta['proxy'] = random.choice(self.proxies)
         pass
 
 class ShowHeadersMiddleware:
