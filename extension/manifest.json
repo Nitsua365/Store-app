@@ -1,9 +1,19 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Hello World Extension",
   "description": "A simple 'Hello World' extension.",
   "version": "1.0",
-  "browser_action": {
-    "default_popup": "popup.html"
+  "content_scripts": [
+    {
+      "matches": ["https://www.amazon.com/s*", "https://www.amazon.com/b*"],
+      "js": ["dist/popup.js"]
+    }
+  ],
+  "background": { 
+    "service_worker": "dist/background.js"
+  },
+  "permissions": [ "scripting", "tabs" ],
+  "action": {
+    "default_popup": "src/popup.html"
   }
 }
