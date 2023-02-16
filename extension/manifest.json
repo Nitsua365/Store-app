@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Hello World Extension",
-  "description": "A simple 'Hello World' extension.",
-  "version": "1.0",
+  "name": "Americazon.shop",
+  "description": "An extension to help you find and discover the Country of Origin of products",
+  "version": "0.1",
   "content_scripts": [
     {
       "matches": ["https://www.amazon.com/s*", "https://www.amazon.com/b*"],

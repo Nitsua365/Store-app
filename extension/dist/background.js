@@ -8308,8 +8308,13 @@ chrome.runtime.onMessage.addListener(
 
       let asinURLS = request.asins.map(asin => `https://www.amazon.com/dp/${asin}`)
 
+      // fetch the URLS
       Promise.all(asinURLS.map((url) => fetch(url))).then((req) => {
+
+        // resolve them to text
         Promise.all(req.map((res) => res.text())).then((productsHTML) => {
+
+          // parse productsHTML pages to get necessary data ie: COO and product name
           const products = productsHTML.map((html) => {
             const productDoc = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_1__.DOMParser({
               locator: {},
@@ -8337,11 +8342,13 @@ chrome.runtime.onMessage.addListener(
             };
           });
       
+          // Map ASINs to product data
           const result = {};
           for (let i = 0; i < request.asins.length; i++) {
             result[request.asins[i]] = products[i];
           }
     
+          // send response back to the content script
           sendResponse(result)
         })
       })
