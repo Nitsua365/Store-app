@@ -29,11 +29,13 @@
       let div = document.createElement('div');
       div.textContent = `Country of Origin: ${result[asins[i]]}`
 
-      div.style.color = "Red"
+      div.style.color = "#2584f7"
       div.style.paddingBottom = "4px"
       div.style.marginBottom = "2px"
+      div.style.borderRadius = "5px"
+      div.style.background = "#79effc"
 
-      productElem.firstElementChild.firstElementChild.firstElementChild.appendChild(div)
+      productElem.firstElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.appendChild(div)
     }
   }
 
