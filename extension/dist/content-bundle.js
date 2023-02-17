@@ -27,15 +27,18 @@
       let div = document.createElement('div');
       div.textContent = `Country of Origin: ${result[asins[i]]}`
 
-      div.style.color = "#2584f7"
+      div.style.color = "black"
       div.style.padding = "2px"
-      div.style.marginBottom = "50px"
       div.style.borderRadius = "5px"
-      div.style.background = "#79effc"
+      div.style.background = "#febd69"
+      div.style.borderWidth = "5px"
+      div.style.borderColor = "grey"
+      div.style.maxWidth = "90%"
+      div.style.marginLeft = "2px"
+
+      productElem.style.marginBottom = "30px"
 
       productElem
-        .lastElementChild
-        .lastElementChild
         .appendChild(div)
     }
   }

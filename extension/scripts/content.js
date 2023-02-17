@@ -9,8 +9,6 @@
   // fetch asins that need fetching
   const result = await chrome.runtime.sendMessage({ asins })
 
-  console.log(result)
-
   // add COO to the UI
   for (let i = 0; i < asins.length; i++) {
     let productElem = document.querySelector(`[data-asin='${asins[i]}']`)
@@ -18,16 +16,18 @@
       let div = document.createElement('div');
       div.textContent = `Country of Origin: ${result[asins[i]]}`
 
-      div.style.color = "#2584f7"
+      div.style.color = "black"
       div.style.padding = "2px"
-      div.style.marginBottom = "50px"
       div.style.borderRadius = "5px"
-      div.style.background = "#79effc"
+      div.style.background = "#febd69"
+      div.style.borderWidth = "5px"
+      div.style.borderColor = "grey"
+      div.style.maxWidth = "90%"
+      div.style.marginLeft = "2px"
 
-      productElem
-        .lastElementChild
-        .lastElementChild
-        .appendChild(div)
+      productElem.style.marginBottom = "30px"
+
+      productElem.appendChild(div)
     }
   }
 

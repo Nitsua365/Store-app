@@ -8312,7 +8312,7 @@ chrome.runtime.onMessage.addListener(
 
       // fetch the URLS
       Promise.all(asinURLS.map((url) => fetch(url))).then((req) => {
-
+        
         // resolve them to text
         Promise.all(req.map((res) => res.text())).then((productsHTML) => {
 
