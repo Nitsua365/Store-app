@@ -15,8 +15,6 @@
     .map(asinData => asinData?.value || "")
     .filter(asinFilt => /([A-Z][0-9])+/.test(asinFilt))
 
-  console.log(asins)
-
   // fetch asins that need fetching
   const result = await chrome.runtime.sendMessage({ asins })
 
@@ -30,18 +28,19 @@
       div.textContent = `Country of Origin: ${result[asins[i]]}`
 
       div.style.color = "#2584f7"
-      div.style.paddingBottom = "4px"
-      div.style.marginBottom = "2px"
+      div.style.padding = "2px"
+      div.style.marginBottom = "50px"
       div.style.borderRadius = "5px"
       div.style.background = "#79effc"
 
-      productElem.firstElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.appendChild(div)
+      productElem
+        .lastElementChild
+        .lastElementChild
+        .appendChild(div)
     }
   }
 
 })();
-
-getASIN();
 
 /***/ })
 
