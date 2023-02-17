@@ -23,9 +23,9 @@
       div.style.borderWidth = "5px"
       div.style.borderColor = "grey"
       div.style.maxWidth = "90%"
-      div.style.marginLeft = "2px"
+      div.style.marginLeft = "5px"
 
-      productElem.style.marginBottom = "30px"
+      productElem.style.marginBottom = "50px"
 
       productElem.appendChild(div)
     }
