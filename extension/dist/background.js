@@ -8300,13 +8300,15 @@ __webpack_require__.r(__webpack_exports__);
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
 
-    function filterCOO(str) {
-      return str.replace('\n', '').replace('&lrm;', '').trim();
-    }
+    const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
 
     if (request.asins) {
 
-      let asinURLS = request.asins.map(asin => `https://www.amazon.com/dp/${asin}`)
+      // filter out all of the asins that are in local storage
+      // const asinFetch = request.asins.filter(item => localStorage.getItem(item) === null);
+
+      // fetch the asins needed
+      const asinURLS = request.asins.map(asin => `https://www.amazon.com/dp/${asin}`)
 
       // fetch the URLS
       Promise.all(asinURLS.map((url) => fetch(url))).then((req) => {
@@ -8326,26 +8328,19 @@ chrome.runtime.onMessage.addListener(
                 },
               },
             }).parseFromString(html, undefined);
-            return {
-              countryoforigin: filterCOO(
+            return filterCOO(
                 xpath__WEBPACK_IMPORTED_MODULE_0___default().select1(
                   "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
                   productDoc,
                   // @ts-ignore
                 )?.firstChild?.data || '',
-              ),
-              productname: filterCOO(
-                // @ts-ignore
-                xpath__WEBPACK_IMPORTED_MODULE_0___default().select1("//*[@id='productTitle']", productDoc)?.firstChild?.data ||
-                  '',
-              ),
-            };
+              );
           });
       
           // Map ASINs to product data
           const result = {};
           for (let i = 0; i < request.asins.length; i++) {
-            result[request.asins[i]] = products[i];
+            result[request.asins[i]] = products[i].length > 0 ? products[i] : "Unknown"
           }
     
           // send response back to the content script

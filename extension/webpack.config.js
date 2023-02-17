@@ -1,7 +1,7 @@
 const path = require('path');
 module.exports = {
   entry: {
-    popup: './src/popup.js',
+    "content-bundle": './src/content-bundle.js',
     background: './src/background.js'
   },
   output: {
