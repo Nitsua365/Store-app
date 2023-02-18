@@ -8297,59 +8297,64 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const fetchASIN = async (asins) => {
+
+  const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
+
+  // get the URL that need to be fetched
+  const getAsinCache = await Promise.all(asins.map(asin => chrome.storage.session.get([asin])))
+  const asinFetch = asins.filter((asin, idx) => !Object.keys(getAsinCache[idx]).length)
+
+  console.log(asinFetch)
+  
+  // get the asin URLs
+  const asinURLS = asinFetch.map(asin => `https://www.amazon.com/dp/${asin}`)
+  
+  // fetch the URLS
+  const req = await Promise.all(asinURLS.map((url) => fetch(url)))
+
+  // resolve them to text
+  const productsHTML = await Promise.all(req.map((res) => res.text()))
+    
+  // parse productsHTML pages to get necessary data ie: COO
+  const productCOO = productsHTML.map((html) => {
+    const productDoc = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_1__.DOMParser({
+      locator: {},
+      errorHandler: {
+        warning: function (w) {},
+        error: function (e) {},
+        fatalError: function (e) {
+          console.error(e);
+        },
+      },
+    }).parseFromString(html, undefined);
+    return filterCOO(
+        xpath__WEBPACK_IMPORTED_MODULE_0___default().select1(
+          "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
+          productDoc,
+          // @ts-ignore
+        )?.firstChild?.data || '',
+      );
+  });
+
+  await Promise.all(asinFetch.map((asin, idx) => chrome.storage.session.set({ [asin] : productCOO[idx] })))
+
+  // Map ASINs to product data
+  const cache = await Promise.all(asins.map(asin => chrome.storage.session.get([asin])))
+
+  const result = {}
+  for (let i = 0; i < cache.length; i++) {
+    result[Object.keys(cache[i])[0]] = Object.values(cache[i])[0] || "Unknown"
+  }
+
+  // send response back to the content script
+  return result;
+
+}
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-
-    const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
-
-    if (request.asins) {
-
-      // filter out all of the asins that are in local storage
-      // const asinFetch = request.asins.filter(item => localStorage.getItem(item) === null);
-
-      // fetch the asins needed
-      const asinURLS = request.asins.map(asin => `https://www.amazon.com/dp/${asin}`)
-
-      // fetch the URLS
-      Promise.all(asinURLS.map((url) => fetch(url))).then((req) => {
-        
-        // resolve them to text
-        Promise.all(req.map((res) => res.text())).then((productsHTML) => {
-
-          // parse productsHTML pages to get necessary data ie: COO and product name
-          const products = productsHTML.map((html) => {
-            const productDoc = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_1__.DOMParser({
-              locator: {},
-              errorHandler: {
-                warning: function (w) {},
-                error: function (e) {},
-                fatalError: function (e) {
-                  console.error(e);
-                },
-              },
-            }).parseFromString(html, undefined);
-            return filterCOO(
-                xpath__WEBPACK_IMPORTED_MODULE_0___default().select1(
-                  "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
-                  productDoc,
-                  // @ts-ignore
-                )?.firstChild?.data || '',
-              );
-          });
-      
-          // Map ASINs to product data
-          const result = {};
-          for (let i = 0; i < request.asins.length; i++) {
-            result[request.asins[i]] = products[i].length > 0 ? products[i] : "Unknown"
-          }
-    
-          // send response back to the content script
-          sendResponse(result)
-        })
-      })
-
-    }
-
+    if (request.asins) fetchASIN(request.asins).then(res => sendResponse(res))
     return true;
   }
 );

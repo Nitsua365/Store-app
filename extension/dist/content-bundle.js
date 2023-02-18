@@ -10,10 +10,10 @@
 (async function () {
 
   // get all asins from the page
-  const asins = Array.from(document.querySelectorAll("[data-asin]"))
+  const asins = [...new Set(Array.from(document.querySelectorAll("[data-asin]"))
     .map(asin => asin.attributes[0])
     .map(asinData => asinData?.value || "")
-    .filter(asinFilt => /([A-Z][0-9])+/.test(asinFilt))
+    .filter(asinFilt => /([A-Z][0-9])+/.test(asinFilt)))]
 
   // fetch asins that need fetching
   const result = await chrome.runtime.sendMessage({ asins })
