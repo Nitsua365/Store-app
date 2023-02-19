@@ -2,9 +2,14 @@
   "manifest_version": 3,
   "name": "Americazon.shop",
   "description": "An extension to help you find and discover the Country of Origin of products. The mission of our product is to give more consumer transparency about where their products are made.",
-  "version": "0.4",
+  "version": "0.5",
   "background": { 
     "service_worker": "dist/background.js"
+  },
+  "icons": {
+    "16": "public/America16.png",
+    "64": "public/America64.png",
+    "128": "public/America128.png"
   },
   "host_permissions": [
     "https://www.amazon.com/s*",
