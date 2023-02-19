@@ -9,8 +9,6 @@ async function getCOO() {
   // fetch asins that need fetching
   const result = await chrome.runtime.sendMessage({ asins })
 
-  console.log(result)
-
   // add COO to the UI
   for (let i = 0; i < asins.length; i++) {
     let productElem = document.querySelector(`[data-asin='${asins[i]}']`)
@@ -32,6 +30,8 @@ async function getCOO() {
       productElem.appendChild(div)
     }
   }
+
+  await chrome.runtime.sendMessage({ "status": "done" })
 
 }
 
