@@ -4,7 +4,7 @@ async function addToPage(asins, result={}) {
     let productElem = document.querySelector(`[data-asin='${asins[i]}']`)
     if (productElem) {
       let div = document.createElement('div');
-      div.textContent = `Country of Origin: ${sessionStorage.getItem(asins[i]) || result[asins[i]] || "Unkown"}`
+      div.textContent = `Country of Origin: ${sessionStorage.getItem(asins[i]) || result[asins[i]] || "Unknown"}`
 
       div.style.color = "black"
       div.style.padding = "2px"
@@ -16,6 +16,8 @@ async function addToPage(asins, result={}) {
       div.style.marginLeft = "5px"
 
       productElem.style.marginBottom = "50px"
+
+      productElem.style.height = "90%"
 
       productElem.appendChild(div)
     }

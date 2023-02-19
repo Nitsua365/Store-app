@@ -8302,13 +8302,6 @@ const fetchASIN = async (asins) => {
   const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
 
   if (!asins.length) return;
-
-  // get the URL that need to be fetched
-  // const getAsinCache = await Promise.all(asins.map(asin => chrome.storage.session.get([asin])))
-  // const asinFetch = asins.filter((asin, idx) => !Object.keys(getAsinCache[idx]).length)
-
-  // console.log(getAsinCache)
-  // console.log(asinFetch)
   
   // get the asin URLs
   const asinURLS = asins.map(asin => `https://www.amazon.com/dp/${asin}`)
@@ -8340,14 +8333,9 @@ const fetchASIN = async (asins) => {
       );
   });
 
-  // await Promise.all(asinFetch.map((asin, idx) => chrome.storage.session.set({ [asin] : productCOO[idx] })))
-
-  // Map ASINs to product data
-  // const cache = await Promise.all(asins.map(asin => chrome.storage.session.get([asin])))
-
   const result = {}
   for (let i = 0; i < asins.length; i++) {
-    result[asins[i]] = productCOO[i] || "Unknown"
+    result[asins[i]] = productCOO[i] || ""
   }
 
   // send response back to the content script

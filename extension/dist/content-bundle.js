@@ -13,7 +13,7 @@ async function addToPage(asins, result={}) {
     let productElem = document.querySelector(`[data-asin='${asins[i]}']`)
     if (productElem) {
       let div = document.createElement('div');
-      div.textContent = `Country of Origin: ${sessionStorage.getItem(asins[i]) || result[asins[i]] || "Unkown"}`
+      div.textContent = `Country of Origin: ${sessionStorage.getItem(asins[i]) || result[asins[i]] || "Unknown"}`
 
       div.style.color = "black"
       div.style.padding = "2px"
@@ -25,6 +25,8 @@ async function addToPage(asins, result={}) {
       div.style.marginLeft = "5px"
 
       productElem.style.marginBottom = "50px"
+
+      productElem.style.height = "90%"
 
       productElem.appendChild(div)
     }
@@ -52,31 +54,6 @@ async function getCOO() {
 
   // persist to local cache
   if (result) Object.entries(result).forEach(([asin, COO]) => sessionStorage.setItem(asin, COO))
-
-  // add COO to the UI
-  // for (let i = 0; i < asins.length; i++) {
-  //   console.log(sessionStorage.getItem(asins[i]) || result[asins[i]])
-  //   let productElem = document.querySelector(`[data-asin='${asins[i]}']`)
-  //   if (productElem) {
-  //     let div = document.createElement('div');
-  //     div.textContent = `Country of Origin: ${sessionStorage.getItem(asins[i]) || result[asins[i]]}`
-
-  //     div.style.color = "black"
-  //     div.style.padding = "2px"
-  //     div.style.borderRadius = "5px"
-  //     div.style.background = "#febd69"
-  //     div.style.borderWidth = "5px"
-  //     div.style.borderColor = "grey"
-  //     div.style.maxWidth = "90%"
-  //     div.style.marginLeft = "5px"
-
-  //     productElem.style.marginBottom = "50px"
-
-  //     productElem.appendChild(div)
-  //   }
-  // }
-
-  // await chrome.runtime.sendMessage({ "status": "done" })
 
 }
 
