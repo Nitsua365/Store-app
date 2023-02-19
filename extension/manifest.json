@@ -2,20 +2,19 @@
   "manifest_version": 3,
   "name": "Americazon.shop",
   "description": "An extension to help you find and discover the Country of Origin of products",
-  "version": "0.1",
-  "content_scripts": [
-    {
-      "matches": ["https://www.amazon.com/s*", "https://www.amazon.com/b*"],
-      "js": ["dist/content-bundle.js"]
-    }
-  ],
+  "version": "0.2",
   "background": { 
     "service_worker": "dist/background.js"
   },
+  "host_permissions": [
+    "https://www.amazon.com/s*",
+    "https://www.amazon.com/b*"
+  ],
   "permissions": [ 
     "scripting", 
     "tabs", 
-    "storage" 
+    "storage",
+    "webNavigation"
   ],
   "action": {
     "default_popup": "src/popup.html"

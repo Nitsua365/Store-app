@@ -1,4 +1,4 @@
-(async function () {
+async function getCOO() {
 
   // get all asins from the page
   const asins = [...new Set(Array.from(document.querySelectorAll("[data-asin]"))
@@ -8,6 +8,8 @@
 
   // fetch asins that need fetching
   const result = await chrome.runtime.sendMessage({ asins })
+
+  console.log(result)
 
   // add COO to the UI
   for (let i = 0; i < asins.length; i++) {
@@ -31,4 +33,9 @@
     }
   }
 
-})();
+}
+
+setTimeout(function() {
+  if (document.readyState === "complete")
+    getCOO()
+}, 1500)

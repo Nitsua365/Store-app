@@ -8305,7 +8305,8 @@ const fetchASIN = async (asins) => {
   const getAsinCache = await Promise.all(asins.map(asin => chrome.storage.session.get([asin])))
   const asinFetch = asins.filter((asin, idx) => !Object.keys(getAsinCache[idx]).length)
 
-  console.log(asinFetch)
+  // console.log(getAsinCache)
+  // console.log(asinFetch)
   
   // get the asin URLs
   const asinURLS = asinFetch.map(asin => `https://www.amazon.com/dp/${asin}`)
@@ -8358,6 +8359,15 @@ chrome.runtime.onMessage.addListener(
     return true;
   }
 );
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === "complete" && tab.status === "complete" && tab.active) {
+    chrome.scripting.executeScript({
+      target: { tabId }, 
+      files: ["dist/content-bundle.js"]
+    })
+  }
+});
 })();
 
 /******/ })()
