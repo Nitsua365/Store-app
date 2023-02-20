@@ -1,16 +1,2 @@
-/******/ (() => { // webpackBootstrap
-var __webpack_exports__ = {};
-/*!**********************!*\
-  !*** ./src/popup.js ***!
-  \**********************/
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  // Get the data from the message
-  if (request.status === "done") {
-    var messageElement = document.getElementById('loading');
-    messageElement.textContent = "Done";
-  }
-  return true;
-});
-/******/ })()
-;
+chrome.runtime.onMessage.addListener((function(e,n,t){return"done"===e.status&&(document.getElementById("loading").textContent="Done"),!0}));
 //# sourceMappingURL=popup.js.map

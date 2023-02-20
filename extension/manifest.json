@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Americazon.shop",
-  "description": "An extension to help you find and discover the Country of Origin of products. The mission of our product is to give more consumer transparency about where their products are made.",
-  "version": "0.5",
+  "description": "The mission is to give more consumer transparency about where products on Amazon are made.",
+  "version": "0.0.1",
   "background": { 
     "service_worker": "dist/background.js"
   },
