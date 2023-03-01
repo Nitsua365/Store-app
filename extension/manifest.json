@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Americazon.shop",
   "description": "The mission is to give more consumer transparency about where products on Amazon are made.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "background": { 
     "service_worker": "dist/background.js"
   },
@@ -12,8 +12,7 @@
     "128": "public/America128.png"
   },
   "host_permissions": [
-    "https://www.amazon.com/s*",
-    "https://www.amazon.com/b*"
+    "https://*.amazon.com/*"
   ],
   "permissions": [ 
     "scripting", 
