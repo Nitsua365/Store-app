@@ -8351,7 +8351,8 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === "complete" && tab.status === "complete" && tab.active && /https://*.amazon.com/*/.test(tab.url)) {
+  const { status, active, url } = tab
+  if (changeInfo.status === "complete" && status === "complete" && active && /https://*.amazon.com/*/.test(url)) {
     chrome.scripting.executeScript({
       target: { tabId }, 
       files: ["dist/content-bundle.js"]
