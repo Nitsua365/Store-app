@@ -12,7 +12,7 @@
     "128": "public/America128.png"
   },
   "host_permissions": [
-    "https://*.amazon.com/*"
+    "https://*.com/*"
   ],
   "permissions": [ 
     "scripting", 

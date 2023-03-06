@@ -11,11 +11,16 @@ const fetchASIN = async (asins) => {
   const asinURLS = asins.map(asin => `https://www.amazon.com/dp/${asin}`)
   
   // fetch the URLS
+  const fTime = performance.now()
   const req = await Promise.all(asinURLS.map((url) => fetch(url)))
+  console.log(`fetch time: ${(performance.now() - fTime)}`);
 
   // resolve them to text
+  const t1 = performance.now()
   const productsHTML = await Promise.all(req.map((res) => res.text()))
+  console.log(`text time: ${performance.now() - t1}`);
     
+  const t2 = performance.now()
   // parse productsHTML pages to get necessary data ie: COO
   const productCOO = productsHTML.map((html) => {
     const productDoc = new DOMParser({
@@ -23,24 +28,25 @@ const fetchASIN = async (asins) => {
       errorHandler: {
         warning: function (w) {},
         error: function (e) {},
-        fatalError: function (e) {
-          console.error(e);
-        },
+        fatalError: function (e) { console.error(e) },
       },
     }).parseFromString(html, undefined);
     return filterCOO(
         xpath.select1(
           "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
           productDoc,
-          // @ts-ignore
         )?.firstChild?.data || '',
       );
   });
+  console.log(`parsing HTML: ${performance.now() - t2}`);
 
+  // create the result 
+  const t3 = performance.now()
   const result = {}
   for (let i = 0; i < asins.length; i++) {
     result[asins[i]] = productCOO[i] || ""
   }
+  console.log(`result time: ${t3 - performance.now()}`)
 
   // send response back to the content script
   return result;
@@ -56,7 +62,8 @@ chrome.runtime.onMessage.addListener(
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const { status, active, url } = tab
-  if (changeInfo.status === "complete" && status === "complete" && active && /https://*.amazon.com/*/.test(url)) {
+  if (/https:\/\/.*amazon.com.*/.test(url) && changeInfo.status === "complete" && status === "complete" && active) {
+    console.log("EXECUTING AMAZON: " + url)
     chrome.scripting.executeScript({
       target: { tabId }, 
       files: ["dist/content-bundle.js"]
