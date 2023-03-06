@@ -8299,8 +8299,10 @@ __webpack_require__.r(__webpack_exports__);
 
 const fetchASIN = async (asins) => {
 
+  if (!asins.length) return;
+
   const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
-  const parseCOO = async (html) => filterCOO(
+  const parseCOO = (html) => filterCOO(
     xpath__WEBPACK_IMPORTED_MODULE_0___default().select1("//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
     new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_1__.DOMParser({
       locator: {},
@@ -8312,26 +8314,20 @@ const fetchASIN = async (asins) => {
     }).parseFromString(html, 'text/html'),
     )?.firstChild?.data || '',
   )
-
-  if (!asins.length) return;
   
   // get the asin URLs
   const asinURLS = asins.map(asin => `https://www.amazon.com/dp/${asin}`)
   
   // fetch the URLS
-  const fTime = performance.now()
   const req = await Promise.all(asinURLS.map((url) => fetch(url)))
-  console.log(`fetch time: ${(performance.now() - fTime)}`);
 
   // resolve them to text
-  const t1 = performance.now()
   const productsHTML = await Promise.all(req.map((res) => res.text()))
-  console.log(`text time: ${performance.now() - t1}`);
     
-  const t2 = performance.now()
   // parse productsHTML pages to get necessary data ie: COO
-  const productCOO = await Promise.all(productsHTML.map(parseCOO))
-  console.log(`parsing HTML: ${performance.now() - t2}`);
+  const t1 = performance.now()
+  const productCOO = productsHTML.map(parseCOO)
+  console.log(`product parse: ${performance.now() - t1}`);
 
   // create the result 
   const result = {}

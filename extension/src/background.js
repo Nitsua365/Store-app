@@ -6,7 +6,7 @@ const fetchASIN = async (asins) => {
   if (!asins.length) return;
 
   const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
-  const parseCOO = async (html) => filterCOO(
+  const parseCOO = (html) => filterCOO(
     xpath.select1("//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
     new DOMParser({
       locator: {},
@@ -29,7 +29,9 @@ const fetchASIN = async (asins) => {
   const productsHTML = await Promise.all(req.map((res) => res.text()))
     
   // parse productsHTML pages to get necessary data ie: COO
-  const productCOO = await Promise.all(productsHTML.map(parseCOO))
+  const t1 = performance.now()
+  const productCOO = productsHTML.map(parseCOO)
+  console.log(`product parse: ${performance.now() - t1}`);
 
   // create the result 
   const result = {}
