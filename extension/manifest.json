@@ -12,7 +12,7 @@
     "128": "public/America128.png"
   },
   "host_permissions": [
-    "https://*.com/*"
+    "https://*.amazon.com/*"
   ],
   "permissions": [ 
     "scripting", 
@@ -20,8 +20,5 @@
   ],
   "action": {
     "default_popup": "src/popup.html"
-  },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   }
 }

@@ -5,8 +5,6 @@ const fetchASIN = async (asins) => {
 
   if (!asins.length) return;
 
-  const t1 = performance.now()
-  
   const COO_XPATH = "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*"
   const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
   const dom_parser = new DOMParser({
@@ -16,7 +14,7 @@ const fetchASIN = async (asins) => {
       error: function (e) {},
       fatalError: function (e) { console.error(e) },
   }})
-  const parseCOO = async (html) =>
+  const parseCOO = (html) =>
     filterCOO(
       xpath.select1(COO_XPATH, dom_parser.parseFromString(html, "application/xml"))?.firstChild?.data || '',
     )
@@ -25,18 +23,19 @@ const fetchASIN = async (asins) => {
   const asinURLS = asins.map(asin => `https://www.amazon.com/dp/${asin}`)
 
   // resolve them to text
-  const productsHTML = await Promise.all((await Promise.all(asinURLS.map((url) => fetch(url)))).map((res) => res.text()))
+  const productsHTML = await Promise.all(
+    (await Promise.all(asinURLS.map((url) => fetch(url))))
+    .filter(res => res.ok)
+    .map((res) => res.text()))
     
   // parse productsHTML pages to get necessary data ie: COO
-  const productCOO = await Promise.all(productsHTML.map(parseCOO))
+  const productCOO = productsHTML.map(parseCOO)
 
   // create the result 
   const result = {}
   for (let i = 0; i < asins.length; i++) {
     result[asins[i]] = productCOO[i] || ""
   }
-
-  console.log(`total time: ${performance.now() - t1}`)
 
   // send response back to the content script
   return result;
