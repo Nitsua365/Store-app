@@ -32,11 +32,11 @@ async function getCOO() {
     .filter(asinFilt => /([A-Z][0-9])+/.test(asinFilt)))]
   
   // show cached products first
-  const asinCache = asins.filter(asin => sessionStorage.getItem(asin) !== null)
+  const asinCache = asins.filter(asin => sessionStorage.getItem(asin))
   addToPage(asinCache)
 
   // fetch non cached products
-  const asinFetch = asins.filter(asin => sessionStorage.getItem(asin) === null)
+  const asinFetch = asins.filter(asin => !sessionStorage.getItem(asin))
   const result = await chrome.runtime.sendMessage({ asins: asinFetch })
 
   // add to page of fetched results
@@ -48,6 +48,5 @@ async function getCOO() {
 }
 
 setTimeout(function() {
-  if (document.readyState === "complete")
-    getCOO()
+  if (document.readyState === "complete") getCOO()
 }, 1500)

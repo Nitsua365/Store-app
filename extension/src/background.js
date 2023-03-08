@@ -14,10 +14,7 @@ const fetchASIN = async (asins) => {
       error: function (e) {},
       fatalError: function (e) { console.error(e) },
   }})
-  const parseCOO = (html) =>
-    filterCOO(
-      xpath.select1(COO_XPATH, dom_parser.parseFromString(html, "application/xml"))?.firstChild?.data || '',
-    )
+  const parseCOO = (html) => filterCOO(xpath.select1(COO_XPATH, dom_parser.parseFromString(html, "application/xml"))?.firstChild?.data || '')
 
   // get the asin URLs
   const asinURLS = asins.map(asin => `https://www.amazon.com/dp/${asin}`)
