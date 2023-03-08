@@ -5,39 +5,38 @@ const fetchASIN = async (asins) => {
 
   if (!asins.length) return;
 
-  const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
-  const parseCOO = (html) => filterCOO(
-    xpath.select1("//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*",
-    new DOMParser({
-      locator: {},
-      errorHandler: {
-        warning: function (w) {},
-        error: function (e) {},
-        fatalError: function (e) { console.error(e) },
-      },
-    }).parseFromString(html, 'text/html'),
-    )?.firstChild?.data || '',
-  )
+  const t1 = performance.now()
   
+  const COO_XPATH = "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*"
+  const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
+  const dom_parser = new DOMParser({
+    locator: {},
+    errorHandler: {
+      warning: function (w) {},
+      error: function (e) {},
+      fatalError: function (e) { console.error(e) },
+  }})
+  const parseCOO = async (html) =>
+    filterCOO(
+      xpath.select1(COO_XPATH, dom_parser.parseFromString(html, "application/xml"))?.firstChild?.data || '',
+    )
+
   // get the asin URLs
   const asinURLS = asins.map(asin => `https://www.amazon.com/dp/${asin}`)
-  
-  // fetch the URLS
-  const req = await Promise.all(asinURLS.map((url) => fetch(url)))
 
   // resolve them to text
-  const productsHTML = await Promise.all(req.map((res) => res.text()))
+  const productsHTML = await Promise.all((await Promise.all(asinURLS.map((url) => fetch(url)))).map((res) => res.text()))
     
   // parse productsHTML pages to get necessary data ie: COO
-  const t1 = performance.now()
-  const productCOO = productsHTML.map(parseCOO)
-  console.log(`product parse: ${performance.now() - t1}`);
+  const productCOO = await Promise.all(productsHTML.map(parseCOO))
 
   // create the result 
   const result = {}
   for (let i = 0; i < asins.length; i++) {
     result[asins[i]] = productCOO[i] || ""
   }
+
+  console.log(`total time: ${performance.now() - t1}`)
 
   // send response back to the content script
   return result;
@@ -54,7 +53,6 @@ chrome.runtime.onMessage.addListener(
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const { status, active, url } = tab
   if (/https:\/\/.*amazon.com.*/.test(url) && changeInfo.status === "complete" && status === "complete" && active) {
-    // console.log("EXECUTING AMAZON: " + url)
     chrome.scripting.executeScript({
       target: { tabId }, 
       files: ["dist/content-bundle.js"]

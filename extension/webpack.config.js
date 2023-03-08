@@ -1,4 +1,5 @@
 const path = require('path');
+
 module.exports = {
   entry: {
     "content-bundle": './src/content-bundle.js',

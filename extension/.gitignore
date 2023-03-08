@@ -1,2 +1,4 @@
 node_modules/
-rustXPath/target/
+
+# build in node
+dist/
