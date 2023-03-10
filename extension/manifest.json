@@ -3,7 +3,7 @@
   "name": "Americazon.shop",
   "description": "The mission is to give more consumer transparency about where products on Amazon are made.",
   "version": "0.0.2",
-  "background": { 
+  "background": {
     "service_worker": "dist/background.js"
   },
   "icons": {
@@ -14,8 +14,8 @@
   "host_permissions": [
     "https://*.amazon.com/*"
   ],
-  "permissions": [ 
-    "scripting", 
+  "permissions": [
+    "scripting",
     "tabs"
   ],
   "action": {
