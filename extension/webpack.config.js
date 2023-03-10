@@ -7,8 +7,15 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    clean: true
+    filename: '[name].js'
   },
-  devtool: 'cheap-module-source-map'
+  devtool: 'cheap-module-source-map',
+  module: {
+    rules: [
+      {
+        test: '/\.png/',
+        type: 'asset'
+      }
+    ]
+  }
 };

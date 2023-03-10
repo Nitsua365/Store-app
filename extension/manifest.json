@@ -4,12 +4,12 @@
   "description": "The mission is to give more consumer transparency about where products on Amazon are made.",
   "version": "0.0.2",
   "background": {
-    "service_worker": "dist/background.js"
+    "service_worker": "background.js"
   },
   "icons": {
-    "16": "public/America16.png",
-    "64": "public/America64.png",
-    "128": "public/America128.png"
+    "16": "America16.png",
+    "64": "America64.png",
+    "128": "America128.png"
   },
   "host_permissions": [
     "https://*.amazon.com/*"
@@ -19,6 +19,6 @@
     "tabs"
   ],
   "action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "popup.html"
   }
 }

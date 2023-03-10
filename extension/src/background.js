@@ -51,7 +51,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (/https:\/\/.*amazon.com.*/.test(url) && changeInfo.status === "complete" && status === "complete" && active) {
     chrome.scripting.executeScript({
       target: { tabId }, 
-      files: ["dist/content-bundle.js"]
+      files: ["content-bundle.js"]
     })
   }
 });
