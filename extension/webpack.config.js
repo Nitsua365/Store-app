@@ -1,4 +1,5 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -10,12 +11,15 @@ module.exports = {
     filename: '[name].js'
   },
   devtool: 'cheap-module-source-map',
-  module: {
-    rules: [
-      {
-        test: '/\.png/',
-        type: 'asset'
-      }
-    ]
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        minify: TerserPlugin.swcMinify,
+        terserOptions: {
+          compress: true
+        }
+      })
+    ] 
   }
 };

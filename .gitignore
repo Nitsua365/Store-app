@@ -62,3 +62,4 @@
 scraping/pythonScrape/AmazonScraper/proxies.txt
 scraping/pythonScrape/AmazonScraper/Login.py
 scraping/pythonScrape/csvCleaning/goodProducts.json
+extension/.DS_Store
