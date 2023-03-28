@@ -10,25 +10,15 @@ import { ProductsModule } from './products/products.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
-import { ProductParserController } from './product-parser/product-parser.controller';
-import { ProductParserService } from './product-parser/product-parser.service';
-import { ProductParserModule } from './product-parser/product-parser.module';
 
 @Module({
-  imports: [UsersModule, ProductsModule, AuthModule, ProductParserModule],
+  imports: [UsersModule, ProductsModule, AuthModule],
   controllers: [
     AppController,
     ProductsController,
     UsersController,
     AuthController,
-    ProductParserController,
   ],
-  providers: [
-    AppService,
-    ProductsService,
-    UsersService,
-    AuthService,
-    ProductParserService,
-  ],
+  providers: [AppService, ProductsService, UsersService, AuthService],
 })
 export class AppModule {}
