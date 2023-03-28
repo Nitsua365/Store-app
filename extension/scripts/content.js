@@ -57,7 +57,7 @@ async function getCOO() {
   const asins = [...new Set(Array.from(document.querySelectorAll("[data-asin]"))
     .map(asin => asin.attributes[0])
     .map(asinData => asinData?.value || "")
-    .filter(asinFilt => /([A-Z][0-9])+/.test(asinFilt)))]
+    .filter(asinFilt => /^(?:\d{10}|[A-Z]{10}|[\dA-Z]{10})$/.test(asinFilt)))]
 
   console.log('fetching products')
 
