@@ -26,7 +26,7 @@ async function addToPage(asins, result={}) {
 
 async function createLoadingElem() {
   let loadingDiv = document.createElement('div')
-  loadingDiv.id = "americazon-loading-icon"
+  loadingDiv.id = "americazon-loading-icon-wrapper"
 
   loadingDiv.style.position = "absolute"
   loadingDiv.style.top = "0"
@@ -40,7 +40,9 @@ async function createLoadingElem() {
   loadingDiv.style.boxShadow = "0 4px 8px 0 rgba(0,0,0,0.2)"
 
   let img = document.createElement('img')
-  img.src = await chrome.runtime.getURL("/America128.png")
+  img.src = chrome.runtime.getURL("/America128.png")
+  img.alt = "Pic"
+  
   loadingDiv.appendChild(img)
 
   return loadingDiv;
@@ -71,7 +73,7 @@ async function getCOO() {
   addToPage(asinFetch, result)
 
   // remove loading div
-  // loadingDiv.remove();
+  loadingDiv.remove();
 
   console.log('product fetching done...')
 
