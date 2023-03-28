@@ -16,8 +16,7 @@
   ],
   "permissions": [
     "scripting",
-    "tabs",
-    "nativeMessaging"
+    "tabs"
   ],
   "web_accessible_resources": [
     {
