@@ -16,7 +16,14 @@
   ],
   "permissions": [
     "scripting",
-    "tabs"
+    "tabs",
+    "nativeMessaging"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [ "America128.png" ],
+      "matches": [ "https://*.amazon.com/*" ]
+    }
   ],
   "action": {
     "default_popup": "popup.html"
