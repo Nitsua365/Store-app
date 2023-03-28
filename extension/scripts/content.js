@@ -25,27 +25,31 @@ async function addToPage(asins, result={}) {
 }
 
 async function createLoadingElem() {
-  let loadingDiv = document.createElement('div')
-  loadingDiv.id = "americazon-loading-icon-wrapper"
+  let loadingDivWrapper = document.createElement('div')
+  loadingDivWrapper.id = "americazon-loading-icon-wrapper"
+  loadingDivWrapper.textContent = "Loading..."
 
-  loadingDiv.style.position = "fixed"
-  loadingDiv.style.top = "0"
-  loadingDiv.style.right = "0"
-  loadingDiv.style.backgroundColor = "#fefefe"
-  loadingDiv.style.margin = "15% auto"
-  loadingDiv.style.padding = "20px"
-  loadingDiv.style.width = "100%"
-  loadingDiv.style.maxWidth = "100px"
-  loadingDiv.style.border = "4px solid #888"
-  loadingDiv.style.boxShadow = "0 4px 8px 0 rgba(0,0,0,0.2)"
+  loadingDivWrapper.style.position = "fixed"
+  loadingDivWrapper.style.top = "0"
+  loadingDivWrapper.style.right = "0"
+  loadingDivWrapper.style.backgroundColor = "#fefefe"
+  loadingDivWrapper.style.margin = "15% auto"
+  loadingDivWrapper.style.padding = "20px"
+  loadingDivWrapper.style.width = "100%"
+  loadingDivWrapper.style.maxWidth = "100px"
+  loadingDivWrapper.style.border = "2px solid #888"
+  loadingDivWrapper.style.borderRadius = "8px"
+  loadingDivWrapper.style.boxShadow = "0 4px 8px 0 rgba(0,0,0,0.2)"
+  loadingDivWrapper.style.fontFamily = 'Arial, sans-serif'
 
   let img = document.createElement('img')
+
   img.src = chrome.runtime.getURL("/America128.png")
   img.alt = "Pic"
 
-  loadingDiv.appendChild(img)
+  loadingDivWrapper.appendChild(img)
 
-  return loadingDiv;
+  return loadingDivWrapper;
 }
 
 async function getCOO() {
