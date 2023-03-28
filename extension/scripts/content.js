@@ -28,7 +28,7 @@ async function createLoadingElem() {
   let loadingDiv = document.createElement('div')
   loadingDiv.id = "americazon-loading-icon-wrapper"
 
-  loadingDiv.style.position = "absolute"
+  loadingDiv.style.position = "fixed"
   loadingDiv.style.top = "0"
   loadingDiv.style.right = "0"
   loadingDiv.style.backgroundColor = "#fefefe"
@@ -42,7 +42,7 @@ async function createLoadingElem() {
   let img = document.createElement('img')
   img.src = chrome.runtime.getURL("/America128.png")
   img.alt = "Pic"
-  
+
   loadingDiv.appendChild(img)
 
   return loadingDiv;
