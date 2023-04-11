@@ -4,7 +4,7 @@ async function addToPage(asins, result={}) {
     let productElem = document.querySelector(`[data-asin='${asins[i]}']`)
     if (productElem) {
       let div = document.createElement('div');
-      div.textContent = `Country of Origin: ${sessionStorage.getItem(asins[i]) || result[asins[i]] || "Unknown"}`
+      div.textContent = `Country of Origin: ${result[asins[i]] || "Unknown"}`
 
       div.style.color = "black"
       div.style.padding = "2px"
@@ -54,10 +54,12 @@ async function createLoadingElem() {
 
 async function getCOO() {
   // get all asins from the page
-  const asins = [...new Set(Array.from(document.querySelectorAll("[data-asin]"))
+  const asins = [
+    ...new Set(Array.from(document.querySelectorAll("[data-asin]"))
     .map(asin => asin.attributes[0])
     .map(asinData => asinData?.value || "")
-    .filter(asinFilt => /([A-Z][0-9])+/.test(asinFilt)))]
+    .filter(asinFilt => /^(?:\d{10}|[A-Z]{10}|[\dA-Z]{10})$/.test(asinFilt)))
+  ]
 
   console.log('fetching products')
 
@@ -66,11 +68,11 @@ async function getCOO() {
   document.firstElementChild.append(loadingDiv)
   
   // show cached products first
-  const asinCache = asins.filter(asin => sessionStorage.getItem(asin))
+  const asinCache = asins.filter(asin => sessionStorage.getItem(asin) !== null)
   addToPage(asinCache)
 
   // fetch non cached products
-  const asinFetch = asins.filter(asin => !sessionStorage.getItem(asin))
+  const asinFetch = asins.filter(asin => sessionStorage.getItem(asin) === null)
   const result = await chrome.runtime.sendMessage({ asins: asinFetch })
 
   // add to page of fetched results
@@ -87,5 +89,7 @@ async function getCOO() {
 }
 
 setTimeout(function() {
-  if (document.readyState === "complete") getCOO()
-}, 1650)
+  if (document.readyState === "complete") {
+        getCOO();
+  }
+}, 2000)
