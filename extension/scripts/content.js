@@ -68,8 +68,18 @@ async function getCOO() {
   document.firstElementChild.append(loadingDiv)
   
   // show cached products first
-  const asinCache = asins.filter(asin => sessionStorage.getItem(asin) !== null)
-  addToPage(asinCache)
+  let cacheResult = {}
+  const asinCache = asins.filter(asin => {
+    const cacheRes = sessionStorage.getItem(asin)
+    
+    if (cacheRes !== null) {
+      cacheResult[asin] = cacheRes
+      return true
+    }
+    
+    return false
+  })
+  addToPage(asinCache, cacheResult)
 
   // fetch non cached products
   const asinFetch = asins.filter(asin => sessionStorage.getItem(asin) === null)
