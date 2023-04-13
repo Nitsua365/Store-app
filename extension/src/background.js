@@ -1,8 +1,6 @@
 import xpath from 'xpath'
 import { DOMParser } from '@xmldom/xmldom';
 
-let currURL = ''
-
 const fetchASIN = async (asins) => {
 
   if (!asins.length) return;
@@ -51,7 +49,6 @@ chrome.runtime.onMessage.addListener(
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const { status, active, url } = tab
   if (/https:\/\/.*amazon.com\/(?:s|b|gp).*/.test(url) && changeInfo.status === 'complete' && status === 'complete' && active) {
-    console.log("SCRIPTING...")
     chrome.scripting.executeScript({
       target: { tabId },
       files: ["content-bundle.js"]
