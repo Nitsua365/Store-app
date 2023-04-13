@@ -99,7 +99,7 @@ async function getCOO() {
 }
 
 setTimeout(function() {
-  if (document.readyState === "complete") {
-        getCOO();
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    getCOO();
   }
 }, 2000)

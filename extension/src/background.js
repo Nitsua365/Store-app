@@ -30,7 +30,7 @@ const fetchASIN = async (asins) => {
   // parse productsHTML pages to get necessary data ie: COO
   const productCOO = productsHTML.map(parseCOO)
 
-  // create the result 
+  // create the result
   const result = {}
   for (let i = 0; i < asins.length; i++) {
     result[asins[i]] = productCOO[i] || ""
@@ -50,8 +50,8 @@ chrome.runtime.onMessage.addListener(
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const { status, active, url } = tab
-  if (/https:\/\/.*amazon.com\/(?:s|b|gp).*/.test(url) && changeInfo.status === 'complete' && status === 'complete' && active && currURL != url) {
-    currURL = url;
+  if (/https:\/\/.*amazon.com\/(?:s|b|gp).*/.test(url) && changeInfo.status === 'complete' && status === 'complete' && active) {
+    console.log("SCRIPTING...")
     chrome.scripting.executeScript({
       target: { tabId },
       files: ["content-bundle.js"]
