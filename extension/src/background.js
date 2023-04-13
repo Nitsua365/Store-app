@@ -1,8 +1,6 @@
 import xpath from 'xpath'
 import { DOMParser } from '@xmldom/xmldom';
 
-const COO_XPATH = "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*"
-
 const dom_parser = new DOMParser({
   locator: {},
   errorHandler: {
@@ -12,6 +10,7 @@ const dom_parser = new DOMParser({
 }})
 
 const parseCOO = async (html) => {
+  const COO_XPATH = "//*[contains(text(), 'Country of Origin') or contains(text(), 'Country/Region of origin')]//following-sibling::*"
   const filterCOO = (str) => str.replace('\n', '').replace('&lrm;', '').trim()
   return filterCOO(xpath.select1(COO_XPATH, dom_parser.parseFromString(html, "text/html"))?.firstChild?.data || '')
 }
