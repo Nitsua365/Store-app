@@ -103,3 +103,9 @@ setTimeout(function() {
     getCOO();
   }
 }, 2000)
+
+module.exports = {
+  getCOO,
+  createLoadingElem,
+  addToPage
+}
