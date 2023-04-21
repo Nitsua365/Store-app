@@ -1,0 +1,1 @@
+/Users/austinblanchard/Documents/Code/Store-app/extension/wasm_bindgen_example/target/wasm32-unknown-unknown/release/wasm_bindgen_example.wasm: /Users/austinblanchard/Documents/Code/Store-app/extension/wasm_bindgen_example/src/lib.rs
