@@ -1,1 +1,0 @@
-/Users/austinblanchard/Documents/Code/Store-app/extension/wasm_bindgen_example/target/debug/libwasm_bindgen_example.dylib: /Users/austinblanchard/Documents/Code/Store-app/extension/wasm_bindgen_example/src/lib.rs
